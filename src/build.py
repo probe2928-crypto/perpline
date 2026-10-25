@@ -1009,6 +1009,9 @@ def ko_doc(doc, depth_alt, alt_href, canon):
     d = _ko(doc)
     d = d.replace('<html lang="en">', '<html lang="ko">', 1)
     d = d.replace('<head><meta charset="utf-8">', f'<head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow">', 1)
+    d = d.replace("</head>", '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600&family=Noto+Sans+KR:wght@300;400;500&display=swap">'
+                  '<style>:root{--display:"DM Serif Display","Noto Serif KR",serif;--sans:"Jost","Noto Sans KR",system-ui,sans-serif}'
+                  '.label,.tab,.btn,.top nav a,.top .right a{letter-spacing:.08em}h1,h2,h3,summary{word-break:keep-all}p,li{word-break:keep-all}</style></head>', 1)
     d = d.replace('window.LANG="en";', 'window.LANG="ko";').replace('window.LANG_ALT="ko/index.html"', f'window.LANG_ALT="{alt_href}"')
     d = re.sub(r'window\.LANG_ALT="\.\./ko/exchanges/[a-z0-9]+\.html"', f'window.LANG_ALT="{alt_href}"', d)
     d = d.replace('src="assets/logos/', f'src="{depth_alt}assets/logos/').replace('src="../assets/logos/', f'src="{depth_alt}../assets/logos/')
