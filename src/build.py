@@ -83,6 +83,29 @@ TONES = [
 def esc(s): return html.escape(str(s), quote=True)
 def pct(v): return "—" if v is None else (f"{v:.3f}".rstrip("0").rstrip(".") + "%")
 def net(v, r): return None if v is None else round(v * (1 - r / 100), 4)
+LOGO_DIR = OUT / "assets" / "logos"
+# official exchange logos (CoinGecko exchange images). A file in assets/logos/<slug>.svg|png|webp overrides these.
+LOGOS = {
+    "btcc": "https://coin-images.coingecko.com/markets/images/12/large/BTCC-LogoOnly_200x200.png?1722494798",
+    "okx": "https://coin-images.coingecko.com/markets/images/96/large/WeChat_Image_20220117220452.png?1706864283",
+    "gate": "https://coin-images.coingecko.com/markets/images/60/large/Frame_1.png?1747795534",
+    "bingx": "https://coin-images.coingecko.com/markets/images/812/large/YtFwQwJr_400x400.jpg?1706864837",
+    "orangex": "https://coin-images.coingecko.com/markets/images/1272/large/Subtract.png?1706865272",
+    "bitget": "https://coin-images.coingecko.com/markets/images/540/large/2023-07-25_21.47.43.jpg?1706864507",
+    "bitunix": "https://coin-images.coingecko.com/markets/images/1185/large/APP_icon_1024.png?1706865197",
+    "blofin": "https://coin-images.coingecko.com/markets/images/1645/large/blofin_logo.jpeg?1718852326",
+    "deepcoin": "https://coin-images.coingecko.com/markets/images/1005/large/deepcoin.jpeg?1706864992",
+    "biconomy": "https://coin-images.coingecko.com/markets/images/633/large/logo_B._200x200.png?1723787144"
+}
+def logo(v, prefix, cls):
+    src = None
+    for ext in ("svg", "png", "webp"):
+        if (LOGO_DIR / f"{v['slug']}.{ext}").exists():
+            src = f"{prefix}assets/logos/{v['slug']}.{ext}"; break
+    src = src or LOGOS.get(v["slug"])
+    if not src: return ""
+    return f'<span class="{cls}"><img src="{esc(src)}" alt="{esc(v["name"])} logo" loading="lazy" referrerpolicy="no-referrer"></span>'
+
 def link(v, src):
     if CONFIG["track_base"]:
         return f'{CONFIG["track_base"].rstrip("/")}/go/{v["slug"]}?src={src}'
@@ -94,14 +117,14 @@ def ranked(lst):
     known = sorted([v for v in lst if v["taker"] is not None], key=lambda v: (v["taker"], v["maker"]))
     return known + [v for v in lst if v["taker"] is None]
 
-FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..800;1,6..96,400..700&family=Jost:wght@300..600&display=swap">'
+FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Jost:wght@300;400;500;600&display=swap">'
 
 CSS = r"""
 /* Layout: a maison advertising page. Centered spaced wordmark, Didone display set very large, airy columns, hairline rules, one tone color per page. */
 :root{
   --paper:#FFFFFF; --ink:#111111; --muted:#6E6A65; --hair:#E5E2DD; --wash:#F5F4F1;
   --tone:#1F2FA0; --tone-ink:#FFFFFF; --up:#1E6B47; --down:#9B2335;
-  --display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
+  --display:"DM Serif Display","Didot","Bodoni 72",Georgia,serif;
   --sans:"Jost","Futura","Century Gothic",system-ui,sans-serif;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
@@ -189,7 +212,12 @@ section.chapter{padding-block:clamp(64px,9vw,120px);border-top:1px solid var(--h
 .vhead span{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
 .vno{font-family:var(--display);font-style:italic;font-size:18px;color:var(--muted)}
 .vname{display:flex;flex-direction:column;gap:4px;min-width:0}
-.vname a.nm{font-family:var(--display);font-size:clamp(26px,2.6vw,34px);line-height:1.05;text-decoration:none}
+.vname a.nm{font-family:var(--display);font-size:clamp(26px,2.6vw,34px);line-height:1.05;text-decoration:none;display:inline-flex;align-items:center;gap:14px}
+.vlogo{flex:none;width:40px;height:40px;background:#FFFFFF;border:1px solid var(--hair);border-radius:50%;overflow:hidden;display:block}
+.vlogo img{width:100%;height:100%;object-fit:cover;display:block}
+.xlogo{display:block;width:88px;height:88px;background:#FFFFFF;border-radius:50%;margin-top:22px;overflow:hidden;box-shadow:0 0 0 1px var(--hair)}
+.xhero.v1 .xlogo{margin-inline:auto}
+.xlogo img{width:100%;height:100%;object-fit:cover;display:block}
 .vname a.nm:hover{color:var(--tone)}
 .vname .vnote{font-size:13.5px;color:var(--muted);font-weight:300}
 .vfee{font-size:15px}
@@ -416,7 +444,7 @@ def venue_rows(lst, ol_id):
         low = '<span class="lowest">Lowest headline taker</span>' if v["taker"] is not None and v["taker"] == min_t else ""
         out.append(f"""<li class="vrow">
   <span class="vno">No.&nbsp;{i+1:02d}</span>
-  <span class="vname"><a class="nm" href="exchanges/{v['slug']}.html">{esc(v['name'])}</a><span class="vnote">{esc(v['note'])}</span>{low}</span>
+  <span class="vname"><a class="nm" href="exchanges/{v['slug']}.html">{logo(v,'','vlogo')}{esc(v['name'])}</a><span class="vnote">{esc(v['note'])}</span>{low}</span>
   <span class="vfees">{fee_m}{fee_t}</span>
   <span class="vreb">{v['rebate']}%<small>Rebate</small></span>
   <span class="vfees netc">{net_s}</span>
@@ -682,7 +710,7 @@ function drawLadder(price){
   });
   const py=y(price);
   el("line",{x1:80,x2:420,y1:py,y2:py,stroke:c("--ink"),"stroke-width":1.5});
-  el("text",{x:0,y:py+6,"font-family":"Bodoni Moda, serif","font-size":18,fill:c("--ink")}).textContent=fmt(price);
+  el("text",{x:0,y:py+6,"font-family":"DM Serif Display, serif","font-size":18,fill:c("--ink")}).textContent=fmt(price);
 }
 let lastPrice=SNAP.price;
 try{ matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>drawLadder(lastPrice)); new MutationObserver(()=>drawLadder(lastPrice)).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]}); }catch(e){}
@@ -784,7 +812,7 @@ def build_exchange(v, idx):
         hero = f"""<section class="xhero v0">
       <div class="wrap">
         <span class="label" style="color:inherit;opacity:.8">{CONFIG['brand']} · Édition {tone[0]}</span>
-        <h1>{esc(name)}</h1>
+        {logo(v,'../','xlogo')}<h1>{esc(name)}</h1>
         <p class="tag">Referral code &amp; <em>{r}% fee rebate</em></p>
         <div class="cta"><a class="btn inv" href="{signup}" target="_blank" rel="sponsored nofollow noopener">Sign up to {esc(name)}</a><a class="btn inv line" href="#claim">Claim the rebate</a></div>
       </div>
@@ -792,7 +820,7 @@ def build_exchange(v, idx):
     elif variant == 1:
         hero = f"""<section class="xhero v1"><div class="wrap">
         <span class="label">{CONFIG['brand']} · Édition {tone[0]}</span>
-        <h1>{esc(name)}</h1>
+        {logo(v,'../','xlogo')}<h1>{esc(name)}</h1>
         <span class="bar-tone" aria-hidden="true"></span>
         <p class="tag">Referral code &amp; <em>{r}% of your fees, returned</em></p>
         <div class="cta"><a class="btn tone" href="{signup}" target="_blank" rel="sponsored nofollow noopener">Sign up to {esc(name)}</a><a class="btn line" href="#claim">Claim the rebate</a></div>
@@ -801,7 +829,7 @@ def build_exchange(v, idx):
         hero = f"""<section class="xhero v2"><div class="wrap split">
         <div>
           <span class="label">{CONFIG['brand']} · Édition {tone[0]}</span>
-          <h1>{esc(name)}</h1>
+          {logo(v,'../','xlogo')}<h1>{esc(name)}</h1>
           <p class="tag">Referral code &amp; <em>fee rebate</em></p>
           <div class="cta"><a class="btn" href="{signup}" target="_blank" rel="sponsored nofollow noopener">Sign up to {esc(name)}</a><a class="btn line" href="#claim">Claim the rebate</a></div>
         </div>
