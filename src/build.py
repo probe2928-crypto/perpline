@@ -851,7 +851,7 @@ def build_exchange(v, idx):
 .xhero.v1{text-align:center}
 .xhero.v1 .cta{justify-content:center}
 .xhero.v1 h1 {color:var(--ink)}
-.bar-tone{display:block;width:72px;height:3px;background:var(--tone);margin:8px auto 18px}
+.bar-tone{display:block;width:72px;height:3px;background:var(--tone);margin:30px auto 22px}
 .xhero.v1 .tag em,.xhero.v2 .tag em{color:var(--tone)}
 .split{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:40px;align-items:center}
 @media (max-width:820px){.split{grid-template-columns:1fr}}
