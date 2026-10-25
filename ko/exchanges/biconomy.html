@@ -228,6 +228,75 @@ footer{border-top:1px solid var(--ink);padding-block:64px 80px}
 .foot li a{text-decoration:none;color:var(--muted)}
 .foot li a:hover{color:var(--ink)}
 
+
+/* ---- stage (hero carousel) ---- */
+.stage{position:relative;overflow:hidden;border-bottom:1px solid var(--hair);touch-action:pan-y}
+.stage-track{display:flex;transition:transform 1.25s cubic-bezier(.77,0,.18,1);will-change:transform}
+.slide{position:relative;flex:0 0 100%;min-width:0;min-height:clamp(540px,76vh,780px);display:flex;align-items:center;overflow:hidden}
+.slide .fx{position:absolute;inset:0;width:100%;height:100%;display:block}
+.slide-in{position:relative;z-index:1;display:flex;flex-direction:column;align-items:flex-start;gap:22px;padding-block:72px 128px;width:100%}
+.slide h1,.slide h2{font-size:clamp(46px,7.6vw,108px);line-height:.98}
+.slide .lede{max-width:44ch}
+.slide.on .slide-in > *{animation:slideRise 1.1s cubic-bezier(.2,.7,.1,1) both}
+.slide.on .slide-in > *:nth-child(2){animation-delay:.08s}
+.slide.on .slide-in > *:nth-child(3){animation-delay:.16s}
+.slide.on .slide-in > *:nth-child(4){animation-delay:.24s}
+@keyframes slideRise{from{transform:translateX(48px)}to{transform:none}}
+.s-silk{background:var(--paper);color:var(--ink)}
+.s-silk h1 em{color:var(--tone)}
+.s-gold{background:#0B0B0C;color:#F1EEE8}
+.s-gold .label{color:#C9A45C}
+.s-gold h2 em{color:#C9A45C}
+.mega{font-family:var(--display);font-size:clamp(120px,21vw,290px);line-height:.78;color:#C9A45C;margin:0}
+.mega i{font-size:.45em}
+.btn.inv-gold{background:#C9A45C;border-color:#C9A45C;color:#0B0B0C}
+.btn.inv-gold:hover{background:transparent;color:#C9A45C}
+.s-tone{background:var(--tone);color:var(--tone-ink)}
+.s-tone .label,.s-tone .lede{color:var(--tone-ink);opacity:.85}
+.btn.inv{background:var(--tone-ink);border-color:var(--tone-ink);color:var(--tone)}
+.btn.inv:hover{background:transparent;color:var(--tone-ink)}
+.s-chart{background:var(--wash);color:var(--ink)}
+.s-chart h2 em{color:var(--tone)}
+.stage-ui{position:absolute;left:0;right:0;bottom:28px;z-index:2;display:flex;justify-content:space-between;align-items:center;gap:16px;color:var(--ink)}
+.stage[data-ui="light"] .stage-ui{color:#F1EEE8}
+.stage-dots{display:flex;gap:10px}
+.stage-dots button{width:56px;height:24px;background:none;border:0;padding:0;cursor:pointer;color:inherit}
+.stage-dots span{display:block;height:2px;background:currentColor;opacity:.35;position:relative;overflow:hidden}
+.stage-dots button[aria-selected="true"] span{opacity:1;background:transparent;box-shadow:inset 0 0 0 1px currentColor}
+.stage-dots span::after{content:"";position:absolute;inset:0;background:currentColor;transform:scaleX(0);transform-origin:left}
+.stage-dots button[aria-selected="true"] span::after{transform:scaleX(1)}
+.stage-dots button.run span::after{animation:prog 7s linear forwards}
+@keyframes prog{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.stage-arrows{display:flex;gap:6px}
+.stage-arrows button{font:inherit;font-size:15px;width:44px;height:44px;border:1px solid currentColor;background:transparent;color:inherit;cursor:pointer;border-radius:50%}
+.stage-arrows button:hover{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.stage[data-ui="light"] .stage-arrows button:hover{background:#F1EEE8;border-color:#F1EEE8;color:#0B0B0C}
+@media (max-width:700px){.slide{min-height:560px}.slide-in{padding-block:56px 112px}.stage-dots button{width:34px}.stage-arrows button{width:38px;height:38px}}
+
+/* ---- marquees ---- */
+.mq{overflow:hidden;border-bottom:1px solid var(--hair);padding-block:22px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+.mq-track{display:flex;width:max-content;animation:mq 70s linear infinite}
+.mq:hover .mq-track{animation-play-state:paused}
+@keyframes mq{to{transform:translateX(-50%)}}
+.mq-item{display:inline-flex;align-items:center;gap:12px;padding-right:64px;text-decoration:none;white-space:nowrap}
+.mq-logo{width:30px;height:30px;border-radius:50%;overflow:hidden;background:#fff;display:block;flex:none}
+.mq-logo img{width:100%;height:100%;object-fit:cover;display:block}
+.mq-name{font-family:var(--display);font-size:26px}
+.mq-pct{font-family:var(--display);font-style:italic;font-size:22px;color:var(--tone)}
+.mq-item:hover .mq-name{color:var(--tone)}
+.mq-text{padding-block:26px;background:var(--ink);color:var(--paper);border-bottom:0}
+.mq-text .mq-track{animation-duration:55s;animation-direction:reverse}
+.mq-text span{font-family:var(--display);font-style:italic;font-size:clamp(26px,3vw,40px);padding-right:28px;white-space:nowrap}
+.mq-text i{font-style:normal;opacity:.5;padding-right:28px;font-size:26px}
+.xhero{position:relative;overflow:hidden}
+.xhero > .fx{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
+.xhero > .wrap{position:relative;z-index:1}
+@media (prefers-reduced-motion:reduce){
+  .stage-track{transition:none}.slide.on .slide-in > *{animation:none}
+  .mq-track{animation:none}.mq{overflow-x:auto}
+  .stage-dots button.run span::after{animation:none}
+}
+
 /* floating support */
 .fab{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:30;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
 .fab-btn{font:inherit;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;padding:14px 20px;border:1px solid var(--ink);background:var(--ink);color:var(--paper);cursor:pointer}
@@ -313,7 +382,7 @@ footer{border-top:1px solid var(--ink);padding-block:64px 80px}
 </header>
 <main>
   <div class="wrap"><nav class="crumbs" aria-label="경로"><a href="../index.html">Perpline</a> / <a href="../index.html#venues">거래소</a> / Biconomy</nav></div>
-  <section class="xhero v0">
+  <section class="xhero v0"><canvas class="fx" data-fx="silk" data-col="tone-ink" aria-hidden="true"></canvas>
       <div class="wrap">
         <span class="label" style="color:inherit;opacity:.8">Perpline · 에디션 Noir</span>
         <span class="xlogo"><img src="https://coin-images.coingecko.com/markets/images/633/large/logo_B._200x200.png?1723787144" alt="Biconomy 로고" loading="eager" referrerpolicy="no-referrer"></span><h1>Biconomy</h1>
@@ -321,6 +390,7 @@ footer{border-top:1px solid var(--ink);padding-block:64px 80px}
         <div class="cta"><a class="btn inv" href="https://www.biconomy.com/sign-up?r_user_id=W999H2024" target="_blank" rel="sponsored nofollow noopener">Biconomy 가입하기</a><a class="btn inv line" href="#claim">페이백 신청</a></div>
       </div>
     </section>
+  <div class="mq mq-logos" aria-label="거래소와 페이백"><div class="mq-track"><a class="mq-item" href="../exchanges/btcc.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/12/large/BTCC-LogoOnly_200x200.png?1722494798" alt="BTCC 로고" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">BTCC</span><span class="mq-pct">50%</span></a><a class="mq-item" href="../exchanges/okx.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/96/large/WeChat_Image_20220117220452.png?1706864283" alt="OKX 로고" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">OKX</span><span class="mq-pct">30%</span></a><a class="mq-item" href="../exchanges/gate.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/60/large/Frame_1.png?1747795534" alt="Gate 로고" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">Gate</span><span class="mq-pct">40%</span></a><a class="mq-item" href="../exchanges/bingx.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/812/large/YtFwQwJr_400x400.jpg?1706864837" alt="BingX 로고" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">BingX</span><span class="mq-pct">35%</span></a><a class="mq-item" href="../exchanges/orangex.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/1272/large/Subtract.png?1706865272" alt="OrangeX 로고" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">OrangeX</span><span class="mq-pct">40%</span></a><a class="mq-item" href="../exchanges/bitget.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/540/large/2023-07-25_21.47.43.jpg?1706864507" alt="Bitget 로고" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">Bitget</span><span class="mq-pct">30%</span></a><a class="mq-item" href="../exchanges/bitunix.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/1185/large/APP_icon_1024.png?1706865197" alt="Bitunix 로고" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">Bitunix</span><span class="mq-pct">45%</span></a><a class="mq-item" href="../exchanges/blofin.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/1645/large/blofin_logo.jpeg?1718852326" alt="BloFin 로고" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">BloFin</span><span class="mq-pct">45%</span></a><a class="mq-item" href="../exchanges/deepcoin.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/1005/large/deepcoin.jpeg?1706864992" alt="Deepcoin 로고" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">Deepcoin</span><span class="mq-pct">45%</span></a><a class="mq-item" href="../exchanges/crypfine.html"><span class="mq-name">Crypfine</span><span class="mq-pct">50%</span></a><a tabindex="-1" aria-hidden="true" class="mq-item" href="../exchanges/btcc.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/12/large/BTCC-LogoOnly_200x200.png?1722494798" alt="BTCC 로고" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">BTCC</span><span class="mq-pct">50%</span></a><a tabindex="-1" aria-hidden="true" class="mq-item" href="../exchanges/okx.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/96/large/WeChat_Image_20220117220452.png?1706864283" alt="OKX 로고" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">OKX</span><span class="mq-pct">30%</span></a><a tabindex="-1" aria-hidden="true" class="mq-item" href="../exchanges/gate.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/60/large/Frame_1.png?1747795534" alt="Gate 로고" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">Gate</span><span class="mq-pct">40%</span></a><a tabindex="-1" aria-hidden="true" class="mq-item" href="../exchanges/bingx.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/812/large/YtFwQwJr_400x400.jpg?1706864837" alt="BingX 로고" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">BingX</span><span class="mq-pct">35%</span></a><a tabindex="-1" aria-hidden="true" class="mq-item" href="../exchanges/orangex.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/1272/large/Subtract.png?1706865272" alt="OrangeX 로고" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">OrangeX</span><span class="mq-pct">40%</span></a><a tabindex="-1" aria-hidden="true" class="mq-item" href="../exchanges/bitget.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/540/large/2023-07-25_21.47.43.jpg?1706864507" alt="Bitget 로고" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">Bitget</span><span class="mq-pct">30%</span></a><a tabindex="-1" aria-hidden="true" class="mq-item" href="../exchanges/bitunix.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/1185/large/APP_icon_1024.png?1706865197" alt="Bitunix 로고" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">Bitunix</span><span class="mq-pct">45%</span></a><a tabindex="-1" aria-hidden="true" class="mq-item" href="../exchanges/blofin.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/1645/large/blofin_logo.jpeg?1718852326" alt="BloFin 로고" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">BloFin</span><span class="mq-pct">45%</span></a><a tabindex="-1" aria-hidden="true" class="mq-item" href="../exchanges/deepcoin.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/1005/large/deepcoin.jpeg?1706864992" alt="Deepcoin 로고" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">Deepcoin</span><span class="mq-pct">45%</span></a><a tabindex="-1" aria-hidden="true" class="mq-item" href="../exchanges/crypfine.html"><span class="mq-name">Crypfine</span><span class="mq-pct">50%</span></a></div></div>
   <div class="wrap" style="margin-top:clamp(40px,6vw,72px)">
     <div class="facts4">
       <div class="kv"><span class="label">레퍼럴 코드</span>
@@ -438,6 +508,55 @@ async function btcPill(){
     $("pillPrice").textContent = "$"+fmt(j.bitcoin.usd);
   }catch(e){}
 }
+
+
+/* ---- motion scenes (canvas) ---- */
+const FX=(function(){
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const items=[]; let cols={}, frame=0;
+  function rgb(c){ c=(c||"#000").trim(); if(c.startsWith("#")){ if(c.length===4) c="#"+[...c.slice(1)].map(x=>x+x).join(""); return [1,3,5].map(i=>parseInt(c.slice(i,i+2),16)); } const m=c.match(/\d+(\.\d+)?/g); return m?m.slice(0,3).map(Number):[0,0,0]; }
+  function readCols(){ const cs=getComputedStyle(document.documentElement); ["--tone","--tone-ink","--ink","--paper","--muted","--hair"].forEach(k=>cols[k]=rgb(cs.getPropertyValue(k))); }
+  const A=(k,a)=>{ const c=cols[k]||k; return `rgba(${c[0]},${c[1]},${c[2]},${a})`; };
+  function rnd(seed){ return ()=>{ seed=(seed*16807)%2147483647; return (seed-1)/2147483646; }; }
+  const SCENES={
+    silk(s,t){ const {ctx,w,h}=s, col=s.col||"--tone"; ctx.clearRect(0,0,w,h); const N=28; ctx.lineWidth=1;
+      for(let i=0;i<N;i++){ const k=i/(N-1); ctx.strokeStyle=A(col,0.05+0.30*Math.sin(Math.PI*k)); ctx.beginPath();
+        for(let x=-20;x<=w+20;x+=10){ const y=h*0.58+Math.sin(x*0.0030+t*0.22+k*2.4)*h*0.15+Math.sin(x*0.0012-t*0.15+k*5.1)*h*0.11+(k-0.5)*h*0.42*Math.cos(t*0.05+x*0.0007);
+          x===-20?ctx.moveTo(x,y):ctx.lineTo(x,y); } ctx.stroke(); } },
+    orbit(s,t){ const {ctx,w,h}=s; ctx.clearRect(0,0,w,h); const cx=w>760?w*0.74:w*0.62, cy=h*0.48, R=Math.min(w,h)*0.46;
+      for(let r=0;r<9;r++){ const rad=R*(0.25+r*0.095); ctx.strokeStyle=`rgba(201,164,92,${0.06+r*0.012})`; ctx.lineWidth=1; ctx.beginPath(); ctx.ellipse(cx,cy,rad,rad*0.92,0,0,Math.PI*2); ctx.stroke();
+        const n=6+r*3, dir=r%2?1:-1; for(let j=0;j<n;j++){ const a=j/n*Math.PI*2+t*0.09*dir*(1+r*0.08); const px=cx+Math.cos(a)*rad, py=cy+Math.sin(a)*rad*0.92;
+          ctx.fillStyle=`rgba(201,164,92,${0.25+0.55*((Math.sin(a*3+t)+1)/2)})`; ctx.beginPath(); ctx.arc(px,py,1.2+((j+r)%3)*0.7,0,Math.PI*2); ctx.fill(); } } },
+    drift(s,t){ const {ctx,w,h}=s; ctx.clearRect(0,0,w,h); const imgs=s.imgs||[]; ctx.strokeStyle=A("--tone-ink",0.10); ctx.lineWidth=1;
+      for(let x=(t*14)%120-120;x<w;x+=120){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke(); }
+      if(!imgs.length) return; const rows=3;
+      for(let r=0;r<rows;r++){ const size=[64,84,56][r], gap=size*2.6, speed=[18,11,26][r], y=h*(0.24+r*0.26), off=(t*speed+r*90)%(gap*imgs.length);
+        for(let k=0;k<imgs.length+3;k++){ const im=imgs[(k+r*3)%imgs.length]; let x=w-((k*gap+off)%(gap*(imgs.length+1)))+gap; if(x<-size||x>w+size) continue; if(!im.complete||!im.naturalWidth) continue;
+          ctx.save(); ctx.globalAlpha=0.55; ctx.beginPath(); ctx.arc(x,y,size/2,0,Math.PI*2); ctx.clip(); ctx.fillStyle="#fff"; ctx.fillRect(x-size/2,y-size/2,size,size); ctx.drawImage(im,x-size/2,y-size/2,size,size); ctx.restore(); } } },
+    chart(s,t){ const {ctx,w,h}=s; ctx.clearRect(0,0,w,h); if(!s.pts){ const r=rnd(7); let v=0.5; s.pts=[]; for(let i=0;i<220;i++){ v+= (r()-0.48)*0.045; v=Math.max(0.12,Math.min(0.88,v)); s.pts.push(v);} }
+      ctx.strokeStyle=A("--hair",1); ctx.lineWidth=1; for(let g=1;g<6;g++){ const y=h*g/6; ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
+      const cyc=14, p=Math.min(1,((t%cyc)/cyc)*1.25), n=Math.max(2,Math.floor(s.pts.length*p)); const narrow=w<760, X=i=>w*(narrow?0.02:0.46)+(w*(narrow?0.96:0.52))*i/(s.pts.length-1), Y=v=>h*(0.52+0.36*(1-v)); if(narrow) ctx.globalAlpha=0.4;
+      const grad=ctx.createLinearGradient(0,h*0.5,0,h); grad.addColorStop(0,A("--tone",0.22)); grad.addColorStop(1,A("--tone",0));
+      ctx.beginPath(); ctx.moveTo(X(0),Y(s.pts[0])); for(let i=1;i<n;i++) ctx.lineTo(X(i),Y(s.pts[i])); ctx.lineTo(X(n-1),h); ctx.lineTo(X(0),h); ctx.closePath(); ctx.fillStyle=grad; ctx.fill();
+      ctx.beginPath(); ctx.moveTo(X(0),Y(s.pts[0])); for(let i=1;i<n;i++) ctx.lineTo(X(i),Y(s.pts[i])); ctx.strokeStyle=A("--tone",0.9); ctx.lineWidth=1.6; ctx.stroke();
+      const hx=X(n-1), hy=Y(s.pts[n-1]); ctx.fillStyle=A("--tone",1); ctx.beginPath(); ctx.arc(hx,hy,4,0,Math.PI*2); ctx.fill(); ctx.strokeStyle=A("--tone",0.25); ctx.beginPath(); ctx.arc(hx,hy,10+4*Math.sin(t*3),0,Math.PI*2); ctx.stroke(); ctx.globalAlpha=1; }
+  };
+  function add(cv){
+    const fx=cv.dataset.fx; if(!SCENES[fx]) return; const ctx=cv.getContext("2d"); if(!ctx) return;
+    const s={cv,ctx,fx,w:1,h:1,vis:true,col:cv.dataset.col?("--"+cv.dataset.col):null};
+    if(cv.dataset.logos){ try{ s.imgs=JSON.parse(cv.dataset.logos).map(u=>{ const im=new Image(); im.referrerPolicy="no-referrer"; im.src=u; return im; }); }catch(e){ s.imgs=[]; } }
+    const size=()=>{ const r=cv.getBoundingClientRect(), d=Math.min(2,window.devicePixelRatio||1); s.w=r.width||cv.parentNode.clientWidth; s.h=r.height||cv.parentNode.clientHeight; cv.width=Math.max(1,s.w*d); cv.height=Math.max(1,s.h*d); ctx.setTransform(d,0,0,d,0,0); };
+    size(); addEventListener("resize",size);
+    if("IntersectionObserver" in window){ new IntersectionObserver(es=>es.forEach(e=>s.vis=e.isIntersecting),{threshold:0}).observe(cv); }
+    items.push(s);
+  }
+  function loop(ts){ const t=ts/1000; if(frame++%90===0) readCols(); items.forEach(s=>{ if(s.vis) SCENES[s.fx](s,t); }); requestAnimationFrame(loop); }
+  function init(){ readCols(); document.querySelectorAll("canvas.fx").forEach(add);
+    if(reduce){ items.forEach(s=>SCENES[s.fx](s,9)); setTimeout(()=>{ readCols(); items.forEach(s=>SCENES[s.fx](s,9)); },1200); } else requestAnimationFrame(loop);
+    try{ matchMedia("(prefers-color-scheme: dark)").addEventListener("change",readCols); new MutationObserver(readCols).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]}); }catch(e){} }
+  return {init,reduce};
+})();
+FX.init();
 
 btcPill();
 const cc=$("copyCode");

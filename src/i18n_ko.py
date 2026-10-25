@@ -9,6 +9,18 @@ import re, html as _h
 
 EXACT = {
     "Perpline — Crypto Futures Referral Codes & Up to 50% Fee Rebate": "Perpline — 코인 선물 레퍼럴 코드 & 최대 50% 수수료 페이백",
+    # hero carousel + marquees
+    "Perpline highlights": "Perpline 하이라이트", "La remise": "페이백", "La sélection": "셀렉션", "Le marché": "시황",
+    "of your futures fees,": "선물 거래 수수료를,", "back every Monday.": "매주 월요일 돌려드려요.",
+    "Eleven exchanges,": "11개 거래소,", "ranked by what they cost.": "수수료 순으로 정렬.",
+    "From BTCC at 0.045% to the 0.022% you pay after our rebate.": "BTCC 0.045%부터, 페이백 후 실제 부담 0.022%까지.",
+    "See the ranking": "순위 보기", "Bitcoin, read": "비트코인,", "three times a week.": "주 3회 읽어드려요.",
+    "· desk notes every Monday, Wednesday and Friday.": "· 매주 월·수·금 시황 노트.", "Read the note": "시황 노트 보기",
+    "Choose slide": "슬라이드 선택", "Previous slide": "이전 슬라이드", "Next slide": "다음 슬라이드", "Pause slideshow": "슬라이드 멈춤",
+    "Slide 1": "슬라이드 1", "Slide 2": "슬라이드 2", "Slide 3": "슬라이드 3", "Slide 4": "슬라이드 4",
+    "Exchanges and rebates": "거래소와 페이백",
+    "Paid every Monday": "매주 월요일 지급", "In USDT": "USDT로 지급", "No password": "비밀번호 불필요", "No API keys": "API 키 불필요",
+    "Up to 50% back": "최대 50% 페이백", "Eleven exchanges": "11개 거래소", "Ranked by fee": "수수료 순 정렬",
     # header / nav / footer
     "Exchanges": "거래소", "Rebate": "페이백", "Market": "시황", "Community": "커뮤니티",
     "Sections": "섹션", "Support": "고객지원", "How can we help?": "무엇을 도와드릴까요?",
@@ -272,6 +284,7 @@ PATTERNS = [(re.compile(p), r) for p, r in PATTERNS]
 
 # raw replacements inside <script> (dynamic strings)
 JS = [
+    ('p?"Play slideshow":"Pause slideshow"', 'p?"슬라이드 재생":"슬라이드 멈춤"'),
     ('"Copied"', '"복사됨"'), ('"Copy"', '"복사"'), ('"Selected"', '"선택됨"'),
     ('round trips a month at $${fmt(n)}, after rebate. The faint line is the fee before rebate; on average the rebate saves ${money(saved)} a month. Funding not included.',
      '회 왕복 · 포지션 $${fmt(n)} · 페이백 적용 후 금액이에요. 흐린 선은 페이백 전 수수료이고, 페이백으로 한 달 평균 ${money(saved)}를 아껴요. 펀딩비 제외.'),
