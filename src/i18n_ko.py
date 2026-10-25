@@ -17,7 +17,7 @@ EXACT = {
     "Send a support request": "문의 남기기", "We reply on Telegram": "텔레그램으로 답변드려요",
     "Fee-first guides to crypto perpetual futures venues, with up to 50% of your trading fees returned.":
         "수수료 기준으로 고른 코인 무기한 선물거래소 가이드. 거래 수수료의 최대 50%를 돌려드려요.",
-    "Support:": "고객지원:", "on Telegram · Community:": "(텔레그램) · 커뮤니티:",
+    "Support:": "고객지원:", "on Telegram · Community:": "(텔레그램) · 커뮤니티:", "on Telegram": "(텔레그램)", "Perpline Community": "Perpline 커뮤니티",
     "Exchange guides": "거래소 가이드",
     "Restricted jurisdictions": "이용 제한 지역",
     "Not directed at residents of the Republic of Korea, the United States, or any jurisdiction where the listed exchanges are not licensed or registered to serve local users. If you live in one of these places, do not use the links on this site.":

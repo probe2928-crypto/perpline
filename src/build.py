@@ -12,7 +12,8 @@ CONFIG = {
     "domain": "https://probe2928-crypto.github.io/perpline",  # change to your real domain later
     "brand": "Perpline",
     "telegram_dm": "btcbullit",                # 1:1 support
-    "telegram_group": "ZiatheNiece",           # community group
+    "telegram_group_url": "https://t.me/+_QeSr3G2JGYxMmJl",   # community group invite link
+    "telegram_group_name": "Perpline Community",
     "track_base": "",                          # your Worker URL, e.g. https://perpline-api.xxx.workers.dev  (empty = direct links)
     "form_endpoint": "",                       # same Worker URL (CS form posts here). Empty = opens Telegram
     "fees_checked": "Oct 2026",
@@ -111,7 +112,7 @@ def link(v, src):
         return f'{CONFIG["track_base"].rstrip("/")}/go/{v["slug"]}?src={src}'
     return v["ref"]
 TG_DM = f'https://t.me/{CONFIG["telegram_dm"]}'
-TG_GROUP = f'https://t.me/{CONFIG["telegram_group"]}'
+TG_GROUP = CONFIG["telegram_group_url"]
 
 def ranked(lst):
     known = sorted([v for v in lst if v["taker"] is not None], key=lambda v: (v["taker"], v["maker"]))
@@ -391,7 +392,7 @@ def footer(prefix):
     <div>
       <a class="wordmark" href="{prefix}index.html">{CONFIG['brand']}</a>
       <p>Fee-first guides to crypto perpetual futures venues, with up to 50% of your trading fees returned.</p>
-      <p style="margin-top:14px">Support: <a href="{TG_DM}" target="_blank" rel="noopener">@{CONFIG['telegram_dm']}</a> on Telegram · Community: <a href="{TG_GROUP}" target="_blank" rel="noopener">t.me/{CONFIG['telegram_group']}</a></p>
+      <p style="margin-top:14px">Support: <a href="{TG_DM}" target="_blank" rel="noopener">@{CONFIG['telegram_dm']}</a> on Telegram · Community: <a href="{TG_GROUP}" target="_blank" rel="noopener">{CONFIG['telegram_group_name']}</a> on Telegram</p>
     </div>
     <div>
       <h4>Exchange guides</h4>
@@ -611,7 +612,7 @@ def build_index():
       <div class="duo">
         <div>
           <span class="label">Community</span>
-          <span class="handle">t.me/{CONFIG['telegram_group']}</span>
+          <span class="handle">{CONFIG['telegram_group_name']}</span>
           <p>Desk notes three times a week, new exchange listings, rebate updates and trader discussion.</p>
           <div class="row"><a class="btn" href="{TG_GROUP}" target="_blank" rel="noopener">Join the community</a></div>
           <span class="label" style="margin-top:18px">Direct support</span>

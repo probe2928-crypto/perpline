@@ -1,4 +1,4 @@
-# Perpline 텔레그램 그룹 세팅 키트 (t.me/ZiatheNiece)
+# Perpline 텔레그램 그룹 세팅 키트 (t.me/+_QeSr3G2JGYxMmJl)
 
 > 영어 문구는 그대로 복사해서 붙여넣으면 돼. `perpline.com`은 실제 도메인으로 바꿔줘.
 
