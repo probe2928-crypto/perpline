@@ -166,6 +166,12 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .btc{font-size:12px;letter-spacing:.12em;color:var(--muted);white-space:nowrap}
 .btc b{color:var(--ink);font-weight:500}
 .langsw{font-size:11.5px!important;letter-spacing:.14em!important;color:var(--ink)!important;border:1px solid var(--ink);padding:5px 10px;text-transform:none!important}
+.menu-btn{display:none;font:inherit;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;padding:9px 12px;border:1px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer}
+.menu-panel{border-top:1px solid var(--hair);background:var(--paper)}
+.top .menu-panel .wrap{display:flex;flex-direction:column;align-items:stretch;padding-block:8px 20px}
+.menu-panel a{font-family:var(--display);font-size:28px;line-height:1.2;padding-block:12px;border-bottom:1px solid var(--hair);text-decoration:none}
+.menu-panel a:last-child{border-bottom:0}
+@media (max-width:820px){.menu-btn{display:inline-block}.top .right{gap:12px}.btc{font-size:11px;letter-spacing:.06em}}
 @media (max-width:820px){.top nav{display:none}.top .wrap{grid-template-columns:auto 1fr}.wordmark{justify-self:start;padding-left:0}.top .right a.hide-sm{display:none}}
 
 /* buttons */
@@ -376,7 +382,7 @@ footer{border-top:1px solid var(--ink);padding-block:64px 80px}
 .stage-ui{position:absolute;left:0;right:0;bottom:28px;z-index:2;display:flex;justify-content:space-between;align-items:center;gap:16px;color:var(--ink)}
 .stage[data-ui="light"] .stage-ui{color:#F1EEE8}
 .stage-dots{display:flex;gap:10px}
-.stage-dots button{width:56px;height:24px;background:none;border:0;padding:0;cursor:pointer;color:inherit}
+.stage-dots button{width:56px;height:36px;background:none;border:0;padding:0;cursor:pointer;color:inherit}
 .stage-dots span{display:block;height:2px;background:currentColor;opacity:.35;position:relative;overflow:hidden}
 .stage-dots button[aria-selected="true"] span{opacity:1;background:transparent;box-shadow:inset 0 0 0 1px currentColor}
 .stage-dots span::after{content:"";position:absolute;inset:0;background:currentColor;transform:scaleX(0);transform-origin:left}
@@ -415,7 +421,9 @@ footer{border-top:1px solid var(--ink);padding-block:64px 80px}
 
 /* floating support */
 .fab{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:30;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
-.fab-btn{font:inherit;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;padding:14px 20px;border:1px solid var(--ink);background:var(--ink);color:var(--paper);cursor:pointer}
+.fab-btn{font:inherit;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;padding:14px 20px;border:1px solid var(--ink);background:var(--ink);color:var(--paper);cursor:pointer;display:inline-flex;align-items:center;gap:10px}
+.fab-btn svg{flex:none}
+@media (max-width:700px){.fab-btn{padding:0;width:50px;height:50px;border-radius:50%;justify-content:center}.fab-btn .fab-t{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}}
 .fab-panel{width:min(330px,calc(100vw - 36px));background:var(--paper);border:1px solid var(--ink);padding:22px;display:flex;flex-direction:column;gap:2px}
 .fab-panel h3{font-size:24px;margin-bottom:10px}
 .fab-panel .opt{font:inherit;text-align:left;display:flex;flex-direction:column;gap:2px;padding:14px 0;border:0;border-top:1px solid var(--hair);background:none;color:var(--ink);text-decoration:none;cursor:pointer}
@@ -431,7 +439,10 @@ def head(title, desc, canonical, extra_ld="", tone=None):
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="{esc(desc)}">
 <link rel="canonical" href="{esc(canonical)}">
-<meta property="og:type" content="website"><meta property="og:title" content="{esc(title)}"><meta property="og:description" content="{esc(desc)}"><meta property="og:url" content="{esc(canonical)}"><meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%231F2FA0'/%3E%3Ctext x='33' y='46' font-family='Georgia,serif' font-style='italic' font-size='40' text-anchor='middle' fill='%23F4F1EA'%3EP%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="{CONFIG['domain']}/assets/icon.png">
+<meta property="og:image" content="{CONFIG['domain']}/assets/og.png"><meta name="twitter:image" content="{CONFIG['domain']}/assets/og.png">
+<meta property="og:type" content="website"><meta property="og:title" content="{esc(title)}"><meta property="og:description" content="{esc(desc)}"><meta property="og:url" content="{esc(canonical)}"><meta name="twitter:card" content="summary_large_image">
 {FONTS}
 <style>{CSS}</style>
 {tone_css}
@@ -450,6 +461,18 @@ def header(prefix):
       <a class="hide-sm" href="{TG_GROUP}" target="_blank" rel="noopener">Community</a>
       <a class="langsw" id="langSw" href="#" hidden>한국어</a>
       <span class="btc">BTC <b id="pillPrice" class="num">$80,300</b></span>
+      <button type="button" class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="menuPanel">Menu</button>
+    </div>
+  </div>
+  <div class="menu-panel" id="menuPanel" role="navigation" aria-label="Menu" hidden>
+    <div class="wrap">
+      <a href="{prefix}index.html#venues">Exchanges</a>
+      <a href="{prefix}index.html#rebate">Rebate</a>
+      <a href="{prefix}index.html#fees">Fee calculator</a>
+      <a href="{prefix}index.html#note">Market</a>
+      <a href="{prefix}index.html#faq">Questions</a>
+      <a href="{TG_GROUP}" target="_blank" rel="noopener">Community</a>
+      <a href="{TG_DM}" target="_blank" rel="noopener">Support on Telegram</a>
     </div>
   </div>
 </header>"""
@@ -483,7 +506,7 @@ FAB = f"""<div class="fab">
     <a class="opt" href="{TG_GROUP}" target="_blank" rel="noopener"><b>Join the community</b><span>Market notes and new listings</span></a>
     <button type="button" class="opt" id="fabForm"><b>Send a support request</b><span>We reply on Telegram</span></button>
   </div>
-  <button type="button" class="fab-btn" id="fabBtn" aria-expanded="false" aria-controls="fabPanel">Support</button>
+  <button type="button" class="fab-btn" id="fabBtn" aria-expanded="false" aria-controls="fabPanel"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span class="fab-t">Support</span></button>
 </div>"""
 
 FX_JS = r"""
@@ -543,6 +566,11 @@ const $ = id => document.getElementById(id);
   if(window.LANG==="ko"||localStorage.getItem("perpline_owner")==="1"){ sw.href=window.LANG_ALT; sw.textContent=window.LANG==="ko"?"EN":"한국어"; sw.hidden=false; }
 }catch(e){} })();
 const fmt = n => n.toLocaleString("en-US",{maximumFractionDigits:0});
+(function(){ const b=$("menuBtn"), p=$("menuPanel"); if(!b||!p) return;
+  const set=o=>{ p.hidden=!o; b.setAttribute("aria-expanded",String(o)); b.textContent=o?(window.LANG==="ko"?"닫기":"Close"):(window.LANG==="ko"?"메뉴":"Menu"); };
+  b.addEventListener("click",()=>set(p.hidden)); p.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>set(false)));
+  addEventListener("resize",()=>{ if(innerWidth>820) set(false); }); if(window.LANG==="ko") b.textContent="메뉴";
+})();
 function fab(open){ $("fabPanel").hidden=!open; $("fabBtn").setAttribute("aria-expanded",open); }
 $("fabBtn").addEventListener("click",()=>fab($("fabPanel").hidden));
 document.addEventListener("keydown",e=>{ if(e.key==="Escape") fab(false); });
@@ -919,11 +947,14 @@ function drawLadder(price){
   const ps=LEVELS.map(l=>l.p).concat(price), top=Math.max(...ps)+600, bot=Math.min(...ps)-600;
   const y=p=>16+(top-p)/(top-bot)*(300-32), css=getComputedStyle(document.documentElement), c=k=>css.getPropertyValue(k).trim();
   const el=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);svg.appendChild(e);return e;};
-  LEVELS.forEach(l=>{
+  const ls=[...LEVELS].sort((a,b)=>b.p-a.p); let lastLab=-99, lastNum=-99;
+  ls.forEach(l=>{
     const yy=y(l.p), col=l.kind==="s"?c("--up"):c("--down");
     el("line",{x1:80,x2:420,y1:yy,y2:yy,stroke:col,"stroke-width":1,"stroke-dasharray":"2 5"});
-    el("text",{x:0,y:yy+4,"font-family":"Jost, sans-serif","font-size":12,fill:c("--muted")}).textContent=fmt(l.p);
-    el("text",{x:420,y:yy-7,"text-anchor":"end","font-family":"Jost, sans-serif","font-size":11,"letter-spacing":"1.5",fill:col}).textContent=l.label.toUpperCase();
+    const ny=Math.max(yy+4,lastNum+15); lastNum=ny;
+    el("text",{x:0,y:ny,"font-family":"Jost, sans-serif","font-size":12,fill:c("--muted")}).textContent=fmt(l.p);
+    let ly=yy-7; if(ly<lastLab+15) ly=yy+15; lastLab=ly;
+    el("text",{x:420,y:ly,"text-anchor":"end","font-family":"Jost, sans-serif","font-size":11,"letter-spacing":"1.5",fill:col}).textContent=l.label.toUpperCase();
   });
   const py=y(price);
   el("line",{x1:80,x2:420,y1:py,y2:py,stroke:c("--ink"),"stroke-width":1.5});
@@ -1107,7 +1138,7 @@ def build_exchange(v, idx):
 .other:hover .on{color:var(--tone)}
 @media (max-width:900px){.others{grid-template-columns:1fr 1fr}.other + .other{padding-left:0;border-left:0}.other{border-bottom:1px solid var(--hair)}}
 .crumbs{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);padding-block:18px}
-.crumbs a{text-decoration:none}
+.crumbs a{text-decoration:none;display:inline-block;padding-block:10px}
 """
     fee_cards = f"""<div class="kv"><span class="label">Maker / taker</span><b class="num mt">{pct(v['maker'])} / {pct(v['taker'])}</b></div>""" if v["taker"] is not None else """<div class="kv"><span class="label">Maker / taker</span><b style="font-size:20px">Check site</b></div>"""
     net_card = f"""<div class="kv tone"><span class="label">Taker you pay</span><b class="num">{pct(n_t)}</b></div>""" if n_t is not None else f"""<div class="kv tone"><span class="label">Paid weekly in</span><b>USDT</b></div>"""
@@ -1252,6 +1283,14 @@ def build():
         (OUT / "ko" / "exchanges" / f"{v['slug']}.html").write_text(
             ko_doc(doc, "../", f"../../exchanges/{v['slug']}.html", f"{CONFIG['domain']}/exchanges/{v['slug']}.html"), encoding="utf-8")
         (PREVIEW / "exchanges" / f"{v['slug']}.html").write_text(doc, encoding="utf-8")
+    nf = full_doc(head(f"Page not found | {CONFIG['brand']}", "This page does not exist.", CONFIG["domain"] + "/404.html") +
+        f"""<!--BODY-->{header(CONFIG['domain'] + '/')}<main><section class="hero center" style="min-height:60vh;justify-content:center">
+<span class="label">Erreur 404</span><h1>This page has <em>moved on.</em></h1>
+<p class="lede">The page you opened does not exist. The exchanges and rebates are on the home page.</p>
+<div class="cta"><a class="btn" href="{CONFIG['domain']}/">Back to Perpline</a><a class="btn line" href="{TG_DM}" target="_blank" rel="noopener">Ask on Telegram</a></div>
+</section></main>{footer(CONFIG['domain'] + '/')}<script>{COMMON_JS}btcPill();</script>""")
+    nf = nf.replace("<div class=\"fab\">", "<div class=\"fab\" hidden>")
+    (OUT / "404.html").write_text(nf.replace('<head><meta charset="utf-8">', '<head><meta charset="utf-8"><meta name="robots" content="noindex">', 1), encoding="utf-8")
     today = datetime.date.today().isoformat()
     urls = [CONFIG["domain"] + "/"] + [f"{CONFIG['domain']}/exchanges/{v['slug']}.html" for v in ranked(VENUES)]
     (OUT / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +

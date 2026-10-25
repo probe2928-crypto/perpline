@@ -9,6 +9,7 @@ import re, html as _h
 
 EXACT = {
     "Perpline — Crypto Futures Referral Codes & Up to 50% Fee Rebate": "Perpline — 코인 선물 레퍼럴 코드 & 최대 50% 수수료 페이백",
+    "Menu": "메뉴", "Fee calculator": "수수료 계산기", "Questions": "자주 묻는 질문", "Support on Telegram": "텔레그램 고객지원",
     # hero carousel + marquees
     "Perpline highlights": "Perpline 하이라이트", "La remise": "페이백", "La sélection": "셀렉션", "Le marché": "시황",
     "of your futures fees,": "선물 거래 수수료를,", "back every Monday.": "매주 월요일 돌려드려요.",
