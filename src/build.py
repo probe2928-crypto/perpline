@@ -3,7 +3,7 @@
 Edit CONFIG / VENUES below, then run:  python3 build.py
 Output goes to ../site/  (upload that folder to Cloudflare Pages).
 """
-import json, html, os, pathlib, datetime
+import json, html, os, pathlib, datetime, re
 
 OUT = pathlib.Path(__file__).resolve().parent.parent  # repo root = site
 
@@ -164,6 +164,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .top .right{display:flex;justify-content:flex-end;gap:18px;align-items:center}
 .btc{font-size:12px;letter-spacing:.12em;color:var(--muted);white-space:nowrap}
 .btc b{color:var(--ink);font-weight:500}
+.langsw{font-size:11.5px!important;letter-spacing:.14em!important;color:var(--ink)!important;border:1px solid var(--ink);padding:5px 10px;text-transform:none!important}
 @media (max-width:820px){.top nav{display:none}.top .wrap{grid-template-columns:auto 1fr}.wordmark{justify-self:start;padding-left:0}.top .right a.hide-sm{display:none}}
 
 /* buttons */
@@ -377,6 +378,7 @@ def header(prefix):
     <a class="wordmark" href="{prefix}index.html">{CONFIG['brand']}</a>
     <div class="right">
       <a class="hide-sm" href="{TG_GROUP}" target="_blank" rel="noopener">Community</a>
+      <a class="langsw" id="langSw" href="#" hidden>한국어</a>
       <span class="btc">BTC <b id="pillPrice" class="num">$80,300</b></span>
     </div>
   </div>
@@ -416,6 +418,10 @@ FAB = f"""<div class="fab">
 
 COMMON_JS = r"""
 const $ = id => document.getElementById(id);
+(function(){ try{ const sw=$("langSw"); if(!sw) return;
+  if(window.LANG==="ko") localStorage.setItem("perpline_owner","1");
+  if(window.LANG==="ko"||localStorage.getItem("perpline_owner")==="1"){ sw.href=window.LANG_ALT; sw.textContent=window.LANG==="ko"?"EN":"한국어"; sw.hidden=false; }
+}catch(e){} })();
 const fmt = n => n.toLocaleString("en-US",{maximumFractionDigits:0});
 function fab(open){ $("fabPanel").hidden=!open; $("fabBtn").setAttribute("aria-expanded",open); }
 $("fabBtn").addEventListener("click",()=>fab($("fabPanel").hidden));
@@ -516,7 +522,7 @@ def build_index():
       </div>
       <ol class="steps">
         <li><span class="n">1</span><h3>Sign up through our link</h3><p>Register a new account using the Sign up button or referral code on this site. The rebate only works for accounts created through our link.</p></li>
-        <li><span class="n">2</span><h3>Send us your UID</h3><p>Message <a href="{TG_DM}" target="_blank" rel="noopener">@{CONFIG['telegram_dm']}</a> on Telegram with the exchange name and your account UID. We confirm the link within 24 hours.</p></li>
+        <li><span class="n">2</span><h3>Send us your UID</h3><p>Send the exchange name and your account UID to <a href="{TG_DM}" target="_blank" rel="noopener">@{CONFIG['telegram_dm']}</a> on Telegram. We confirm the link within 24 hours.</p></li>
         <li><span class="n">3</span><h3>Get paid every Monday</h3><p>Trade as usual. Every Monday we send your rebate for the previous week in USDT to your exchange UID or wallet.</p></li>
       </ol>
       <div class="terms">
@@ -541,7 +547,7 @@ def build_index():
         <div class="controls">
           <div class="field"><label class="label" for="notional">Position size, USDT</label><input id="notional" type="number" inputmode="decimal" min="0" step="100" value="10000"><span class="hint">Margin × leverage. 1,000 at 10× is 10,000.</span></div>
           <div class="field"><span class="label" id="otLabel">Order type</span>
-            <div class="seg" role="group" aria-labelledby="otLabel"><button type="button" id="otTaker" aria-pressed="true">Market</button><button type="button" id="otMaker" aria-pressed="false">Limit</button></div></div>
+            <div class="seg" role="group" aria-labelledby="otLabel"><button type="button" id="otTaker" aria-pressed="true">Market order</button><button type="button" id="otMaker" aria-pressed="false">Limit order</button></div></div>
           <div class="field"><label class="label" for="trades">Round trips per month</label><input id="trades" type="number" inputmode="numeric" min="1" step="1" value="20"></div>
           <label class="check" for="withReb"><input type="checkbox" id="withReb" checked> Include {CONFIG['brand']} rebate</label>
         </div>
@@ -646,6 +652,7 @@ def build_index():
 {footer('')}
 {FAB}
 <script>
+window.LANG="en"; window.LANG_ALT="ko/index.html";
 {COMMON_JS}
 const CONTACT = {{ telegram:"{CONFIG['telegram_dm']}", formEndpoint:"{CONFIG['form_endpoint']}" }};
 const VENUES = {js_venues};
@@ -954,7 +961,7 @@ def build_exchange(v, idx):
         <h2 style="margin:16px 0 28px">Claim your {r}% rebate</h2>
         <ol class="olist">
           <li><div><b>Find your UID</b><p>In {esc(name)}, open your profile. Your UID is the account number shown there.</p></div></li>
-          <li><div><b>Send it on Telegram</b><p>Message <a href="{TG_DM}" target="_blank" rel="noopener">@{CONFIG['telegram_dm']}</a>: "{esc(name)} + your UID". We confirm within 24 hours.</p></div></li>
+          <li><div><b>Send it on Telegram</b><p>Send "{esc(name)} + your UID" to <a href="{TG_DM}" target="_blank" rel="noopener">@{CONFIG['telegram_dm']}</a> on Telegram. We confirm within 24 hours.</p></div></li>
           <li><div><b>Get paid every Monday</b><p>Your rebate for the previous week arrives in USDT. Minimum 10 USDT; smaller amounts roll over.</p></div></li>
         </ol>
         <div class="cta" style="margin-top:28px"><a class="btn line" href="{TG_DM}" target="_blank" rel="noopener">Send my UID</a></div>
@@ -981,7 +988,7 @@ def build_exchange(v, idx):
 {footer('../')}
 {FAB}
 <script>
-window.HOME="../index.html";
+window.HOME="../index.html"; window.LANG="en"; window.LANG_ALT="../ko/exchanges/{v['slug']}.html";
 {COMMON_JS}
 btcPill();
 const cc=$("copyCode");
@@ -993,6 +1000,20 @@ if(cc) cc.addEventListener("click",async()=>{{
 </script>
 """
     return page
+
+import sys as _sys
+_sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+from i18n_ko import translate as _ko
+
+def ko_doc(doc, depth_alt, alt_href, canon):
+    d = _ko(doc)
+    d = d.replace('<html lang="en">', '<html lang="ko">', 1)
+    d = d.replace('<head><meta charset="utf-8">', f'<head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow">', 1)
+    d = d.replace('window.LANG="en";', 'window.LANG="ko";').replace('window.LANG_ALT="ko/index.html"', f'window.LANG_ALT="{alt_href}"')
+    d = re.sub(r'window\.LANG_ALT="\.\./ko/exchanges/[a-z0-9]+\.html"', f'window.LANG_ALT="{alt_href}"', d)
+    d = d.replace('src="assets/logos/', f'src="{depth_alt}assets/logos/').replace('src="../assets/logos/', f'src="{depth_alt}../assets/logos/')
+    d = re.sub(r'<link rel="canonical" href="[^"]*">', f'<link rel="canonical" href="{canon}">', d, count=1)
+    return d
 
 def full_doc(page):
     h, b = page.split("<!--BODY-->", 1)
@@ -1007,10 +1028,14 @@ def build():
         (root / "exchanges").mkdir(parents=True, exist_ok=True)
     idx = build_index()
     (OUT / "index.html").write_text(full_doc(idx), encoding="utf-8")
+    (OUT / "ko" / "exchanges").mkdir(parents=True, exist_ok=True)
+    (OUT / "ko" / "index.html").write_text(ko_doc(full_doc(idx), "../", "../index.html", CONFIG["domain"] + "/"), encoding="utf-8")
     (PREVIEW / "index.html").write_text(idx.replace("<!--BODY-->", ""), encoding="utf-8")  # artifact adds its own skeleton
     for i, v in enumerate(ranked(VENUES)):
         doc = full_doc(build_exchange(v, i))
         (OUT / "exchanges" / f"{v['slug']}.html").write_text(doc, encoding="utf-8")
+        (OUT / "ko" / "exchanges" / f"{v['slug']}.html").write_text(
+            ko_doc(doc, "../", f"../../exchanges/{v['slug']}.html", f"{CONFIG['domain']}/exchanges/{v['slug']}.html"), encoding="utf-8")
         (PREVIEW / "exchanges" / f"{v['slug']}.html").write_text(doc, encoding="utf-8")
     today = datetime.date.today().isoformat()
     urls = [CONFIG["domain"] + "/"] + [f"{CONFIG['domain']}/exchanges/{v['slug']}.html" for v in ranked(VENUES)]
