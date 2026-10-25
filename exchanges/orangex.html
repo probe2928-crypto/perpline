@@ -520,7 +520,7 @@ footer{border-top:1px solid var(--ink);padding-block:64px 80px}
 window.HOME="../index.html"; window.LANG="en"; window.LANG_ALT="../ko/exchanges/orangex.html";
 
 const $ = id => document.getElementById(id);
-(function(){ try{ const sw=$("langSw"); if(!sw) return;
+(function(){ try{ const sw=$("langSw"); if(!sw||!window.LANG_ALT) return;
   if(window.LANG==="ko") localStorage.setItem("perpline_owner","1");
   if(window.LANG==="ko"||localStorage.getItem("perpline_owner")==="1"){ sw.href=window.LANG_ALT; sw.textContent=window.LANG==="ko"?"EN":"한국어"; sw.hidden=false; }
 }catch(e){} })();

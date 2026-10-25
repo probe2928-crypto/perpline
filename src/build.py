@@ -561,7 +561,7 @@ FX.init();
 
 COMMON_JS = r"""
 const $ = id => document.getElementById(id);
-(function(){ try{ const sw=$("langSw"); if(!sw) return;
+(function(){ try{ const sw=$("langSw"); if(!sw||!window.LANG_ALT) return;
   if(window.LANG==="ko") localStorage.setItem("perpline_owner","1");
   if(window.LANG==="ko"||localStorage.getItem("perpline_owner")==="1"){ sw.href=window.LANG_ALT; sw.textContent=window.LANG==="ko"?"EN":"한국어"; sw.hidden=false; }
 }catch(e){} })();
