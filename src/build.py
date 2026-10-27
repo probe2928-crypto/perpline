@@ -1462,11 +1462,13 @@ def bm_tracking():
             f"window.BMDataLayer=window.BMDataLayer||[];window.BMDataLayer.push({{conversionID:'{cid}',eventId:'{CONFIG['bm_event']}',event:'conversion',eventValue:'0'}});}},true);"
             "</script><!--/bm-->")
 
+NETWORK = '<script src="https://probe2928-crypto.github.io/chainbrief/network.js" data-site="perpline" defer></script>'
+
 def full_doc(page):
     h, b = page.split("<!--BODY-->", 1)
     return ('<!doctype html><html lang="en"><head><meta charset="utf-8">'
             '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">'
-            + h + "</head><body>" + b + bm_tracking() + "</body></html>\n")
+            + h + "</head><body>" + b + NETWORK + bm_tracking() + "</body></html>\n")
 
 PREVIEW = OUT / ".preview"  # artifact preview copy (git-ignored)
 
