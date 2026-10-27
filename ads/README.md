@@ -27,3 +27,10 @@ https://probe2928-crypto.github.io/perpline/start.html?utm_source=bitmedia&utm_m
 - Your trading fees, returned. Get up to 50% of your futures fees back in USDT, every Monday.
 - 11 futures exchanges ranked by fee. Sign up through Perpline and get 30–50% back weekly.
 - Trade futures? Get part of every fee back. Paid in USDT. No password, no API keys.
+
+## 전환 측정 (2026-10-27)
+- Bitmedia 전환 "Exchange sign-up click" (Custom, event id `signupclick`, conversionID `6ae072e08c8ba13fe33ec70b`)
+- 영어 공개 페이지 전체(start.html·index·거래소 가이드·404)에 Bitmedia 스크립트가 들어가고, 거래소 가입 링크(rel="sponsored")를 누르면 전환 1건으로 잡힘
+- 세준 전용 한국어 페이지(ko/)에는 넣지 않음 → 본인 클릭은 전환에 안 잡힘
+- 설정 위치: src/build.py CONFIG의 bm_conversion_id (비우면 꺼짐)
+- 확인: Bitmedia → Conversions 의 Count, Reports에서 사이트별 전환당 비용

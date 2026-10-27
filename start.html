@@ -329,6 +329,44 @@ footer{border-top:1px solid var(--ink);padding-block:64px 80px}
 .lp-hero h1 em{color:var(--tone)}
 .lp-points{display:flex;flex-wrap:wrap;gap:10px 28px;font-size:14px;color:var(--muted)}
 .lp-points span::before{content:"— ";color:var(--tone)}
+/* podium: three picks, maison campaign cards */
+.podium{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--ink)}
+.pick{position:relative;display:flex;flex-direction:column;gap:18px;padding:34px 32px 32px;border-bottom:1px solid var(--hair)}
+.pick + .pick{border-left:1px solid var(--hair)}
+.pick .rk{display:flex;justify-content:space-between;align-items:baseline;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.pick .rk i{font-family:var(--display);font-size:22px;letter-spacing:0;text-transform:none;color:var(--tone)}
+.pick .who{display:flex;align-items:center;gap:14px}
+.pick .who .plogo{width:52px;height:52px;border-radius:50%;background:#fff;box-shadow:0 0 0 1px var(--hair);object-fit:contain;padding:7px;flex:none}
+.pick .who b{font-family:var(--display);font-weight:400;font-size:30px;line-height:1}
+.pick .big{font-family:var(--display);font-size:clamp(84px,9vw,128px);line-height:.82;letter-spacing:-.03em;color:var(--tone);font-variant-numeric:lining-nums}
+.pick .big small{font-size:.3em;letter-spacing:0;margin-left:6px;color:var(--ink);font-style:italic}
+.pick .rule{height:1px;background:var(--hair);transform-origin:left;transform:scaleX(0);transition:transform 1.1s cubic-bezier(.2,.7,.1,1) .15s}
+.pick.in .rule{transform:scaleX(1)}
+.pick dl{display:grid;grid-template-columns:auto 1fr;gap:8px 18px;font-size:14px;margin:0}
+.pick dt{color:var(--muted);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;padding-top:2px}
+.pick dd{margin:0;font-variant-numeric:tabular-nums;text-align:right}
+.pick .why{font-size:14px;color:var(--muted);font-weight:300;min-height:3em}
+.pick .btn{justify-content:center;width:100%;margin-top:auto}
+.pick .guide{font-size:13px;color:var(--muted);text-align:center}
+.pick .guide:hover{color:var(--tone)}
+@media (max-width:900px){.podium{grid-template-columns:1fr}.pick + .pick{border-left:0}.pick{padding:26px 0 28px;gap:14px}
+ .pick .big{font-size:80px}.pick .why{min-height:0}}
+/* "what you'd get back" */
+.back{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:64px;align-items:end}
+@media (max-width:900px){.back{grid-template-columns:1fr;gap:36px}}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{font:inherit;font-size:12px;letter-spacing:.14em;text-transform:uppercase;padding:11px 16px;min-height:44px;border:1px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer;font-variant-numeric:tabular-nums}
+.chips button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.back select{font:inherit;font-family:var(--display);font-size:26px;padding:6px 28px 8px 0;border:0;border-bottom:1px solid var(--ink);background:transparent;color:var(--ink);border-radius:0;width:100%;appearance:none;-webkit-appearance:none;
+ background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%);background-position:calc(100% - 12px) 55%,calc(100% - 6px) 55%;background-size:6px 6px;background-repeat:no-repeat}
+.back select option{font-family:var(--sans);font-size:16px;color:#111;background:#fff}
+.payout{border-top:1px solid var(--ink);padding-top:22px;display:flex;flex-direction:column;gap:10px}
+.payout .amt{font-family:var(--display);font-size:clamp(76px,11vw,156px);line-height:.85;letter-spacing:-.03em;font-variant-numeric:lining-nums tabular-nums;color:var(--tone)}
+.payout .amt sup{font-size:.36em;vertical-align:.95em;margin-right:4px;color:var(--ink)}
+.payout .per{font-size:14px;letter-spacing:.16em;text-transform:uppercase}
+.payout .yr{font-size:15px;color:var(--muted)}
+.payout .yr b{color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums}
+@media (prefers-reduced-motion:reduce){.pick .rule{transition:none;transform:none}}
 </style>
 </head><body>
 <div class="notice" role="note"><div class="wrap"><b>Not available to residents of the United States or South Korea.</b> 18+ · Leveraged trading can lose you all of your margin.</div></div>
@@ -366,15 +404,72 @@ footer{border-top:1px solid var(--ink);padding-block:64px 80px}
       <span class="label">La remise · Perpline</span>
       <h1 id="h1">Get up to 50% of your<br>futures fees <em>back.</em></h1>
       <p class="lede">Open a futures account through Perpline, trade as usual, and we send part of every fee you pay back to you in USDT, every Monday.</p>
-      <div class="cta"><a class="btn" href="#venues">Choose an exchange</a><a class="btn line" href="#how">How it works</a></div>
+      <div class="cta"><a class="btn" href="#picks">Choose an exchange</a><a class="btn line" href="#back">See what you get back</a></div>
       <div class="lp-points"><span>11 exchanges</span><span>30–50% back</span><span>Paid weekly in USDT</span><span>No password, no API keys</span></div>
     </div>
   </section>
   <div class="mq mq-logos" aria-label="Exchanges and rebates"><div class="mq-track"><a class="mq-item" href="exchanges/btcc.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/12/large/BTCC-LogoOnly_200x200.png?1722494798" alt="BTCC logo" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">BTCC</span><span class="mq-pct">50%</span></a><a class="mq-item" href="exchanges/okx.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/96/large/WeChat_Image_20220117220452.png?1706864283" alt="OKX logo" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">OKX</span><span class="mq-pct">30%</span></a><a class="mq-item" href="exchanges/gate.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/60/large/Frame_1.png?1747795534" alt="Gate logo" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">Gate</span><span class="mq-pct">40%</span></a><a class="mq-item" href="exchanges/bingx.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/812/large/YtFwQwJr_400x400.jpg?1706864837" alt="BingX logo" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">BingX</span><span class="mq-pct">35%</span></a><a class="mq-item" href="exchanges/orangex.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/1272/large/Subtract.png?1706865272" alt="OrangeX logo" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">OrangeX</span><span class="mq-pct">40%</span></a><a class="mq-item" href="exchanges/bitget.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/540/large/2023-07-25_21.47.43.jpg?1706864507" alt="Bitget logo" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">Bitget</span><span class="mq-pct">30%</span></a><a class="mq-item" href="exchanges/bitunix.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/1185/large/APP_icon_1024.png?1706865197" alt="Bitunix logo" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">Bitunix</span><span class="mq-pct">45%</span></a><a class="mq-item" href="exchanges/blofin.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/1645/large/blofin_logo.jpeg?1718852326" alt="BloFin logo" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">BloFin</span><span class="mq-pct">45%</span></a><a class="mq-item" href="exchanges/deepcoin.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/1005/large/deepcoin.jpeg?1706864992" alt="Deepcoin logo" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">Deepcoin</span><span class="mq-pct">45%</span></a><a class="mq-item" href="exchanges/biconomy.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/633/large/logo_B._200x200.png?1723787144" alt="Biconomy logo" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">Biconomy</span><span class="mq-pct">50%</span></a><a class="mq-item" href="exchanges/crypfine.html"><span class="mq-name">Crypfine</span><span class="mq-pct">50%</span></a><a tabindex="-1" aria-hidden="true" class="mq-item" href="exchanges/btcc.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/12/large/BTCC-LogoOnly_200x200.png?1722494798" alt="BTCC logo" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">BTCC</span><span class="mq-pct">50%</span></a><a tabindex="-1" aria-hidden="true" class="mq-item" href="exchanges/okx.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/96/large/WeChat_Image_20220117220452.png?1706864283" alt="OKX logo" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">OKX</span><span class="mq-pct">30%</span></a><a tabindex="-1" aria-hidden="true" class="mq-item" href="exchanges/gate.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/60/large/Frame_1.png?1747795534" alt="Gate logo" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">Gate</span><span class="mq-pct">40%</span></a><a tabindex="-1" aria-hidden="true" class="mq-item" href="exchanges/bingx.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/812/large/YtFwQwJr_400x400.jpg?1706864837" alt="BingX logo" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">BingX</span><span class="mq-pct">35%</span></a><a tabindex="-1" aria-hidden="true" class="mq-item" href="exchanges/orangex.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/1272/large/Subtract.png?1706865272" alt="OrangeX logo" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">OrangeX</span><span class="mq-pct">40%</span></a><a tabindex="-1" aria-hidden="true" class="mq-item" href="exchanges/bitget.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/540/large/2023-07-25_21.47.43.jpg?1706864507" alt="Bitget logo" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">Bitget</span><span class="mq-pct">30%</span></a><a tabindex="-1" aria-hidden="true" class="mq-item" href="exchanges/bitunix.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/1185/large/APP_icon_1024.png?1706865197" alt="Bitunix logo" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">Bitunix</span><span class="mq-pct">45%</span></a><a tabindex="-1" aria-hidden="true" class="mq-item" href="exchanges/blofin.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/1645/large/blofin_logo.jpeg?1718852326" alt="BloFin logo" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">BloFin</span><span class="mq-pct">45%</span></a><a tabindex="-1" aria-hidden="true" class="mq-item" href="exchanges/deepcoin.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/1005/large/deepcoin.jpeg?1706864992" alt="Deepcoin logo" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">Deepcoin</span><span class="mq-pct">45%</span></a><a tabindex="-1" aria-hidden="true" class="mq-item" href="exchanges/biconomy.html"><span class="mq-logo"><img src="https://coin-images.coingecko.com/markets/images/633/large/logo_B._200x200.png?1723787144" alt="Biconomy logo" loading="eager" referrerpolicy="no-referrer"></span><span class="mq-name">Biconomy</span><span class="mq-pct">50%</span></a><a tabindex="-1" aria-hidden="true" class="mq-item" href="exchanges/crypfine.html"><span class="mq-name">Crypfine</span><span class="mq-pct">50%</span></a></div></div>
-  <section class="chapter" id="venues" aria-labelledby="venH" style="border-top:0">
+  <section class="chapter" id="picks" aria-labelledby="pickH" style="border-top:0">
     <div class="wrap">
       <div class="chap-head">
-        <div><span class="label">I · La sélection</span><h2 id="venH">Pick your exchange</h2></div>
+        <div><span class="label">I · Le podium</span><h2 id="pickH">Three to start with</h2></div>
+        <p>The highest rebates on our list, with the lowest fee left to pay. Sign up through the button, then send us your UID.</p>
+      </div>
+      <div class="podium"><article class="pick">
+          <div class="rk"><span>No.</span><i>I</i></div>
+          <div class="who"><span class="plogo"><img src="https://coin-images.coingecko.com/markets/images/12/large/BTCC-LogoOnly_200x200.png?1722494798" alt="BTCC logo" loading="eager" referrerpolicy="no-referrer"></span><b>BTCC</b></div>
+          <div class="big num">50%<small>back</small></div>
+          <div class="rule"></div>
+          <dl><dt>Taker fee</dt><dd>0.045%</dd><dt>You pay</dt><dd>0.022%</dd><dt>Code</dt><dd>DDHOR6</dd></dl>
+          <p class="why">Highest rebate and lowest headline taker fee on our list.</p>
+          <a class="btn tone" href="https://partner.btcc.com/kr/c/DDHOR6" target="_blank" rel="sponsored nofollow noopener">Open a BTCC account</a>
+          <a class="guide" href="exchanges/btcc.html">Read the BTCC guide →</a>
+        </article><article class="pick">
+          <div class="rk"><span>No.</span><i>II</i></div>
+          <div class="who"><span class="plogo"><img src="https://coin-images.coingecko.com/markets/images/1185/large/APP_icon_1024.png?1706865197" alt="Bitunix logo" loading="eager" referrerpolicy="no-referrer"></span><b>Bitunix</b></div>
+          <div class="big num">45%<small>back</small></div>
+          <div class="rule"></div>
+          <dl><dt>Taker fee</dt><dd>0.06%</dd><dt>You pay</dt><dd>0.033%</dd><dt>Code</dt><dd>Lbya</dd></dl>
+          <p class="why">Among the highest rebates, at a standard taker fee.</p>
+          <a class="btn" href="https://www.bitunix.com/register?vipCode=Lbya" target="_blank" rel="sponsored nofollow noopener">Open a Bitunix account</a>
+          <a class="guide" href="exchanges/bitunix.html">Read the Bitunix guide →</a>
+        </article><article class="pick">
+          <div class="rk"><span>No.</span><i>III</i></div>
+          <div class="who"><span class="plogo"><img src="https://coin-images.coingecko.com/markets/images/1645/large/blofin_logo.jpeg?1718852326" alt="BloFin logo" loading="eager" referrerpolicy="no-referrer"></span><b>BloFin</b></div>
+          <div class="big num">45%<small>back</small></div>
+          <div class="rule"></div>
+          <dl><dt>Taker fee</dt><dd>0.06%</dd><dt>You pay</dt><dd>0.033%</dd><dt>Code</dt><dd>9mqzvd</dd></dl>
+          <p class="why">Same rebate tier, a strong alternative to compare.</p>
+          <a class="btn" href="https://blofin.com/register?breferral_code=9mqzvd" target="_blank" rel="sponsored nofollow noopener">Open a BloFin account</a>
+          <a class="guide" href="exchanges/blofin.html">Read the BloFin guide →</a>
+        </article></div>
+    </div>
+  </section>
+  <section class="chapter" id="back" aria-labelledby="backH">
+    <div class="wrap">
+      <div class="chap-head">
+        <div><span class="label">II · Ce qui revient</span><h2 id="backH">What comes back to you</h2></div>
+        <p>Choose how much you trade in a month. We work out the rebate from the exchange's standard taker fee.</p>
+      </div>
+      <div class="back">
+        <div class="controls">
+          <div class="field"><span class="label" id="volL">Monthly trading volume</span>
+            <div class="chips" role="group" aria-labelledby="volL"><button type="button" data-v="100000" aria-pressed="false">$100K</button><button type="button" data-v="500000" aria-pressed="true">$500K</button><button type="button" data-v="1000000" aria-pressed="false">$1M</button><button type="button" data-v="5000000" aria-pressed="false">$5M</button></div></div>
+          <div class="field"><label class="label" for="bx">Exchange</label><select id="bx"><option value="0.045|50">BTCC · 50% back</option><option value="0.06|45">Bitunix · 45% back</option><option value="0.06|45">BloFin · 45% back</option><option value="0.05|30">OKX · 30% back</option><option value="0.05|40">Gate · 40% back</option><option value="0.05|35">BingX · 35% back</option><option value="0.05|40">OrangeX · 40% back</option><option value="0.06|30">Bitget · 30% back</option><option value="0.06|45">Deepcoin · 45% back</option></select></div>
+        </div>
+        <div class="payout" aria-live="polite">
+          <span class="per" id="bPer">Back to you every month</span>
+          <span class="amt"><sup>$</sup><span id="bAmt">0</span></span>
+          <span class="yr" id="bYr"></span>
+          <p class="fine">Volume is the total size of all positions you open and close, leverage included. Assumes market orders at the standard rate; limit orders and VIP tiers pay less, so the rebate is smaller too.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="chapter" id="venues" aria-labelledby="venH">
+    <div class="wrap">
+      <div class="chap-head">
+        <div><span class="label">III · La sélection</span><h2 id="venH">All 11 exchanges</h2></div>
         <p>Ranked by taker fee, the rate most market orders pay. "You pay" is the taker fee after your rebate. Lowest after rebate: 0.022%.</p>
       </div>
       <div class="vrow vhead" aria-hidden="true"><span>No.</span><span>Exchange</span><span>Maker</span><span>Taker</span><span>Rebate</span><span>You pay</span><span></span></div>
@@ -471,7 +566,7 @@ footer{border-top:1px solid var(--ink);padding-block:64px 80px}
   </section>
   <section class="chapter" id="how" aria-labelledby="howH">
     <div class="wrap">
-      <div class="chap-head"><div><span class="label">II · La remise</span><h2 id="howH">Three steps to your rebate</h2></div>
+      <div class="chap-head"><div><span class="label">IV · La remise</span><h2 id="howH">Three steps to your rebate</h2></div>
       <p>Exchanges pay us a commission on referred traders' fees. We pass 30–50% of your fees back to you.</p></div>
       <ol class="steps">
         <li><span class="n">1</span><h3>Sign up through our link</h3><p>Open a new account with the Sign up button above. The rebate only works for accounts created through our link.</p></li>
@@ -483,7 +578,7 @@ footer{border-top:1px solid var(--ink);padding-block:64px 80px}
   </section>
   <section class="chapter" id="faq" aria-labelledby="faqH">
     <div class="wrap">
-      <div class="chap-head"><div><span class="label">III · Questions</span><h2 id="faqH">Before you sign up</h2></div></div>
+      <div class="chap-head"><div><span class="label">V · Questions</span><h2 id="faqH">Before you sign up</h2></div></div>
       <div class="faq"><details><summary>How much do I get back?</summary><p>Between 30% and 50% of the futures trading fees you pay, depending on the exchange. Each rate is shown in the list above.</p></details><details><summary>When and how am I paid?</summary><p>Every Monday (UTC), in USDT, to your exchange UID or wallet. Minimum payout is 10 USDT; smaller amounts roll over.</p></details><details><summary>Do you need my password or API key?</summary><p>No. Only the exchange name and your account UID. Never share your password, 2FA codes or API keys with anyone.</p></details><details><summary>I already have an account. Does it count?</summary><p>Usually not. Exchanges attach a referral only when the account is created, so the rebate needs a new account opened through our link.</p></details></div>
       <p class="fine" style="margin-top:28px"><a href="index.html">See the full site, fee calculator and market notes →</a></p>
     </div>
@@ -594,5 +689,22 @@ const FX=(function(){
 FX.init();
 
 btcPill();
+(function(){
+  var vol=500000, sel=document.getElementById("bx");
+  function money(x){return x>=100?Math.round(x).toLocaleString("en-US"):x.toFixed(2);}
+  function run(){
+    var p=sel.value.split("|"), fee=parseFloat(p[0]), reb=parseFloat(p[1]);
+    var m=vol*(fee/100)*(reb/100);
+    document.getElementById("bAmt").textContent=money(m);
+    document.getElementById("bYr").innerHTML="That is <b>$"+money(m*12)+"</b> a year, on <b>$"+vol.toLocaleString("en-US")+"</b> of monthly volume at a "+fee+"% taker fee.";
+  }
+  document.querySelectorAll(".chips button").forEach(function(b){b.addEventListener("click",function(){
+    document.querySelectorAll(".chips button").forEach(function(x){x.setAttribute("aria-pressed","false");});
+    b.setAttribute("aria-pressed","true"); vol=parseFloat(b.dataset.v); run();});});
+  sel.addEventListener("change",run); run();
+  var cards=document.querySelectorAll(".pick");
+  if("IntersectionObserver" in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}});},{threshold:.35});cards.forEach(function(c){io.observe(c);});}
+  else cards.forEach(function(c){c.classList.add("in");});
+})();
 </script>
-</body></html>
+<!--bm--><script>(function(e,t,n,r,a,m){a=t.getElementsByTagName(n)[0],(m=t.createElement(n)).async=!0,m.src='https://static.bitmediacdn.com/bmEventManager.js?v='+r,m.onerror=function(){m.remove()},a.parentNode.insertBefore(m,a)})(window,document,'script',new Date().getTime());document.addEventListener('click',function(ev){var a=ev.target.closest&&ev.target.closest('a[rel~="sponsored"]');if(!a)return;window.BMDataLayer=window.BMDataLayer||[];window.BMDataLayer.push({conversionID:'6ae072e08c8ba13fe33ec70b',eventId:'signupclick',event:'conversion',eventValue:'0'});},true);</script><!--/bm--></body></html>

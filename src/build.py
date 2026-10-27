@@ -17,6 +17,8 @@ CONFIG = {
     "track_base": "",                          # your Worker URL, e.g. https://perpline-api.xxx.workers.dev  (empty = direct links)
     "form_endpoint": "",                       # same Worker URL (CS form posts here). Empty = opens Telegram
     "fees_checked": "Oct 2026",
+    "bm_conversion_id": "6ae072e08c8ba13fe33ec70b",  # Bitmedia conversion "Exchange sign-up click" (empty = off)
+    "bm_event": "signupclick",
     "edition": "Édition No. 01 · Octobre 2026",
 }
 
@@ -616,6 +618,24 @@ def venue_rows(lst, ol_id, src='home'):
     return "\n".join(out)
 
 
+LP_JS = r"""(function(){
+  var vol=500000, sel=document.getElementById("bx");
+  function money(x){return x>=100?Math.round(x).toLocaleString("en-US"):x.toFixed(2);}
+  function run(){
+    var p=sel.value.split("|"), fee=parseFloat(p[0]), reb=parseFloat(p[1]);
+    var m=vol*(fee/100)*(reb/100);
+    document.getElementById("bAmt").textContent=money(m);
+    document.getElementById("bYr").innerHTML="That is <b>$"+money(m*12)+"</b> a year, on <b>$"+vol.toLocaleString("en-US")+"</b> of monthly volume at a "+fee+"% taker fee.";
+  }
+  document.querySelectorAll(".chips button").forEach(function(b){b.addEventListener("click",function(){
+    document.querySelectorAll(".chips button").forEach(function(x){x.setAttribute("aria-pressed","false");});
+    b.setAttribute("aria-pressed","true"); vol=parseFloat(b.dataset.v); run();});});
+  sel.addEventListener("change",run); run();
+  var cards=document.querySelectorAll(".pick");
+  if("IntersectionObserver" in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}});},{threshold:.35});cards.forEach(function(c){io.observe(c);});}
+  else cards.forEach(function(c){c.classList.add("in");});
+})();"""
+
 def build_landing():
     rk = ranked(VENUES)
     lo, hi = min(v["rebate"] for v in VENUES), max(v["rebate"] for v in VENUES)
@@ -630,6 +650,44 @@ def build_landing():
 .lp-hero h1 em{color:var(--tone)}
 .lp-points{display:flex;flex-wrap:wrap;gap:10px 28px;font-size:14px;color:var(--muted)}
 .lp-points span::before{content:"— ";color:var(--tone)}
+/* podium: three picks, maison campaign cards */
+.podium{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--ink)}
+.pick{position:relative;display:flex;flex-direction:column;gap:18px;padding:34px 32px 32px;border-bottom:1px solid var(--hair)}
+.pick + .pick{border-left:1px solid var(--hair)}
+.pick .rk{display:flex;justify-content:space-between;align-items:baseline;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.pick .rk i{font-family:var(--display);font-size:22px;letter-spacing:0;text-transform:none;color:var(--tone)}
+.pick .who{display:flex;align-items:center;gap:14px}
+.pick .who .plogo{width:52px;height:52px;border-radius:50%;background:#fff;box-shadow:0 0 0 1px var(--hair);object-fit:contain;padding:7px;flex:none}
+.pick .who b{font-family:var(--display);font-weight:400;font-size:30px;line-height:1}
+.pick .big{font-family:var(--display);font-size:clamp(84px,9vw,128px);line-height:.82;letter-spacing:-.03em;color:var(--tone);font-variant-numeric:lining-nums}
+.pick .big small{font-size:.3em;letter-spacing:0;margin-left:6px;color:var(--ink);font-style:italic}
+.pick .rule{height:1px;background:var(--hair);transform-origin:left;transform:scaleX(0);transition:transform 1.1s cubic-bezier(.2,.7,.1,1) .15s}
+.pick.in .rule{transform:scaleX(1)}
+.pick dl{display:grid;grid-template-columns:auto 1fr;gap:8px 18px;font-size:14px;margin:0}
+.pick dt{color:var(--muted);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;padding-top:2px}
+.pick dd{margin:0;font-variant-numeric:tabular-nums;text-align:right}
+.pick .why{font-size:14px;color:var(--muted);font-weight:300;min-height:3em}
+.pick .btn{justify-content:center;width:100%;margin-top:auto}
+.pick .guide{font-size:13px;color:var(--muted);text-align:center}
+.pick .guide:hover{color:var(--tone)}
+@media (max-width:900px){.podium{grid-template-columns:1fr}.pick + .pick{border-left:0}.pick{padding:26px 0 28px;gap:14px}
+ .pick .big{font-size:80px}.pick .why{min-height:0}}
+/* "what you'd get back" */
+.back{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:64px;align-items:end}
+@media (max-width:900px){.back{grid-template-columns:1fr;gap:36px}}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{font:inherit;font-size:12px;letter-spacing:.14em;text-transform:uppercase;padding:11px 16px;min-height:44px;border:1px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer;font-variant-numeric:tabular-nums}
+.chips button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.back select{font:inherit;font-family:var(--display);font-size:26px;padding:6px 28px 8px 0;border:0;border-bottom:1px solid var(--ink);background:transparent;color:var(--ink);border-radius:0;width:100%;appearance:none;-webkit-appearance:none;
+ background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%);background-position:calc(100% - 12px) 55%,calc(100% - 6px) 55%;background-size:6px 6px;background-repeat:no-repeat}
+.back select option{font-family:var(--sans);font-size:16px;color:#111;background:#fff}
+.payout{border-top:1px solid var(--ink);padding-top:22px;display:flex;flex-direction:column;gap:10px}
+.payout .amt{font-family:var(--display);font-size:clamp(76px,11vw,156px);line-height:.85;letter-spacing:-.03em;font-variant-numeric:lining-nums tabular-nums;color:var(--tone)}
+.payout .amt sup{font-size:.36em;vertical-align:.95em;margin-right:4px;color:var(--ink)}
+.payout .per{font-size:14px;letter-spacing:.16em;text-transform:uppercase}
+.payout .yr{font-size:15px;color:var(--muted)}
+.payout .yr b{color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums}
+@media (prefers-reduced-motion:reduce){.pick .rule{transition:none;transform:none}}
 """
     faqs = [
         ("How much do I get back?", f"Between {lo}% and {hi}% of the futures trading fees you pay, depending on the exchange. Each rate is shown in the list above."),
@@ -637,6 +695,22 @@ def build_landing():
         ("Do you need my password or API key?", "No. Only the exchange name and your account UID. Never share your password, 2FA codes or API keys with anyone."),
         ("I already have an account. Does it count?", "Usually not. Exchanges attach a referral only when the account is created, so the rebate needs a new account opened through our link."),
     ]
+    order = {v["slug"]: i for i, v in enumerate(rk)}
+    picks = sorted([v for v in VENUES if v["taker"] is not None], key=lambda v: (-v["rebate"], v["taker"], order[v["slug"]]))[:3]
+    why = {0: "Highest rebate and lowest headline taker fee on our list.", 1: "Among the highest rebates, at a standard taker fee.", 2: "Same rebate tier, a strong alternative to compare."}
+    picks_html = "".join(f"""<article class="pick">
+          <div class="rk"><span>No.</span><i>{["I","II","III"][i]}</i></div>
+          <div class="who">{logo(v,'','plogo')}<b>{esc(v['name'])}</b></div>
+          <div class="big num">{v['rebate']}%<small>back</small></div>
+          <div class="rule"></div>
+          <dl><dt>Taker fee</dt><dd>{pct(v['taker'])}</dd><dt>You pay</dt><dd>{pct(net(v['taker'], v['rebate']))}</dd>{f"<dt>Code</dt><dd>{esc(v['code'])}</dd>" if v.get('code') else ""}</dl>
+          <p class="why">{why[i]}</p>
+          <a class="btn{' tone' if i == 0 else ''}" href="{esc(link(v,'lp-pick'))}" target="_blank" rel="sponsored nofollow noopener">Open a {esc(v['name'])} account</a>
+          <a class="guide" href="exchanges/{v['slug']}.html">Read the {esc(v['name'])} guide →</a>
+        </article>""" for i, v in enumerate(picks))
+    vols = [(100_000, "$100K"), (500_000, "$500K"), (1_000_000, "$1M"), (5_000_000, "$5M")]
+    chips_html = "".join(f'<button type="button" data-v="{n}" aria-pressed="{"true" if n == 500_000 else "false"}">{lbl}</button>' for n, lbl in vols)
+    opts_html = "".join(f'<option value="{v["taker"]}|{v["rebate"]}">{esc(v["name"])} · {v["rebate"]}% back</option>' for v in picks + [x for x in rk if x not in picks and x["taker"] is not None])
     page = f"""{head(f"Up to {hi}% Back on Crypto Futures Fees | {CONFIG['brand']}",
         f"Sign up to one of {len(VENUES)} futures exchanges through Perpline and get {lo}–{hi}% of your trading fees back in USDT every Monday.",
         CONFIG['domain'] + "/start.html")}
@@ -651,15 +725,45 @@ def build_landing():
       <span class="label">La remise · {CONFIG['brand']}</span>
       <h1 id="h1">Get up to {hi}% of your<br>futures fees <em>back.</em></h1>
       <p class="lede">Open a futures account through {CONFIG['brand']}, trade as usual, and we send part of every fee you pay back to you in USDT, every Monday.</p>
-      <div class="cta"><a class="btn" href="#venues">Choose an exchange</a><a class="btn line" href="#how">How it works</a></div>
+      <div class="cta"><a class="btn" href="#picks">Choose an exchange</a><a class="btn line" href="#back">See what you get back</a></div>
       <div class="lp-points"><span>{len(VENUES)} exchanges</span><span>{lo}–{hi}% back</span><span>Paid weekly in USDT</span><span>No password, no API keys</span></div>
     </div>
   </section>
   {marquee(rk, "")}
-  <section class="chapter" id="venues" aria-labelledby="venH" style="border-top:0">
+  <section class="chapter" id="picks" aria-labelledby="pickH" style="border-top:0">
     <div class="wrap">
       <div class="chap-head">
-        <div><span class="label">I · La sélection</span><h2 id="venH">Pick your exchange</h2></div>
+        <div><span class="label">I · Le podium</span><h2 id="pickH">Three to start with</h2></div>
+        <p>The highest rebates on our list, with the lowest fee left to pay. Sign up through the button, then send us your UID.</p>
+      </div>
+      <div class="podium">{picks_html}</div>
+    </div>
+  </section>
+  <section class="chapter" id="back" aria-labelledby="backH">
+    <div class="wrap">
+      <div class="chap-head">
+        <div><span class="label">II · Ce qui revient</span><h2 id="backH">What comes back to you</h2></div>
+        <p>Choose how much you trade in a month. We work out the rebate from the exchange's standard taker fee.</p>
+      </div>
+      <div class="back">
+        <div class="controls">
+          <div class="field"><span class="label" id="volL">Monthly trading volume</span>
+            <div class="chips" role="group" aria-labelledby="volL">{chips_html}</div></div>
+          <div class="field"><label class="label" for="bx">Exchange</label><select id="bx">{opts_html}</select></div>
+        </div>
+        <div class="payout" aria-live="polite">
+          <span class="per" id="bPer">Back to you every month</span>
+          <span class="amt"><sup>$</sup><span id="bAmt">0</span></span>
+          <span class="yr" id="bYr"></span>
+          <p class="fine">Volume is the total size of all positions you open and close, leverage included. Assumes market orders at the standard rate; limit orders and VIP tiers pay less, so the rebate is smaller too.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="chapter" id="venues" aria-labelledby="venH">
+    <div class="wrap">
+      <div class="chap-head">
+        <div><span class="label">III · La sélection</span><h2 id="venH">All {len(VENUES)} exchanges</h2></div>
         <p>Ranked by taker fee, the rate most market orders pay. "You pay" is the taker fee after your rebate. Lowest after rebate: {pct(min(nets))}.</p>
       </div>
       <div class="vrow vhead" aria-hidden="true"><span>No.</span><span>Exchange</span><span>Maker</span><span>Taker</span><span>Rebate</span><span>You pay</span><span></span></div>
@@ -669,7 +773,7 @@ def build_landing():
   </section>
   <section class="chapter" id="how" aria-labelledby="howH">
     <div class="wrap">
-      <div class="chap-head"><div><span class="label">II · La remise</span><h2 id="howH">Three steps to your rebate</h2></div>
+      <div class="chap-head"><div><span class="label">IV · La remise</span><h2 id="howH">Three steps to your rebate</h2></div>
       <p>Exchanges pay us a commission on referred traders' fees. We pass {lo}–{hi}% of your fees back to you.</p></div>
       <ol class="steps">
         <li><span class="n">1</span><h3>Sign up through our link</h3><p>Open a new account with the Sign up button above. The rebate only works for accounts created through our link.</p></li>
@@ -681,7 +785,7 @@ def build_landing():
   </section>
   <section class="chapter" id="faq" aria-labelledby="faqH">
     <div class="wrap">
-      <div class="chap-head"><div><span class="label">III · Questions</span><h2 id="faqH">Before you sign up</h2></div></div>
+      <div class="chap-head"><div><span class="label">V · Questions</span><h2 id="faqH">Before you sign up</h2></div></div>
       <div class="faq">{''.join(f'<details><summary>{esc(q)}</summary><p>{esc(a)}</p></details>' for q,a in faqs)}</div>
       <p class="fine" style="margin-top:28px"><a href="index.html">See the full site, fee calculator and market notes →</a></p>
     </div>
@@ -694,6 +798,7 @@ window.LANG="en"; window.LANG_ALT="";
 {COMMON_JS}
 {FX_JS}
 btcPill();
+{LP_JS}
 </script>
 """
     return page
@@ -1332,6 +1437,7 @@ _sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 from i18n_ko import translate as _ko
 
 def ko_doc(doc, depth_alt, alt_href, canon):
+    doc = re.sub(r'<!--bm-->.*?<!--/bm-->', '', doc, flags=re.S)  # owner-only pages: no ad tracking
     d = _ko(doc)
     d = d.replace('<html lang="en">', '<html lang="ko">', 1)
     d = d.replace('<head><meta charset="utf-8">', f'<head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow">', 1)
@@ -1344,11 +1450,23 @@ def ko_doc(doc, depth_alt, alt_href, canon):
     d = re.sub(r'<link rel="canonical" href="[^"]*">', f'<link rel="canonical" href="{canon}">', d, count=1)
     return d
 
+def bm_tracking():
+    """Bitmedia conversion: loads their event manager and records a conversion
+    when a visitor clicks any sponsored (exchange sign-up) link."""
+    cid = CONFIG.get("bm_conversion_id")
+    if not cid: return ""
+    return ('<!--bm--><script>(function(e,t,n,r,a,m){a=t.getElementsByTagName(n)[0],(m=t.createElement(n)).async=!0,'
+            "m.src='https://static.bitmediacdn.com/bmEventManager.js?v='+r,m.onerror=function(){m.remove()},a.parentNode.insertBefore(m,a)})"
+            "(window,document,'script',new Date().getTime());"
+            "document.addEventListener('click',function(ev){var a=ev.target.closest&&ev.target.closest('a[rel~=\"sponsored\"]');if(!a)return;"
+            f"window.BMDataLayer=window.BMDataLayer||[];window.BMDataLayer.push({{conversionID:'{cid}',eventId:'{CONFIG['bm_event']}',event:'conversion',eventValue:'0'}});}},true);"
+            "</script><!--/bm-->")
+
 def full_doc(page):
     h, b = page.split("<!--BODY-->", 1)
     return ('<!doctype html><html lang="en"><head><meta charset="utf-8">'
             '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">'
-            + h + "</head><body>" + b + "</body></html>\n")
+            + h + "</head><body>" + b + bm_tracking() + "</body></html>\n")
 
 PREVIEW = OUT / ".preview"  # artifact preview copy (git-ignored)
 
