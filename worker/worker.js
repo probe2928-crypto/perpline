@@ -18,7 +18,7 @@ const REFS = {
   "gate": "https://www.gate.com/share/vfffufhw",
   "bingx": "https://bingx.com/invite/8PFSGN/",
   "orangex": "https://www.orangex.com/register?i=4htatgs2",
-  "bitget": "https://partner.bitget.com/bg/1VTF34",
+  "bitget": "https://partner.bitget.com/bg/PJHUWG",
   "bitunix": "https://www.bitunix.com/register?vipCode=Lbya",
   "blofin": "https://blofin.com/register?breferral_code=9mqzvd",
   "deepcoin": "https://s.deepcoin.com/jdhaafj",
