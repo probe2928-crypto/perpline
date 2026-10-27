@@ -595,7 +595,7 @@ def marquee(rows, prefix):
     dup = items.replace('<a ', '<a tabindex="-1" aria-hidden="true" ')
     return f'<div class="mq mq-logos" aria-label="Exchanges and rebates"><div class="mq-track">{items}{dup}</div></div>'
 
-def venue_rows(lst, ol_id):
+def venue_rows(lst, ol_id, src='home'):
     rows = ranked(lst)
     min_t = min([v["taker"] for v in rows if v["taker"] is not None], default=None)
     out = []
@@ -611,9 +611,92 @@ def venue_rows(lst, ol_id):
   <span class="vfees">{fee_m}{fee_t}</span>
   <span class="vreb">{v['rebate']}%<small>Rebate</small></span>
   <span class="vfees netc">{net_s}</span>
-  <a class="btn sm" href="{esc(link(v,'home'))}" target="_blank" rel="sponsored nofollow noopener" aria-label="Sign up for {esc(v['name'])}">Sign up</a>
+  <a class="btn sm" href="{esc(link(v,src))}" target="_blank" rel="sponsored nofollow noopener" aria-label="Sign up for {esc(v['name'])}">Sign up</a>
 </li>""")
     return "\n".join(out)
+
+
+def build_landing():
+    rk = ranked(VENUES)
+    lo, hi = min(v["rebate"] for v in VENUES), max(v["rebate"] for v in VENUES)
+    nets = [net(v["taker"], v["rebate"]) for v in VENUES if v["taker"] is not None]
+    lpcss = """
+.notice{background:var(--ink);color:var(--paper);font-size:12.5px;letter-spacing:.06em;text-align:center;padding-block:10px}
+.notice b{font-weight:500}
+.lp-hero{position:relative;overflow:hidden;border-bottom:1px solid var(--hair)}
+.lp-hero > .fx{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
+.lp-hero .wrap{position:relative;z-index:1;padding-block:clamp(56px,9vw,112px) clamp(48px,7vw,88px);display:flex;flex-direction:column;gap:24px;align-items:flex-start}
+.lp-hero h1{font-size:clamp(46px,7.4vw,104px)}
+.lp-hero h1 em{color:var(--tone)}
+.lp-points{display:flex;flex-wrap:wrap;gap:10px 28px;font-size:14px;color:var(--muted)}
+.lp-points span::before{content:"— ";color:var(--tone)}
+"""
+    faqs = [
+        ("How much do I get back?", f"Between {lo}% and {hi}% of the futures trading fees you pay, depending on the exchange. Each rate is shown in the list above."),
+        ("When and how am I paid?", "Every Monday (UTC), in USDT, to your exchange UID or wallet. Minimum payout is 10 USDT; smaller amounts roll over."),
+        ("Do you need my password or API key?", "No. Only the exchange name and your account UID. Never share your password, 2FA codes or API keys with anyone."),
+        ("I already have an account. Does it count?", "Usually not. Exchanges attach a referral only when the account is created, so the rebate needs a new account opened through our link."),
+    ]
+    page = f"""{head(f"Up to {hi}% Back on Crypto Futures Fees | {CONFIG['brand']}",
+        f"Sign up to one of {len(VENUES)} futures exchanges through Perpline and get {lo}–{hi}% of your trading fees back in USDT every Monday.",
+        CONFIG['domain'] + "/start.html")}
+<style>{lpcss}</style>
+<!--BODY-->
+<div class="notice" role="note"><div class="wrap"><b>Not available to residents of the United States or South Korea.</b> 18+ · Leveraged trading can lose you all of your margin.</div></div>
+{header('')}
+<main id="top">
+  <section class="lp-hero" aria-labelledby="h1">
+    <canvas class="fx" data-fx="silk" aria-hidden="true"></canvas>
+    <div class="wrap">
+      <span class="label">La remise · {CONFIG['brand']}</span>
+      <h1 id="h1">Get up to {hi}% of your<br>futures fees <em>back.</em></h1>
+      <p class="lede">Open a futures account through {CONFIG['brand']}, trade as usual, and we send part of every fee you pay back to you in USDT, every Monday.</p>
+      <div class="cta"><a class="btn" href="#venues">Choose an exchange</a><a class="btn line" href="#how">How it works</a></div>
+      <div class="lp-points"><span>{len(VENUES)} exchanges</span><span>{lo}–{hi}% back</span><span>Paid weekly in USDT</span><span>No password, no API keys</span></div>
+    </div>
+  </section>
+  {marquee(rk, "")}
+  <section class="chapter" id="venues" aria-labelledby="venH" style="border-top:0">
+    <div class="wrap">
+      <div class="chap-head">
+        <div><span class="label">I · La sélection</span><h2 id="venH">Pick your exchange</h2></div>
+        <p>Ranked by taker fee, the rate most market orders pay. "You pay" is the taker fee after your rebate. Lowest after rebate: {pct(min(nets))}.</p>
+      </div>
+      <div class="vrow vhead" aria-hidden="true"><span>No.</span><span>Exchange</span><span>Maker</span><span>Taker</span><span>Rebate</span><span>You pay</span><span></span></div>
+      <ol class="vlist">{venue_rows(VENUES, 'cex', 'lp')}</ol>
+      <p class="fine" style="margin-top:20px">Standard (non-VIP) USDT-margined perpetual fees, checked {CONFIG['fees_checked']}. Your live account rate applies.</p>
+    </div>
+  </section>
+  <section class="chapter" id="how" aria-labelledby="howH">
+    <div class="wrap">
+      <div class="chap-head"><div><span class="label">II · La remise</span><h2 id="howH">Three steps to your rebate</h2></div>
+      <p>Exchanges pay us a commission on referred traders' fees. We pass {lo}–{hi}% of your fees back to you.</p></div>
+      <ol class="steps">
+        <li><span class="n">1</span><h3>Sign up through our link</h3><p>Open a new account with the Sign up button above. The rebate only works for accounts created through our link.</p></li>
+        <li><span class="n">2</span><h3>Send us your UID</h3><p>Send the exchange name and your account UID to <a href="{TG_DM}" target="_blank" rel="noopener">@{CONFIG['telegram_dm']}</a> on Telegram. We confirm within 24 hours.</p></li>
+        <li><span class="n">3</span><h3>Get paid every Monday</h3><p>Trade as usual. Each Monday we send last week's rebate in USDT to your exchange UID or wallet.</p></li>
+      </ol>
+      <div class="cta" style="margin-top:40px"><a class="btn" href="#venues">Choose an exchange</a><a class="btn line" href="{TG_DM}" target="_blank" rel="noopener">Ask on Telegram</a></div>
+    </div>
+  </section>
+  <section class="chapter" id="faq" aria-labelledby="faqH">
+    <div class="wrap">
+      <div class="chap-head"><div><span class="label">III · Questions</span><h2 id="faqH">Before you sign up</h2></div></div>
+      <div class="faq">{''.join(f'<details><summary>{esc(q)}</summary><p>{esc(a)}</p></details>' for q,a in faqs)}</div>
+      <p class="fine" style="margin-top:28px"><a href="index.html">See the full site, fee calculator and market notes →</a></p>
+    </div>
+  </section>
+</main>
+{footer('')}
+{FAB}
+<script>
+window.LANG="en"; window.LANG_ALT="";
+{COMMON_JS}
+{FX_JS}
+btcPill();
+</script>
+"""
+    return page
 
 def build_index():
     rk = ranked(VENUES)
@@ -1283,6 +1366,8 @@ def build():
         (OUT / "ko" / "exchanges" / f"{v['slug']}.html").write_text(
             ko_doc(doc, "../", f"../../exchanges/{v['slug']}.html", f"{CONFIG['domain']}/exchanges/{v['slug']}.html"), encoding="utf-8")
         (PREVIEW / "exchanges" / f"{v['slug']}.html").write_text(doc, encoding="utf-8")
+    lp = full_doc(build_landing())
+    (OUT / "start.html").write_text(lp.replace('<head><meta charset="utf-8">', '<head><meta charset="utf-8"><meta name="robots" content="noindex">', 1), encoding="utf-8")
     nf = full_doc(head(f"Page not found | {CONFIG['brand']}", "This page does not exist.", CONFIG["domain"] + "/404.html") +
         f"""<!--BODY-->{header(CONFIG['domain'] + '/')}<main><section class="hero center" style="min-height:60vh;justify-content:center">
 <span class="label">Erreur 404</span><h1>This page has <em>moved on.</em></h1>

@@ -1,0 +1,21 @@
+# Perpline 유료 광고 키트
+
+## 채널: Bitmedia (메인)
+- 국가 화이트·블랙리스트 가능 → **한국(KR)·미국(US) 반드시 제외**
+- CPC 최저 입찰 $0.25, CPM 최저 $0.30
+- 최소 충전 $300 (카드·USDT 등). **BTC로 충전하면 최소 금액 규정이 적용되지 않음** (Bitmedia FAQ 기준)
+- 배너: 이미지 200KB 이하, GIF 400KB 이하. 텍스트 광고도 가능
+
+## 채널: AADS (보조, 선택)
+- 국가 타기팅이 없고 언어·카테고리만 가능 → 미국 노출을 막을 수 없음. 쓴다면 소액 테스트만
+
+## 랜딩
+https://probe2928-crypto.github.io/perpline/start.html?utm_source=bitmedia&utm_medium=banner&utm_campaign=rebate
+
+## 배너 (banners/)
+3가지 톤(ivory · klein · noir) × 10개 사이즈 + 애니메이션 GIF 3종(300x250, 728x90, 160x600)
+
+## 텍스트 광고 문구
+- Your trading fees, returned. Get up to 50% of your futures fees back in USDT, every Monday.
+- 11 futures exchanges ranked by fee. Sign up through Perpline and get 30–50% back weekly.
+- Trade futures? Get part of every fee back. Paid in USDT. No password, no API keys.
