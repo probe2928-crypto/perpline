@@ -1,0 +1,26 @@
+{
+  "note": "Project of the Week / Month. Process: chainbrief docs/PROJECT_PROMO.md. Set archive: true when the slot ends.",
+  "items": [
+    {
+      "slug": "miuro",
+      "name": "MIURO.AI",
+      "slot": "week",
+      "label": "W44 · Oct 29 – Nov 4, 2026",
+      "start": "2026-10-29",
+      "end": "2026-11-04",
+      "sector": "AI · Music",
+      "headline": "AI-made songs, turned into works you can own and license.",
+      "points": [
+        "GM-1, an in-house music foundation model: lyrics, vocals, melody and arrangement in one system, strongest in Mandarin.",
+        "Miuro Claw, a conversational agent that takes a track from prompt to stems to release.",
+        "Each release gets a work identity, a version record and a licence scope; the chain handles ownership and settlement.",
+        "Working with Pudgy Penguins on Pudgy Beats, with rewards tied to creation rather than to a node."
+      ],
+      "website": "https://miuro.ai",
+      "x": "https://x.com/MiuroAI",
+      "telegram": "https://t.me/miuro_ai",
+      "story": "https://probe2928-crypto.github.io/chainbrief/en/projects/miuro/",
+      "archive": false
+    }
+  ]
+}
