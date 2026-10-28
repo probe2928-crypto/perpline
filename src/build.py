@@ -1501,6 +1501,20 @@ def build():
     (OUT / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
         "".join(f"  <url><loc>{u}</loc><lastmod>{today}</lastmod></url>\n" for u in urls) + "</urlset>\n", encoding="utf-8")
     (OUT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {CONFIG['domain']}/sitemap.xml\n", encoding="utf-8")
+    # public feed for partner sites (CHAINBRIEF exchange sheet reads this — same origin on github.io)
+    def logo_url(v):
+        for ext in ("svg", "png", "webp"):
+            if (LOGO_DIR / f"{v['slug']}.{ext}").exists(): return f"{CONFIG['domain']}/assets/logos/{v['slug']}.{ext}"
+        return LOGOS.get(v["slug"])
+    feed = sorted(VENUES, key=lambda v: (-v["rebate"], v["taker"] if v["taker"] is not None else 9))
+    (OUT / "api").mkdir(exist_ok=True)
+    (OUT / "api" / "venues.json").write_text(json.dumps({
+        "brand": CONFIG["brand"], "url": CONFIG["domain"] + "/", "telegram": CONFIG["telegram_dm"],
+        "feesChecked": CONFIG["fees_checked"], "eligibility": "Not available to residents of South Korea or the United States.",
+        "venues": [{"slug": v["slug"], "name": v["name"], "rebate": v["rebate"], "maker": v["maker"], "taker": v["taker"],
+                    "code": v.get("code"), "ref": link(v, "chainbrief"), "logo": logo_url(v),
+                    "page": f"{CONFIG['domain']}/exchanges/{v['slug']}.html"} for v in feed],
+    }, ensure_ascii=False, indent=1), encoding="utf-8")
     wdir = OUT / "worker"; wdir.mkdir(exist_ok=True)
     tpl = (pathlib.Path(__file__).resolve().parent / "worker.template.js").read_text(encoding="utf-8")
     refs = {v["slug"]: v["ref"] for v in VENUES + DEX}
