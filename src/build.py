@@ -25,47 +25,47 @@ CONFIG = {
 # rebate = % of the trading fees the user paid that Perpline returns
 # code = referral code shown on the page (None = applied through the link only)
 VENUES = [
-    dict(slug="btcc",     name="BTCC",     maker=0.025, taker=0.045, rebate=50, code="DDHOR6",
+    dict(slug="btcc",     name="BTCC",     maker=0.025, taker=0.045, rebate=60, code="DDHOR6",
          ref="https://partner.btcc.com/kr/c/DDHOR6",
          note="Running since 2011, one of the longest-operating crypto exchanges.",
          about="BTCC has been operating since 2011, which makes it one of the oldest names in crypto trading. Its standard futures taker fee of 0.045% is the lowest on our list."),
-    dict(slug="okx",      name="OKX",      maker=0.02, taker=0.05, rebate=30, code="96335797",
+    dict(slug="okx",      name="OKX",      maker=0.02, taker=0.05, rebate=40, code="96335797",
          ref="https://www.okx.com/join/96335797",
          note="Lv.1 rate. Deep BTC liquidity and a full options venue.",
          about="OKX is one of the largest derivatives venues by volume, with perpetuals, dated futures and options in one account. The rate shown is its Lv.1 (entry) fee tier."),
-    dict(slug="gate",     name="Gate",     maker=0.02, taker=0.05, rebate=40, code=None,
+    dict(slug="gate",     name="Gate",     maker=0.02, taker=0.05, rebate=50, code=None,
          ref="https://www.gate.com/share/vfffufhw",
          note="VIP0 rate. One of the widest altcoin futures lists.",
          about="Gate has operated since 2013 and lists one of the widest ranges of altcoin perpetuals. The rate shown is its VIP0 (entry) tier for USDT-margined perpetuals."),
-    dict(slug="bingx",    name="BingX",    maker=0.02, taker=0.05, rebate=35, code="8PFSGN",
+    dict(slug="bingx",    name="BingX",    maker=0.02, taker=0.05, rebate=45, code="8PFSGN",
          ref="https://bingx.com/invite/8PFSGN/",
          note="Copy trading built in alongside standard perps.",
          about="BingX combines standard USDT-margined perpetuals with built-in copy trading, so you can follow other traders' positions from the same account."),
-    dict(slug="orangex",  name="OrangeX",  maker=0.02, taker=0.05, rebate=40, code="4htatgs2",
+    dict(slug="orangex",  name="OrangeX",  maker=0.02, taker=0.05, rebate=50, code="4htatgs2",
          ref="https://www.orangex.com/register?i=4htatgs2",
          note="Standard 0.02% / 0.05% perpetual rate.",
          about="OrangeX charges the common 0.02% maker / 0.05% taker rate on perpetuals. With our rebate, the taker fee you actually pay drops below most of the market."),
-    dict(slug="bitget",   name="Bitget",   maker=0.02, taker=0.06, rebate=30, code=None,
+    dict(slug="bitget",   name="Bitget",   maker=0.02, taker=0.06, rebate=40, code=None,
          ref="https://partner.bitget.com/bg/PJHUWG",
          note="Fee depends on account level; BGB holders get discounts.",
          about="Bitget is known for copy trading and a large futures market. Fees fall with account level, and holding its BGB token unlocks further discounts."),
-    dict(slug="bitunix",  name="Bitunix",  maker=0.02, taker=0.06, rebate=45, code="Lbya",
+    dict(slug="bitunix",  name="Bitunix",  maker=0.02, taker=0.06, rebate=55, code="Lbya",
          ref="https://www.bitunix.com/register?vipCode=Lbya",
          note="Standard 0.02% / 0.06% perpetual rate.",
-         about="Bitunix charges 0.02% maker and 0.06% taker on perpetuals. A 45% rebate brings the taker fee you actually pay to 0.033%, cheaper than every listed headline rate."),
-    dict(slug="blofin",   name="BloFin",   maker=0.02, taker=0.06, rebate=45, code="9mqzvd",
+         about="Bitunix charges 0.02% maker and 0.06% taker on perpetuals. A 55% rebate brings the taker fee you actually pay to 0.027%, cheaper than every listed headline rate."),
+    dict(slug="blofin",   name="BloFin",   maker=0.02, taker=0.06, rebate=55, code="9mqzvd",
          ref="https://blofin.com/register?breferral_code=9mqzvd",
          note="Standard 0.02% / 0.06% perpetual rate.",
-         about="BloFin charges 0.02% maker and 0.06% taker on perpetuals. With a 45% rebate, your effective taker fee falls to 0.033%."),
-    dict(slug="deepcoin", name="Deepcoin", maker=0.04, taker=0.06, rebate=45, code=None,
+         about="BloFin charges 0.02% maker and 0.06% taker on perpetuals. With a 55% rebate, your effective taker fee falls to 0.027%."),
+    dict(slug="deepcoin", name="Deepcoin", maker=0.04, taker=0.06, rebate=55, code=None,
          ref="https://s.deepcoin.com/jdhaafj",
          note="Higher maker fee than most; better suited to market orders.",
-         about="Deepcoin's maker fee of 0.04% is higher than most venues here, so it suits traders who mainly use market orders. A 45% rebate cuts the taker fee you pay to 0.033%."),
-    dict(slug="biconomy", name="Biconomy", maker=None, taker=None, rebate=50, code="W999H2024",
+         about="Deepcoin's maker fee of 0.04% is higher than most venues here, so it suits traders who mainly use market orders. A 55% rebate cuts the taker fee you pay to 0.027%."),
+    dict(slug="biconomy", name="Biconomy", maker=None, taker=None, rebate=60, code="W999H2024",
          ref="https://www.biconomy.com/sign-up?r_user_id=W999H2024",
          note="Lists crypto, gold and stock perpetuals.",
          about="Biconomy lists perpetuals on crypto as well as gold and US stock tickers. We could not verify its current published futures fee, so check the fee page after you sign up."),
-    dict(slug="crypfine", name="Crypfine", maker=None, taker=None, rebate=50, code="NDVTRSK",
+    dict(slug="crypfine", name="Crypfine", maker=None, taker=None, rebate=60, code="NDVTRSK",
          ref="https://www.crypfine.com/auth/NDVTRSK",
          note="Check the fee schedule on the site.",
          about="Crypfine is the newest venue on our list. We could not verify its current published futures fee, so check the fee schedule on the site before trading."),
@@ -485,7 +485,7 @@ def footer(prefix):
   <div class="wrap foot">
     <div>
       <a class="wordmark" href="{prefix}index.html">{CONFIG['brand']}</a>
-      <p>Fee-first guides to crypto perpetual futures venues, with up to 50% of your trading fees returned.</p>
+      <p>Fee-first guides to crypto perpetual futures venues, with up to 60% of your trading fees returned.</p>
       <p style="margin-top:14px">Support: <a href="{TG_DM}" target="_blank" rel="noopener">@{CONFIG['telegram_dm']}</a> on Telegram · Community: <a href="{TG_GROUP}" target="_blank" rel="noopener">{CONFIG['telegram_group_name']}</a> on Telegram</p>
     </div>
     <div>
@@ -588,7 +588,7 @@ async function btcPill(){
 """
 
 # ============ INDEX ============
-MQ_WORDS = ["Paid every Monday", "In USDT", "No password", "No API keys", "Up to 50% back", "Eleven exchanges", "Ranked by fee"]
+MQ_WORDS = ["Paid every Monday", "In USDT", "No password", "No API keys", "Up to 60% back", "Eleven exchanges", "Ranked by fee"]
 
 def marquee(rows, prefix):
     items = "".join(
@@ -849,7 +849,7 @@ def build_index():
         <div class="slide-in wrap">
           <span class="label">La sélection</span>
           <h2>Eleven exchanges,<br><em>ranked by what they cost.</em></h2>
-          <p class="lede">From BTCC at 0.045% to the 0.022% you pay after our rebate.</p>
+          <p class="lede">From BTCC at 0.045% to the 0.018% you pay after our rebate.</p>
           <div class="cta"><a class="btn inv" href="#venues">See the ranking</a></div>
         </div>
       </article>

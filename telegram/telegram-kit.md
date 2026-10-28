@@ -9,7 +9,7 @@
 - **설명 (255자 이내)**:
 
 ```
-Up to 50% of your crypto futures trading fees back, paid weekly in USDT. 11 exchanges ranked by fee, BTC desk notes 3×/week. Rebates & support: @btcbullit · perpline.com
+Up to 60% of your crypto futures trading fees back, paid weekly in USDT. 11 exchanges ranked by fee, BTC desk notes 3×/week. Rebates & support: @btcbullit · perpline.com
 ```
 
 - **권장 권한**: 일반 멤버는 링크·미디어 전송 금지 (스팸 방지), 슬로우 모드 30초
@@ -21,7 +21,7 @@ Up to 50% of your crypto futures trading fees back, paid weekly in USDT. 11 exch
 ```
 Welcome to Perpline 🇫🇷
 
-We return 30–50% of the futures trading fees you pay, in USDT, every Monday.
+We return 40–60% of the futures trading fees you pay, in USDT, every Monday.
 
 How it works
 1. Pick an exchange at perpline.com and sign up through our link
@@ -29,11 +29,11 @@ How it works
 3. Trade as usual. Your rebate lands every Monday
 
 Rebates by exchange
-50% · BTCC · Biconomy · Crypfine
-45% · Bitunix · BloFin · Deepcoin
-40% · Gate · OrangeX
-35% · BingX
-30% · OKX · Bitget
+60% · BTCC · Biconomy · Crypfine
+55% · Bitunix · BloFin · Deepcoin
+50% · Gate · OrangeX
+45% · BingX
+40% · OKX · Bitget
 
 We never ask for your password, API keys or funds. Admins will never DM you first.
 
@@ -75,7 +75,7 @@ Perpline is live.
 Every futures trade pays a fee. We send up to half of it back to you.
 
 · 11 exchanges ranked by fee
-· 30–50% rebate, paid in USDT every Monday
+· 40–60% rebate, paid in USDT every Monday
 · No password, no API keys, only your UID
 
 Pick an exchange → perpline.com
@@ -89,9 +89,9 @@ What does a month of trading cost?
 $10,000 position · 20 round trips · market orders
 
 Bitunix, standard fee: $240.00
-With our 45% rebate: $132.00
+With our 55% rebate: $108.00
 
-That's $108 a month back in your account.
+That's $132 a month back in your account.
 Run your own numbers → perpline.com/#fees
 ```
 
@@ -101,7 +101,7 @@ Run your own numbers → perpline.com/#fees
 Exchange spotlight · BTCC
 
 Running since 2011. Lowest headline taker fee on our list: 0.045%.
-With our 50% rebate you pay 0.022%.
+With our 60% rebate you pay 0.018%.
 
 Referral code: DDHOR6
 Full guide → perpline.com/exchanges/btcc.html

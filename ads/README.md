@@ -24,8 +24,8 @@ https://probe2928-crypto.github.io/perpline/start.html?utm_source=bitmedia&utm_m
 3가지 톤(ivory · klein · noir) × 10개 사이즈 + 애니메이션 GIF 3종(300x250, 728x90, 160x600)
 
 ## 텍스트 광고 문구
-- Your trading fees, returned. Get up to 50% of your futures fees back in USDT, every Monday.
-- 11 futures exchanges ranked by fee. Sign up through Perpline and get 30–50% back weekly.
+- Your trading fees, returned. Get up to 60% of your futures fees back in USDT, every Monday.
+- 11 futures exchanges ranked by fee. Sign up through Perpline and get 40–60% back weekly.
 - Trade futures? Get part of every fee back. Paid in USDT. No password, no API keys.
 
 ## 전환 측정 (2026-10-27)

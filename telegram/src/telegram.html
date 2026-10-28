@@ -1,0 +1,43 @@
+<!doctype html>
+<!-- Telegram images. Render: node telegram/src/render.js  (?img=post|pinned) -->
+<html><head><meta charset="utf-8"><style>
+@font-face{font-family:LMD;src:local("LM Roman 17"),local("LMRoman17-Regular")}
+@font-face{font-family:LM;src:local("Latin Modern Roman"),local("LM Roman 10"),local("LMRoman10-Regular")}
+@font-face{font-family:LM;font-style:italic;src:local("LM Roman 10 Italic"),local("LMRoman10-Italic")}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:transparent}
+.c{position:relative;overflow:hidden;font-family:Inter,sans-serif;-webkit-font-smoothing:antialiased}
+.abs{position:absolute}
+.serif{font-family:LM,"Latin Modern Roman",serif}
+/* post */
+.post{width:1080px;height:1080px;background:#111111;color:#F4F1EA}
+.post .k{font-size:22px;letter-spacing:.32em;font-weight:400}
+.post .acc{color:#8C97FF}
+/* pinned */
+.pin{width:1280px;height:720px;background:#FFFFFF;color:#111111;text-align:center}
+</style></head><body><div id="root"></div>
+<script>
+const img=new URLSearchParams(location.search).get('img')||'post';
+const TOP=60, SECOND=55;
+const R=document.getElementById('root');
+if(img==='post'){
+ R.innerHTML=`<div class="c post" id="art">
+  <div class="abs k" style="left:90px;top:91px">PERPLINE</div>
+  <div class="abs k acc" style="right:90px;top:91px">LA REMISE</div>
+  <div class="abs serif acc" style="font-family:LMD,LM,serif;left:100px;top:226px;font-size:400px;line-height:1;letter-spacing:-.01em">${TOP}<span style="font-size:190px;margin-left:24px">%</span></div>
+  <div class="abs serif" style="left:90px;top:636px;font-size:70px;line-height:72px;letter-spacing:.02em">of your futures fees,<br><i>back every Monday.</i></div>
+  <div class="abs" style="left:90px;right:90px;top:930px;height:1px;background:#444444"></div>
+  <div class="abs" style="left:90px;top:958px;font-size:27px;font-weight:300">${TOP}% · BTCC · Biconomy · Crypfine</div>
+  <div class="abs" style="right:90px;top:958px;font-size:27px;font-weight:300">${SECOND}% · Bitunix · BloFin · Deepcoin</div>
+ </div>`;
+}else{
+ R.innerHTML=`<div class="c pin" id="art">
+  <div class="abs" style="left:0;right:0;top:134px;font-size:21px;letter-spacing:.38em;font-weight:400">PERPLINE</div>
+  <div class="abs" style="left:612px;top:191px;width:56px;height:2px;background:#1F2FA0"></div>
+  <div class="abs serif" style="left:0;right:0;top:240px;font-size:101px;line-height:112px;letter-spacing:.015em">Your trading fees,<br><i style="color:#1F2FA0">returned.</i></div>
+  <div class="abs" style="left:0;right:0;top:504px;font-size:27px;font-weight:300">Up to ${TOP}% fee rebate &nbsp;·&nbsp; 11 futures exchanges &nbsp;·&nbsp; Paid weekly in USDT</div>
+  <div class="abs" style="left:0;right:0;top:567px;font-size:16px;letter-spacing:.24em;color:#6E6A65">ÉDITION NO. 01 · OCTOBRE 2026</div>
+ </div>`;
+}
+document.fonts.ready.then(()=>document.body.dataset.ready=1);
+</script></body></html>

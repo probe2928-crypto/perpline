@@ -8,28 +8,28 @@ When the market note changes, add its new sentences to NOTE below.
 import re, html as _h
 
 EXACT = {
-    "Perpline — Crypto Futures Referral Codes & Up to 50% Fee Rebate": "Perpline — 코인 선물 레퍼럴 코드 & 최대 50% 수수료 페이백",
+    "Perpline — Crypto Futures Referral Codes & Up to 60% Fee Rebate": "Perpline — 코인 선물 레퍼럴 코드 & 최대 60% 수수료 페이백",
     "Menu": "메뉴", "Fee calculator": "수수료 계산기", "Questions": "자주 묻는 질문", "Support on Telegram": "텔레그램 고객지원",
     # hero carousel + marquees
     "Perpline highlights": "Perpline 하이라이트", "La remise": "페이백", "La sélection": "셀렉션", "Le marché": "시황",
     "of your futures fees,": "선물 거래 수수료를,", "back every Monday.": "매주 월요일 돌려드려요.",
     "Eleven exchanges,": "11개 거래소,", "ranked by what they cost.": "수수료 순으로 정렬.",
-    "From BTCC at 0.045% to the 0.022% you pay after our rebate.": "BTCC 0.045%부터, 페이백 후 실제 부담 0.022%까지.",
+    "From BTCC at 0.045% to the 0.018% you pay after our rebate.": "BTCC 0.045%부터, 페이백 후 실제 부담 0.018%까지.",
     "See the ranking": "순위 보기", "Bitcoin, read": "비트코인,", "three times a week.": "주 3회 읽어드려요.",
     "· desk notes every Monday, Wednesday and Friday.": "· 매주 월·수·금 시황 노트.", "Read the note": "시황 노트 보기",
     "Choose slide": "슬라이드 선택", "Previous slide": "이전 슬라이드", "Next slide": "다음 슬라이드", "Pause slideshow": "슬라이드 멈춤",
     "Slide 1": "슬라이드 1", "Slide 2": "슬라이드 2", "Slide 3": "슬라이드 3", "Slide 4": "슬라이드 4",
     "Exchanges and rebates": "거래소와 페이백",
     "Paid every Monday": "매주 월요일 지급", "In USDT": "USDT로 지급", "No password": "비밀번호 불필요", "No API keys": "API 키 불필요",
-    "Up to 50% back": "최대 50% 페이백", "Eleven exchanges": "11개 거래소", "Ranked by fee": "수수료 순 정렬",
+    "Up to 60% back": "최대 60% 페이백", "Eleven exchanges": "11개 거래소", "Ranked by fee": "수수료 순 정렬",
     # header / nav / footer
     "Exchanges": "거래소", "Rebate": "페이백", "Market": "시황", "Community": "커뮤니티",
     "Sections": "섹션", "Support": "고객지원", "How can we help?": "무엇을 도와드릴까요?",
     "Chat on Telegram": "텔레그램으로 문의", "Claim a rebate or ask about sign-up": "페이백 신청 또는 가입 문의",
     "Join the community": "커뮤니티 참여", "Market notes and new listings": "시황 노트와 신규 상장 소식",
     "Send a support request": "문의 남기기", "We reply on Telegram": "텔레그램으로 답변드려요",
-    "Fee-first guides to crypto perpetual futures venues, with up to 50% of your trading fees returned.":
-        "수수료 기준으로 고른 코인 무기한 선물거래소 가이드. 거래 수수료의 최대 50%를 돌려드려요.",
+    "Fee-first guides to crypto perpetual futures venues, with up to 60% of your trading fees returned.":
+        "수수료 기준으로 고른 코인 무기한 선물거래소 가이드. 거래 수수료의 최대 60%를 돌려드려요.",
     "Support:": "고객지원:", "on Telegram · Community:": "(텔레그램) · 커뮤니티:", "on Telegram": "(텔레그램)", "Perpline Community": "Perpline 커뮤니티",
     "Exchange guides": "거래소 가이드",
     "Restricted jurisdictions": "이용 제한 지역",
@@ -42,8 +42,8 @@ EXACT = {
     # hero
     "Édition No. 01 · Octobre 2026": "에디션 No. 01 · 2026년 10월",
     "Your trading fees,": "당신의 거래 수수료,", "returned.": "돌려드립니다.",
-    "Sign up to a futures exchange through Perpline and we send 30–50% of the fees you pay back to you, in USDT, every week.":
-        "Perpline을 통해 선물거래소에 가입하면, 낸 수수료의 30–50%를 매주 USDT로 돌려드려요.",
+    "Sign up to a futures exchange through Perpline and we send 40–60% of the fees you pay back to you, in USDT, every week.":
+        "Perpline을 통해 선물거래소에 가입하면, 낸 수수료의 40–60%를 매주 USDT로 돌려드려요.",
     "Choose an exchange": "거래소 고르기", "How the rebate works": "페이백 방식 보기",
     "Venues": "거래소 수", "Top rebate": "최대 페이백", "Lowest taker after rebate": "페이백 후 최저 테이커",
 
@@ -66,8 +66,8 @@ EXACT = {
 
     # rebate
     "II · La remise": "II · 페이백",
-    "Exchanges pay us a commission on the fees our referred traders pay. We pass 30–50% of your fees back to you. We never ask for your password, API keys or funds.":
-        "거래소는 저희가 소개한 트레이더가 낸 수수료에서 커미션을 지급해요. 저희는 그중 당신이 낸 수수료의 30–50%를 돌려드려요. 비밀번호, API 키, 자금은 절대 요구하지 않아요.",
+    "Exchanges pay us a commission on the fees our referred traders pay. We pass 40–60% of your fees back to you. We never ask for your password, API keys or funds.":
+        "거래소는 저희가 소개한 트레이더가 낸 수수료에서 커미션을 지급해요. 저희는 그중 당신이 낸 수수료의 40–60%를 돌려드려요. 비밀번호, API 키, 자금은 절대 요구하지 않아요.",
     "Sign up through our link": "저희 링크로 가입",
     "Register a new account using the Sign up button or referral code on this site. The rebate only works for accounts created through our link.":
         "이 사이트의 가입 버튼이나 레퍼럴 코드로 새 계정을 만드세요. 페이백은 저희 링크로 만든 계정에만 적용돼요.",
@@ -77,7 +77,7 @@ EXACT = {
     "Get paid every Monday": "매주 월요일 지급",
     "Trade as usual. Every Monday we send your rebate for the previous week in USDT to your exchange UID or wallet.":
         "평소처럼 거래하면 돼요. 매주 월요일, 지난주 페이백을 USDT로 거래소 UID나 지갑에 보내드려요.",
-    "Rebate rate": "페이백 비율", "30–50% of trading fees, by exchange": "거래소별 거래 수수료의 30–50%",
+    "Rebate rate": "페이백 비율", "40–60% of trading fees, by exchange": "거래소별 거래 수수료의 40–60%",
     "Paid in": "지급 통화", "Schedule": "지급 주기", "Weekly, every Monday (UTC)": "매주 월요일 (UTC)",
     "Minimum payout": "최소 지급액", "10 USDT; smaller amounts roll over": "10 USDT, 미만은 다음 주로 이월",
     "Covers": "적용 대상", "Futures trading fees on accounts linked to us": "저희와 연결된 계정의 선물 거래 수수료",
@@ -119,8 +119,8 @@ EXACT = {
     # FAQ (home)
     "VI · Questions": "VI · 자주 묻는 질문", "Before you trade": "거래 전에",
     "How much rebate will I get?": "페이백은 얼마나 받나요?",
-    "Between 30% and 50% of the futures trading fees you pay, depending on the exchange. Each exchange's rate is shown in the list and on its guide page.":
-        "거래소에 따라 낸 선물 거래 수수료의 30%~50%예요. 거래소별 비율은 목록과 각 가이드 페이지에 나와 있어요.",
+    "Between 40% and 60% of the futures trading fees you pay, depending on the exchange. Each exchange's rate is shown in the list and on its guide page.":
+        "거래소에 따라 낸 선물 거래 수수료의 40%~60%예요. 거래소별 비율은 목록과 각 가이드 페이지에 나와 있어요.",
     "Do you need my password or API key?": "비밀번호나 API 키가 필요한가요?",
     "No. We only need the exchange name and your account UID to match your trades to our commission report. Never share your password, 2FA codes or API keys with anyone.":
         "아니요. 거래 내역을 커미션 리포트와 맞추는 데 거래소 이름과 계정 UID만 있으면 돼요. 비밀번호, 2FA 코드, API 키는 누구에게도 알려주지 마세요.",
@@ -187,12 +187,12 @@ EXACT.update({
         "OrangeX는 무기한 선물에 일반적인 메이커 0.02% / 테이커 0.05%를 받아요. 페이백을 받으면 실제 테이커 수수료가 시장 대부분보다 낮아져요.",
     "Bitget is known for copy trading and a large futures market. Fees fall with account level, and holding its BGB token unlocks further discounts.":
         "Bitget은 카피트레이딩과 큰 선물 시장으로 알려져 있어요. 계정 레벨이 오를수록 수수료가 내려가고, BGB 토큰을 보유하면 추가 할인이 있어요.",
-    "Bitunix charges 0.02% maker and 0.06% taker on perpetuals. A 45% rebate brings the taker fee you actually pay to 0.033%, cheaper than every listed headline rate.":
-        "Bitunix는 무기한 선물에 메이커 0.02%, 테이커 0.06%를 받아요. 45% 페이백을 받으면 실제 테이커가 0.033%로, 목록의 어떤 기본 요율보다 싸져요.",
-    "BloFin charges 0.02% maker and 0.06% taker on perpetuals. With a 45% rebate, your effective taker fee falls to 0.033%.":
-        "BloFin은 무기한 선물에 메이커 0.02%, 테이커 0.06%를 받아요. 45% 페이백을 받으면 실제 테이커는 0.033%로 떨어져요.",
-    "Deepcoin's maker fee of 0.04% is higher than most venues here, so it suits traders who mainly use market orders. A 45% rebate cuts the taker fee you pay to 0.033%.":
-        "Deepcoin은 메이커 수수료 0.04%로 다른 곳보다 높아서, 주로 시장가를 쓰는 트레이더에게 맞아요. 45% 페이백으로 실제 테이커는 0.033%가 돼요.",
+    "Bitunix charges 0.02% maker and 0.06% taker on perpetuals. A 55% rebate brings the taker fee you actually pay to 0.027%, cheaper than every listed headline rate.":
+        "Bitunix는 무기한 선물에 메이커 0.02%, 테이커 0.06%를 받아요. 55% 페이백을 받으면 실제 테이커가 0.027%로, 목록의 어떤 기본 요율보다 싸져요.",
+    "BloFin charges 0.02% maker and 0.06% taker on perpetuals. With a 55% rebate, your effective taker fee falls to 0.027%.":
+        "BloFin은 무기한 선물에 메이커 0.02%, 테이커 0.06%를 받아요. 55% 페이백을 받으면 실제 테이커는 0.027%로 떨어져요.",
+    "Deepcoin's maker fee of 0.04% is higher than most venues here, so it suits traders who mainly use market orders. A 55% rebate cuts the taker fee you pay to 0.027%.":
+        "Deepcoin은 메이커 수수료 0.04%로 다른 곳보다 높아서, 주로 시장가를 쓰는 트레이더에게 맞아요. 55% 페이백으로 실제 테이커는 0.027%가 돼요.",
     "Biconomy lists perpetuals on crypto as well as gold and US stock tickers. We could not verify its current published futures fee, so check the fee page after you sign up.":
         "Biconomy는 코인뿐 아니라 금, 미국 주식 종목 무기한 선물도 상장해요. 현재 공시된 선물 수수료를 확인하지 못했으니, 가입 후 수수료 페이지를 확인하세요.",
     "Crypfine is the newest venue on our list. We could not verify its current published futures fee, so check the fee schedule on the site before trading.":

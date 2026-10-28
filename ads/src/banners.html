@@ -1,0 +1,95 @@
+<!doctype html>
+<!-- Perpline display banners. Render with: node ads/src/render.js  (writes ads/banners/*.png + *_animated.gif)
+     URL params: ?tone=ivory|klein|noir&size=300x250&frame=0|1|2 -->
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:"DM Serif Display";src:url("fonts/DMSerifDisplay-Regular.ttf")}
+@font-face{font-family:"DM Serif Display";font-style:italic;src:url("fonts/DMSerifDisplay-Italic.ttf")}
+@font-face{font-family:"Jost";font-weight:100 900;src:url("fonts/Jost-VariableFont.ttf")}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:transparent}
+.b{position:relative;overflow:hidden;background:var(--bg);color:var(--ink);font-family:"Jost",sans-serif;-webkit-font-smoothing:antialiased}
+.ivory{--bg:#F5F2EB;--ink:#111111;--acc:#1F2FA0;--sub:#6E6A65;--fine:#6E6A65;--rule:#D9D4CA;--btn:#111111;--btnink:#F5F2EB}
+.klein{--bg:#1F2FA0;--ink:#F5F2EB;--acc:#F5F2EB;--sub:#C9CDF2;--fine:#AEB4E6;--rule:#6A72BA;--btn:#F5F2EB;--btnink:#1F2FA0}
+.noir{--bg:#0D0D0E;--ink:#F1EEE8;--acc:#C9A45C;--sub:#9A958E;--fine:#8A857F;--rule:#2A2A2C;--btn:#C9A45C;--btnink:#0D0D0E}
+.brand{font-weight:500;letter-spacing:.32em;text-transform:uppercase;color:var(--ink)}
+.lab{font-weight:400;letter-spacing:.18em;text-transform:uppercase;color:var(--fine)}
+.h{font-family:"DM Serif Display",serif;font-weight:400;color:var(--ink);letter-spacing:-.01em}
+.h i{font-style:italic;color:var(--acc)}
+.sub{color:var(--sub);font-weight:400;letter-spacing:.01em}
+.fine{color:var(--fine);font-weight:400;letter-spacing:.02em}
+.btn{display:flex;align-items:center;justify-content:center;background:var(--btn);color:var(--btnink);font-weight:500;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap}
+.pct{font-family:"DM Serif Display",serif;color:var(--acc);line-height:.8;letter-spacing:-.01em}
+.pct small{font-size:.38em;margin-left:.04em}
+.ex{color:var(--sub);font-weight:400;letter-spacing:.14em;text-transform:uppercase}
+.abs{position:absolute}
+.vr{position:absolute;width:1px;background:var(--rule)}
+</style></head><body>
+<div id="root"></div>
+<script>
+const q=new URLSearchParams(location.search);
+const tone=q.get('tone')||'ivory', size=q.get('size')||'300x250', frame=+(q.get('frame')||0);
+const TOP=60;   // top rebate %
+const [W,H]=size.split('x').map(Number);
+const SUB0=`Up to ${TOP}% back · paid weekly in USDT`;
+// three animation frames: headline / sub
+const F=[
+  {h:(br)=>`Your trading${br}fees,${br}<i>returned.</i>`, h1:`Your trading fees, <i>returned.</i>`, s:SUB0},
+  {h:(br)=>`Up to${br}<i>${TOP}% back.</i>`, h1:`Up to <i>${TOP}% back.</i>`, s:`On futures fees at 11 exchanges`},
+  {h:(br)=>`Paid every${br}<i>Monday.</i>`, h1:`Paid every <i>Monday.</i>`, s:`In USDT · no API keys · no password`}
+][frame];
+const EX='BTCC · OKX · GATE · BINGX · BITGET · BITUNIX · BLOFIN';
+const FINE='Not for US &amp; Korea residents · 18+';
+let html='';
+const box=(x,y,w,h,inner,cls='',st='')=>`<div class="abs ${cls}" style="left:${x}px;top:${y}px;${w!=null?`width:${w}px;`:''}${h!=null?`height:${h}px;`:''}${st}">${inner}</div>`;
+if(size==='160x600'){
+  const h160 = frame===0?`Your<br>trading<br>fees,<br><i>returned.</i>`: frame===1?`Up to<br><i>${TOP}%<br>back.</i>`:`Paid<br>every<br><i>Monday.</i>`;
+  const hy = frame===0?124:136;
+  html+=box(16,20,null,null,'PERPLINE','brand','font-size:10px;letter-spacing:.3em');
+  html+=`<div class="abs" style="left:16px;top:46px;width:128px;height:1px;background:var(--rule)"></div>`;
+  html+=box(16,hy,140,null,h160,'h','font-size:31px;line-height:32px');
+  html+=box(16,frame===0?263:248,132,null,F.s.replace(' · paid',' · paid'),'sub','font-size:12px;line-height:17px');
+  html+=box(18,frame===0?312:296,null,null,`${TOP}<small>%</small>`,'pct','font-size:78px');
+  html+=box(16,frame===0?386:372,132,null,EX,'ex','font-size:10px;line-height:15px');
+  html+=box(16,506,128,38,'COMPARE','btn','font-size:10.5px');
+  html+=box(20,557,120,null,FINE,'fine','font-size:7.5px;line-height:12px;text-align:center');
+}else if(size==='300x600'){
+  html+=box(30,40,null,null,'PERPLINE','brand','font-size:13px;letter-spacing:.38em');
+  html+=box(30,106,250,null,F.h('<br>'),'h','font-size:42px;line-height:42px');
+  html+=box(30,253,228,null,F.s,'sub','font-size:17px;line-height:25px');
+  html+=box(34,328,null,null,`${TOP}<small>%</small>`,'pct','font-size:100px');
+  html+=box(30,424,205,null,EX,'ex','font-size:12px;line-height:18px');
+  html+=box(30,483,240,52,'COMPARE EXCHANGES','btn','font-size:13px;letter-spacing:.22em');
+  html+=box(30,561,240,null,FINE,'fine','font-size:11px;text-align:center;letter-spacing:.06em');
+}else if(size==='250x250'||size==='300x250'||size==='336x280'){
+  const S={ '250x250':{p:22,top:24,hs:31,hl:34,hy:51,sy:162,ss:12,btn:[62,211,166,33],fine:null,lab:true},
+            '300x250':{p:23,top:25,hs:33,hl:34,hy:53,sy:166,ss:12.5,btn:[112,200,166,33],fine:[23,205]},
+            '336x280':{p:25,top:28,hs:36,hl:38,hy:58,sy:186,ss:13.5,btn:[126,224,185,36],fine:[25,230]} }[size];
+  const hy = frame===0?S.hy:S.hy+17;
+  html+=box(S.p,S.top,null,null,'PERPLINE','brand',`font-size:${size==='336x280'?12:11}px;letter-spacing:.34em`);
+  html+=`<div class="abs lab" style="right:${S.p}px;top:${S.top+1}px;font-size:${size==='336x280'?9.5:8.5}px">La remise</div>`;
+  html+=box(S.p,hy,W-2*S.p,null,frame===0?`Your trading<br>fees,<br><i>returned.</i>`:F.h('<br>'),'h',`font-size:${S.hs}px;line-height:${S.hl}px`);
+  const sy = frame===0?S.sy:S.sy-17;
+  const subw = size==='250x250'?190:W-2*S.p;
+  html+=box(S.p,sy,subw,null,F.s,'sub',`font-size:${S.ss}px;line-height:17px`);
+  const [bx,by,bw,bh]=S.btn;
+  if(size==='250x250') html+=`<div class="abs btn" style="right:${S.p}px;top:${by}px;width:${bw}px;height:${bh}px;font-size:10px">Compare exchanges</div>`;
+  else html+=box(W-S.p-bw,by,bw,bh,'Compare exchanges','btn',`font-size:${size==='336x280'?11:10}px`);
+  if(S.fine) html+=box(S.fine[0],S.fine[1],80,null,'Not for US &amp; Korea<br>residents · 18+','fine',`font-size:${size==='336x280'?8:7.5}px;line-height:${size==='336x280'?12:11}px`);
+}else if(size==='320x100'){
+  html+=box(14,13,null,null,'PERPLINE','brand','font-size:8.5px;letter-spacing:.32em');
+  html+=box(14,32,210,null,frame===0?`Fees, <i>returned.</i>`:F.h1,'h','font-size:28px;line-height:32px;white-space:nowrap');
+  html+=box(14,69,220,null,`Up to ${TOP}% back · weekly in USDT`,'sub','font-size:9px');
+  html+=box(232,45,74,27,'Compare','btn','font-size:8.5px;letter-spacing:.18em');
+}else if(size==='728x90'||size==='970x90'){
+  const big=size==='970x90';
+  html+=box(20,0,null,90,'PERPLINE','brand',`font-size:13px;letter-spacing:.38em;display:flex;align-items:center`);
+  html+=`<div class="vr" style="left:144px;top:24px;height:42px"></div>`;
+  html+=box(172,big?14:17,big?460:330,null,F.h1,'h',`font-size:${big?35:26}px;line-height:${big?40:32}px;white-space:nowrap`);
+  html+=box(172,big?54:51,330,null,F.s,'sub',`font-size:${big?14:13.5}px`);
+  if(big) html+=`<div class="abs fine" style="right:252px;top:32px;font-size:9px;line-height:13px;text-align:right">Not for US &amp; Korea<br>residents · 18+</div>`;
+  html+=`<div class="abs btn" style="right:20px;top:${big?22:23}px;width:${big?204:204}px;height:${big?46:44}px;font-size:${big?13:12.5}px;letter-spacing:.22em">Compare exchanges</div>`;
+}
+document.getElementById('root').innerHTML=`<div class="b ${tone}" id="ban" style="width:${W}px;height:${H}px">${html}</div>`;
+document.fonts.ready.then(()=>{document.body.dataset.ready=1});
+</script></body></html>
