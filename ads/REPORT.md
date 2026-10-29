@@ -1,5 +1,33 @@
 # Perpline Bitmedia 광고 일일 기록
 
+## 2026-10-29
+캠페인 'Perpline Rebate Global' / 애드그룹 'Display CPC - EN crypto' / 소재 'Ivory - Fees returned' (CPC $0.25, 일 한도 $50, 균등 소진)
+
+| 구분 | 노출 | 클릭 | CTR | 지출 | CPC | 전환 | 전환당 비용 |
+|---|---|---|---|---|---|---|---|
+| 어제 (10/28 UTC) | 22,432 | 58 | 0.26% | $14.50 | $0.25 | 8 | $1.81 |
+| 누적 (10/27~10/29 05시 UTC) | 51,954 | 162 | 0.31% | $40.50 | $0.25 | 15 (Conversions 페이지 14) | $2.70 |
+
+- 잔액: 캠페인 $59.50 / 메인 $100.00 (10/28 새벽 $250 → 세 캠페인에 $50씩 들어간 것으로 보임)
+- 일별: 10/27 25,475·91·$22.75 / 10/28 22,432·58·$14.50 / 10/29(진행 중) 3,906·13·$3.25 — 10/28은 일 한도 $50 대비 $14.50만 소진(노출 부족)
+- 상위 국가 5 (누적 노출/클릭/전환): UA 5,789/13/0(10/28 제외됨), BR 4,459/7/0, IN 4,386/9/0, ID 3,985/13/0(10/28 제외됨), TR 2,945/7/0. 전환 국가: DE 4(클릭 6), IT 4(6), MX 3(17), NA 3(2), ES 1(3)
+- 상위 소스(전환, 누적): 184953590875 cryptofylab.com 노출 342·클릭 24·전환 10(CTR 7.02%) / 188712051785 cryptol7.com 256·8·1 / 252014937953 bitcotasks.com 3,786·12·1 / 864472830189 cointoshi.top 8·1·2
+- 하위 소스: 868466654870 viefaucet.com 노출 14,886·클릭 13·전환 0(CTR 0.09%) / 300675322304 rollercoin.com 7,976·5·0(0.06%) / 504737387426 earnbitmoon.club 3,006·5·0 / 788492821339 simplebits.io 551·0
+- 소재별 CTR: Ivory - Fees returned 0.31% (소재 1개, A/B 없음)
+
+### 오늘 한 조치
+- 소스 차단 2개: 868466654870 viefaucet(클릭 13·전환 0), 788492821339 simplebits(노출 551·클릭 0)
+- 국가 제외 추가 없음(클릭 10+·전환 0 국가는 UA·ID뿐, 이미 제외). 기존 제외 유지.
+- CTR 5% 초과지만 전환이 나온 cryptofylab(7.02%)·cointoshi(12.5%)는 계속 보류 — 전환 14건 중 10건이 cryptofylab 한 곳에서 나옴. 거래소 쪽 실제 가입 수와 대조 필요.
+- 랜딩(start.html) 정상 열림. 소재 Active 상태, 켤 것 없음.
+
+### 메모
+- 리포트 API: POST /api/report/generate {type, dates:{from,to}, timezone, filters:[{name:'campaign_ids'|'countries', allowList, disallowList}], groupBy, metrics}. 100행 넘으면 페이지가 겹침 → 소스별은 애드그룹 페이지 'Performance by Source ID'(Show more)로 읽는 게 정확.
+- 전환율 15/162 = 9.3%(5% 이상) → 랜딩 개선 항목 없음. CTR 0.31%(0.3% 이상) → klein 소재 제안 없음.
+
+### 다음 시도
+- (없음)
+
 ## 2026-10-28
 캠페인 'Perpline Rebate Global' / 애드그룹 'Display CPC - EN crypto' / 소재 'Ivory - Fees returned' (CPC $0.25, 일 한도 $50, 균등 소진)
 
