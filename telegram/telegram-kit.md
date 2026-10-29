@@ -103,7 +103,7 @@ Exchange spotlight · BTCC
 Running since 2011. Lowest headline taker fee on our list: 0.045%.
 With our 60% rebate you pay 0.018%.
 
-Referral code: DDHOR6
+Sign up: use the button link (referral applied automatically)
 Full guide → perpline.com/exchanges/btcc.html
 ```
 

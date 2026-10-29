@@ -70,6 +70,10 @@ VENUES = [
          note="Check the fee schedule on the site.",
          about="Crypfine is the newest venue on our list. We could not verify its current published futures fee, so check the fee schedule on the site before trading."),
 ]
+# 세준 지시(2026-10-29): 레퍼럴 코드는 화면·피드 어디에도 노출하지 않는다. 가입 링크(ref)에 이미 들어 있어 링크로만 가입시킨다.
+SHOW_CODES = False
+if not SHOW_CODES:
+    for _v in VENUES: _v["code"] = None
 DEX = []  # same shape; add perp DEX venues here
 
 # Each exchange page gets its own "edition" tone and layout variant
@@ -1517,7 +1521,7 @@ def build():
         "brand": CONFIG["brand"], "url": CONFIG["domain"] + "/", "telegram": CONFIG["telegram_dm"],
         "feesChecked": CONFIG["fees_checked"], "eligibility": "Not available to residents of South Korea or the United States.",
         "venues": [{"slug": v["slug"], "name": v["name"], "rebate": v["rebate"], "maker": v["maker"], "taker": v["taker"],
-                    "code": v.get("code"), "ref": link(v, "chainbrief"), "logo": logo_url(v),
+                    "ref": link(v, "chainbrief"), "logo": logo_url(v),
                     "page": f"{CONFIG['domain']}/exchanges/{v['slug']}.html"} for v in feed],
     }, ensure_ascii=False, indent=1), encoding="utf-8")
     wdir = OUT / "worker"; wdir.mkdir(exist_ok=True)

@@ -11,7 +11,6 @@
    "rebate": 60,
    "maker": 0.025,
    "taker": 0.045,
-   "code": "DDHOR6",
    "ref": "https://partner.btcc.com/kr/c/DDHOR6",
    "logo": "https://coin-images.coingecko.com/markets/images/12/large/BTCC-LogoOnly_200x200.png?1722494798",
    "page": "https://probe2928-crypto.github.io/perpline/exchanges/btcc.html"
@@ -22,7 +21,6 @@
    "rebate": 60,
    "maker": null,
    "taker": null,
-   "code": "W999H2024",
    "ref": "https://www.biconomy.com/sign-up?r_user_id=W999H2024",
    "logo": "https://coin-images.coingecko.com/markets/images/633/large/logo_B._200x200.png?1723787144",
    "page": "https://probe2928-crypto.github.io/perpline/exchanges/biconomy.html"
@@ -33,7 +31,6 @@
    "rebate": 60,
    "maker": null,
    "taker": null,
-   "code": "NDVTRSK",
    "ref": "https://www.crypfine.com/auth/NDVTRSK",
    "logo": null,
    "page": "https://probe2928-crypto.github.io/perpline/exchanges/crypfine.html"
@@ -44,7 +41,6 @@
    "rebate": 55,
    "maker": 0.02,
    "taker": 0.06,
-   "code": "Lbya",
    "ref": "https://www.bitunix.com/register?vipCode=Lbya",
    "logo": "https://coin-images.coingecko.com/markets/images/1185/large/APP_icon_1024.png?1706865197",
    "page": "https://probe2928-crypto.github.io/perpline/exchanges/bitunix.html"
@@ -55,7 +51,6 @@
    "rebate": 55,
    "maker": 0.02,
    "taker": 0.06,
-   "code": "9mqzvd",
    "ref": "https://blofin.com/register?breferral_code=9mqzvd",
    "logo": "https://coin-images.coingecko.com/markets/images/1645/large/blofin_logo.jpeg?1718852326",
    "page": "https://probe2928-crypto.github.io/perpline/exchanges/blofin.html"
@@ -66,7 +61,6 @@
    "rebate": 55,
    "maker": 0.04,
    "taker": 0.06,
-   "code": null,
    "ref": "https://s.deepcoin.com/jdhaafj",
    "logo": "https://coin-images.coingecko.com/markets/images/1005/large/deepcoin.jpeg?1706864992",
    "page": "https://probe2928-crypto.github.io/perpline/exchanges/deepcoin.html"
@@ -77,7 +71,6 @@
    "rebate": 50,
    "maker": 0.02,
    "taker": 0.05,
-   "code": null,
    "ref": "https://www.gate.com/share/vfffufhw",
    "logo": "https://coin-images.coingecko.com/markets/images/60/large/Frame_1.png?1747795534",
    "page": "https://probe2928-crypto.github.io/perpline/exchanges/gate.html"
@@ -88,7 +81,6 @@
    "rebate": 50,
    "maker": 0.02,
    "taker": 0.05,
-   "code": "4htatgs2",
    "ref": "https://www.orangex.com/register?i=4htatgs2",
    "logo": "https://coin-images.coingecko.com/markets/images/1272/large/Subtract.png?1706865272",
    "page": "https://probe2928-crypto.github.io/perpline/exchanges/orangex.html"
@@ -99,7 +91,6 @@
    "rebate": 45,
    "maker": 0.02,
    "taker": 0.05,
-   "code": "8PFSGN",
    "ref": "https://bingx.com/invite/8PFSGN/",
    "logo": "https://coin-images.coingecko.com/markets/images/812/large/YtFwQwJr_400x400.jpg?1706864837",
    "page": "https://probe2928-crypto.github.io/perpline/exchanges/bingx.html"
@@ -110,7 +101,6 @@
    "rebate": 40,
    "maker": 0.02,
    "taker": 0.05,
-   "code": "96335797",
    "ref": "https://www.okx.com/join/96335797",
    "logo": "https://coin-images.coingecko.com/markets/images/96/large/WeChat_Image_20220117220452.png?1706864283",
    "page": "https://probe2928-crypto.github.io/perpline/exchanges/okx.html"
@@ -121,7 +111,6 @@
    "rebate": 40,
    "maker": 0.02,
    "taker": 0.06,
-   "code": null,
    "ref": "https://partner.bitget.com/bg/PJHUWG",
    "logo": "https://coin-images.coingecko.com/markets/images/540/large/2023-07-25_21.47.43.jpg?1706864507",
    "page": "https://probe2928-crypto.github.io/perpline/exchanges/bitget.html"
