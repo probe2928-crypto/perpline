@@ -503,6 +503,8 @@ def footer(prefix):
       <p>Not directed at residents of the Republic of Korea, the United States, or any jurisdiction where the listed exchanges are not licensed or registered to serve local users. If you live in one of these places, do not use the links on this site.</p></div>
       <h4 style="margin-top:22px">Risk &amp; disclosure</h4>
       <p>Leveraged derivatives carry a high risk of losing all of your margin. Nothing here is financial advice. Links are referral links; we earn a commission and share part of it with you as a fee rebate. Rebates are paid by {CONFIG['brand']}, not by the exchanges. © 2026 {CONFIG['brand']}.</p>
+      <h4 style="margin-top:22px">Privacy</h4>
+      <p>We count visits with Google Analytics 4 (pages viewed, device type, approximate region). Advertising features and Google signals are off, and in the EEA, UK and Switzerland it runs without cookies. Opt out with your browser settings or the <a href="https://tools.google.com/dlpage/gaoptout" rel="noopener">Google Analytics opt-out add-on</a>. Sign-up links may also record a click for our ad network.</p>
     </div>
   </div>
 </footer>"""
@@ -1444,6 +1446,7 @@ from i18n_ko import translate as _ko
 
 def ko_doc(doc, depth_alt, alt_href, canon):
     doc = re.sub(r'<!--bm-->.*?<!--/bm-->', '', doc, flags=re.S)  # owner-only pages: no ad tracking
+    doc = re.sub(r'<!--ga-->.*?<!--/ga-->', '', doc, flags=re.S)  # ...and no visit statistics
     d = _ko(doc)
     d = d.replace('<html lang="en">', '<html lang="ko">', 1)
     d = d.replace('<head><meta charset="utf-8">', f'<head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow">', 1)
@@ -1470,9 +1473,16 @@ def bm_tracking():
 
 NETWORK = '<script src="https://probe2928-crypto.github.io/chainbrief/network.js" data-site="perpline" defer></script>'
 
+GA = ('<!--ga--><script>(function(){if(location.hostname!=="probe2928-crypto.github.io")return;var s=document.createElement("script");s.async=true;'
+      's.src="https://www.googletagmanager.com/gtag/js?id=G-8YQ1BGBDR7";document.head.appendChild(s);window.dataLayer=window.dataLayer||[];'
+      'window.gtag=function(){dataLayer.push(arguments)};var D={ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied"};'
+      'gtag("consent","default",Object.assign({analytics_storage:"denied",region:["AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR","HU","IS","IE","IT","LV","LI","LT","LU","MT","NL","NO","PL","PT","RO","SK","SI","ES","SE","GB","CH"]},D));'
+      'gtag("consent","default",Object.assign({analytics_storage:"granted"},D));gtag("js",new Date());'
+      'gtag("config","G-8YQ1BGBDR7",{allow_google_signals:false,allow_ad_personalization_signals:false})})();</script><!--/ga-->')  # visit statistics (GA4), public English pages only
+
 def full_doc(page):
     h, b = page.split("<!--BODY-->", 1)
-    return ('<!doctype html><html lang="en"><head><meta charset="utf-8">'
+    return ('<!doctype html><html lang="en"><head><meta charset="utf-8">' + GA +
             '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">'
             + h + "</head><body>" + b + NETWORK + bm_tracking() + "</body></html>\n")
 
