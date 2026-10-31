@@ -1,5 +1,35 @@
 # Perpline Bitmedia 광고 일일 기록
 
+## 2026-10-31
+캠페인 'Perpline Rebate Global' / 애드그룹 'Display CPC - EN crypto' / 소재 'Ivory - Fees returned' (CPC $0.25, 일 한도 $50, 균등 소진)
+
+| 구분 | 노출 | 클릭 | CTR | 지출 | CPC | 전환 | 전환당 비용 |
+|---|---|---|---|---|---|---|---|
+| 어제 (10/30 UTC) | 17,853 | 70 | 0.39% | $17.50 | $0.25 | 5 | $3.50 |
+| 누적 (10/27~10/31 00시 UTC) | 93,972 | 365 | 0.39% | $91.25 | $0.25 | 28 (Conversions 페이지 27) | $3.26 |
+
+- 잔액: 캠페인 $8.75 / 메인 $100.00 → $15 미만, 충전 여부 세준 확인 필요
+- 일별: 10/27 25,475·91·$22.75 / 10/28 22,432·58·$14.50 / 10/29 28,037·146·$36.50 / 10/30 17,853·70·$17.50
+- 상위 국가 5 (누적 노출/클릭/전환): IN 6,654/17/0, BR 6,469/10/0, UA 5,789/13/0, PH 2,698/11/0 (넷 다 제외됨), VN 2,599/5/0. 전환 국가: IT 8(클릭 26), ES 1(11) 등
+- 상위 소스(전환, 누적): 184953590875 cryptofylab 노출 605·클릭 45·전환 12(CTR 7.44%) / 188712051785 cryptol7 671·31·7(4.62%) / 657068136438 388·3·2 / 167588548655 87·2·2 / 864472830189 32·1·2
+- 하위 소스: 300675322304 rollercoin 노출 16,992·클릭 11·전환 0(0.06%, 오늘 차단) / 504737387426 earnbitmoon 5,759·6·0(0.10%)
+- 소재별 CTR: Ivory - Fees returned 0.39% (소재 1개, A/B 없음)
+
+### 오늘 한 조치
+- 소스 차단 8개 (누적 클릭 8+·전환 0): 300675322304(클릭 11), 807137050432(9), 817110675239(8), 336614247856(8) / (노출 500+·클릭 0): 648783582969(667), 927849420976(628), 317528576181(590), 349701579740(581). 차단 소스 19 → 27개.
+- 국가 제외 추가 (누적 클릭 10+·전환 0): DZ(클릭 11), EG(10). 기존 제외(US CA GB SG HK JP CN IR CU RU SY KR KP UA ID IN BR PH PK NG TR) 그대로 유지 확인. 입찰가 $0.25·일 한도 $50 변동 없음.
+- cryptofylab(CTR 7.44%)은 전환 12건이라 이번에도 차단 보류. 같은 소스가 체인브리프 EN 18.7%·ZH 32.1%(전환 개념 없음) — 봇 의심 계속.
+- 랜딩(start.html) 200 정상. 소재·애드그룹·캠페인 Active, 켤 것 없음.
+
+### 메모
+- 국가 제외 API: POST /api/groups/set-group-targeting {id, excludedCountries:[전체 목록]} — 다른 필드는 안 바뀜(전후 비교 확인). targetingOptions 통째로 보내면 규칙 위반으로 거부됨.
+- 리포트: POST /api/report/generate {type:'advertiser', dates, timezone:'UTC', filters, groupBy:[..], metrics:['impressions','clicks','spent','CTR','conversions']} → GET /api/report/data?skip&limit&type=advertiser. 인증은 localStorage token을 Bearer로.
+- 3일(10/28~30) 클릭 274·전환 21 = 7.7% (5% 이상) → 랜딩 개선 항목 없음. cryptofylab·cryptol7 빼면 누적 전환률 8/289 = 2.8% (소스별 전환 합 27 기준).
+
+### 다음 시도
+- cryptofylab·cryptol7 전환을 레퍼럴 대시보드 실제 가입과 대조 → 아니면 차단.
+
+
 ## 2026-10-30
 캠페인 'Perpline Rebate Global' / 애드그룹 'Display CPC - EN crypto' / 소재 'Ivory - Fees returned' (CPC $0.25, 일 한도 $50, 균등 소진)
 
