@@ -24,6 +24,7 @@ EXACT = {
     "Up to 60% back": "최대 60% 페이백", "Eleven exchanges": "11개 거래소", "Ranked by fee": "수수료 순 정렬",
     # header / nav / footer
     "Exchanges": "거래소", "Rebate": "페이백", "Market": "시황", "Community": "커뮤니티",
+    "Returns": "수익률", "Returns heatmap": "수익률 히트맵",
     "Sections": "섹션", "Support": "고객지원", "How can we help?": "무엇을 도와드릴까요?",
     "Chat on Telegram": "텔레그램으로 문의", "Claim a rebate or ask about sign-up": "페이백 신청 또는 가입 문의",
     "Join the community": "커뮤니티 참여", "Market notes and new listings": "시황 노트와 신규 상장 소식",
