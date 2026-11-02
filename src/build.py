@@ -698,12 +698,24 @@ def build_landing():
 .payout .yr{font-size:15px;color:var(--muted)}
 .payout .yr b{color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums}
 @media (prefers-reduced-motion:reduce){.pick .rule{transition:none;transform:none}}
+/* [그로스 2026-11] 3-step strip right under the hero: the claim step is visible before the first sign-up button */
+.lp-how{border-bottom:1px solid var(--hair)}
+.lp-how ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+.lp-how li{display:flex;gap:14px;align-items:baseline;padding:22px 24px 22px 0;font-size:15px;line-height:1.45;color:var(--muted)}
+.lp-how li + li{padding-left:24px;border-left:1px solid var(--hair)}
+.lp-how li b{color:var(--ink);font-weight:500}
+.lp-how i{font-family:var(--display);font-size:30px;line-height:1;color:var(--tone);flex:none}
+@media (max-width:820px){.lp-how ol{grid-template-columns:1fr}.lp-how li{padding:14px 0}.lp-how li + li{padding-left:0;border-left:0;border-top:1px solid var(--hair)}}
 """
     faqs = [
         ("How much do I get back?", f"Between {lo}% and {hi}% of the futures trading fees you pay, depending on the exchange. Each rate is shown in the list above."),
         ("When and how am I paid?", "Every Monday (UTC), in USDT, to your exchange UID or wallet. Minimum payout is 10 USDT; smaller amounts roll over."),
         ("Do you need my password or API key?", "No. Only the exchange name and your account UID. Never share your password, 2FA codes or API keys with anyone."),
         ("I already have an account. Does it count?", "Usually not. Exchanges attach a referral only when the account is created, so the rebate needs a new account opened through our link."),
+        ("How do I claim my rebate after signing up?", f"Send the exchange name and your account UID to @{CONFIG['telegram_dm']} on Telegram. We confirm within 24 hours. There is nothing else to fill in."),
+        ("Where do I find my UID?", "In the exchange app, open your profile (the avatar at the top of the home screen). The UID is the account number shown under your name. Copy it and paste it into the Telegram chat."),
+        ("Does signing up through Perpline change my trading fees?", f"No. You pay the exchange's standard fee for your account. The rebate is paid by {CONFIG['brand']} out of the referral commission the exchange pays us."),
+        ("Which exchange should I pick?", f"If you mostly use market orders, compare the \"You pay\" column: the taker fee left after your rebate. The lowest on our list is {pct(min(nets))}. Pick an exchange where you do not already have an account, since only new accounts count."),
     ]
     order = {v["slug"]: i for i, v in enumerate(rk)}
     picks = sorted([v for v in VENUES if v["taker"] is not None], key=lambda v: (-v["rebate"], v["taker"], order[v["slug"]]))[:3]
@@ -740,6 +752,13 @@ def build_landing():
     </div>
   </section>
   {marquee(rk, "")}
+  <section class="lp-how" aria-label="How the rebate works" data-place="how-strip">
+    <div class="wrap"><ol>
+      <li><i>1</i><span><b>Open an account</b> through a Sign up button on this page.</span></li>
+      <li><i>2</i><span><b>Send your UID</b> to <a href="{TG_DM}" target="_blank" rel="noopener">@{CONFIG['telegram_dm']}</a> on Telegram.</span></li>
+      <li><i>3</i><span><b>Get paid every Monday</b> in USDT, {lo}–{hi}% of your fees.</span></li>
+    </ol></div>
+  </section>
   <section class="chapter" id="picks" aria-labelledby="pickH" style="border-top:0">
     <div class="wrap">
       <div class="chap-head">
@@ -1449,6 +1468,7 @@ from i18n_ko import translate as _ko
 def ko_doc(doc, depth_alt, alt_href, canon):
     doc = re.sub(r'<!--bm-->.*?<!--/bm-->', '', doc, flags=re.S)  # owner-only pages: no ad tracking
     doc = re.sub(r'<!--ga-->.*?<!--/ga-->', '', doc, flags=re.S)  # ...and no visit statistics
+    doc = re.sub(r'<!--gr-->.*?<!--/gr-->', '', doc, flags=re.S)  # ...and no growth kit (owner clicks must not count in Savri)
     d = _ko(doc)
     d = d.replace('<html lang="en">', '<html lang="ko">', 1)
     d = d.replace('<head><meta charset="utf-8">', f'<head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow">', 1)
@@ -1473,6 +1493,78 @@ def bm_tracking():
             f"window.BMDataLayer=window.BMDataLayer||[];window.BMDataLayer.push({{conversionID:'{cid}',eventId:'{CONFIG['bm_event']}',event:'conversion',eventValue:'0'}});}},true);"
             "</script><!--/bm-->")
 
+def growth_kit():
+    """[그로스 2026-11] Public English pages only (ko_doc strips <!--gr-->).
+    1) Savri measurement: every sponsored (exchange sign-up) click sends `pl_signup_click` + `pl_signup_<slug>`,
+       every click on the 1:1 Telegram DM sends `pl_claim_click`. Goals with these event names exist in Savri.
+       Uses window.va (loaded by chainbrief/network.js) and falls back to a direct beacon if it is not loaded yet.
+    2) "Step 2" bar: after a visitor opens an exchange sign-up link, the Perpline tab shows how to claim the rebate
+       (send exchange + UID to the Telegram DM). Remembered for 3 days in localStorage so it is there when they come back.
+    3) start.html, phones only: a slim sticky 'Choose an exchange' bar until the exchange picks are on screen.
+    Referral links, rates and terms are untouched; the bar only reads the link the visitor already clicked."""
+    venues = {}
+    for v in VENUES + DEX:
+        venues[v["slug"]] = {"n": v["name"], "r": v["rebate"], "h": [v["ref"]] + ([f'{CONFIG["track_base"].rstrip("/")}/go/{v["slug"]}'] if CONFIG["track_base"] else [])}
+    data = json.dumps(venues, separators=(",", ":"))
+    tg = CONFIG["telegram_dm"]
+    return ("<!--gr-->"
+      '<style>.gbar{position:fixed;left:calc(12px + env(safe-area-inset-left,0px));right:calc(84px + env(safe-area-inset-right,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:29;'
+      'background:var(--paper);color:var(--ink);border:1px solid var(--ink);box-shadow:0 10px 30px rgba(0,0,0,.12);padding:14px 42px 14px 16px;display:flex;flex-direction:column;gap:8px;max-width:560px}'
+      '.gbar .k{display:block;margin:0;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--tone)}'
+      '.gbar p{font-size:14.5px;line-height:1.45}.gbar p b{font-weight:500}'
+      '.gbar .row{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}'
+      '.gbar .go{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;background:var(--ink);color:var(--paper);text-decoration:none;font-size:12px;letter-spacing:.16em;text-transform:uppercase}'
+      '.gbar .lnk{font:inherit;font-size:13px;color:var(--muted);background:none;border:0;padding:6px 0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}'
+      '.gbar .x{position:absolute;top:4px;right:6px;font:inherit;font-size:20px;line-height:1;width:36px;height:36px;background:none;border:0;color:var(--muted);cursor:pointer}'
+      '.gbar .help{font-size:13px;color:var(--muted)}'
+      '.gsticky{position:fixed;left:0;right:0;bottom:0;z-index:28;display:none;align-items:center;gap:12px;justify-content:space-between;'
+      'padding:10px calc(80px + env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) calc(16px + env(safe-area-inset-left,0px));background:var(--paper);border-top:1px solid var(--ink)}'
+      '.gsticky span{font-size:13px;letter-spacing:.04em}.gsticky span b{font-weight:500;color:var(--tone)}'
+      '.gsticky a{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;background:var(--ink);color:var(--paper);text-decoration:none;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap}'
+      '@media (max-width:820px){.gsticky.on{display:flex}}'
+      '@media (max-width:420px){.gbar{right:calc(74px + env(safe-area-inset-right,0px))}}</style>'
+      '<div class="gbar" id="gBar" hidden role="region" aria-live="polite" aria-label="Claim your rebate">'
+      '<button type="button" class="x" id="gX" aria-label="Close">×</button>'
+      '<span class="k">Step 2 of 3 · Claim your rebate</span>'
+      '<p>Opened <b id="gName">your account</b>? Send us the exchange name and your <b>UID</b> on Telegram. We confirm within 24 hours, then pay every Monday in USDT.</p>'
+      f'<div class="row"><a class="go" id="gGo" href="https://t.me/{tg}" target="_blank" rel="noopener">Send my UID</a>'
+      '<button type="button" class="lnk" id="gHelp">Where is my UID?</button></div>'
+      '<p class="help" id="gHelpT" hidden>In the exchange app, open your profile (the avatar at the top). The UID is the account number shown under your name — copy it and paste it into the chat. Never send passwords, 2FA codes or API keys.</p>'
+      '</div>'
+      '<div class="gsticky" id="gSticky" aria-hidden="true"><span><b>Up to 60% back</b> · paid weekly in USDT</span><a href="#picks" tabindex="-1">Choose exchange</a></div>'
+      "<script>(function(){"
+      f"var V={data},TG='{tg}',SITE='site_mvvy2a4d_govfksp';"
+      "var live=location.hostname==='probe2928-crypto.github.io'&&!navigator.webdriver;"
+      "function send(name,props){if(!live)return;try{if(typeof window.va==='function'){window.va('event',name,props||{});return;}"
+      "var p=JSON.stringify({site:SITE,type:'event',url:location.href,path:location.pathname,ref:document.referrer||null,w:innerWidth,ts:Date.now(),"
+      "id:(window.crypto&&crypto.randomUUID)?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2),name:name,props:props||{}});"
+      "navigator.sendBeacon&&navigator.sendBeacon('https://savri.io/api/collect',p);}catch(e){}}"
+      "function slugOf(href){for(var s in V){for(var i=0;i<V[s].h.length;i++){if(href.indexOf(V[s].h[i])===0)return s;}}return 'other';}"
+      "function placeOf(a){var p=a.closest('[data-place]');if(p)return p.getAttribute('data-place');var s=a.closest('section[id],article,li,div[id]');return s?(s.id||s.className.split(' ')[0]||'page'):'page';}"
+      "var bar=document.getElementById('gBar'),K='pl_pending';"
+      "function show(s){if(!bar||!V[s])return;document.getElementById('gName').textContent='your '+V[s].n+' account';"
+      "var msg='Hi Perpline, I want my rebate. Exchange: '+V[s].n+' · UID: ';"
+      "document.getElementById('gGo').href='https://t.me/'+TG+'?text='+encodeURIComponent(msg);bar.hidden=false;}"
+      "function pending(){try{var j=JSON.parse(localStorage.getItem(K)||'null');if(j&&Date.now()-j.t<2592e5)return j;}catch(e){}return null;}"
+      "document.addEventListener('click',function(ev){var a=ev.target.closest&&ev.target.closest('a');if(!a)return;var href=a.href||'';"
+      "if(/(^|\\s)sponsored(\\s|$)/.test(a.getAttribute('rel')||'')){var s=slugOf(href),pl=placeOf(a);"
+      "send('pl_signup_click',{venue:s,place:pl});send('pl_signup_'+s,{place:pl});"
+      "try{localStorage.setItem(K,JSON.stringify({s:s,t:Date.now()}));}catch(e){}setTimeout(function(){show(s);},400);return;}"
+      "if(href.indexOf('t.me/'+TG)>-1){var j=pending();send('pl_claim_click',{venue:j?j.s:'none',place:placeOf(a)});"
+      "if(a.id==='gGo'){try{localStorage.removeItem(K);}catch(e){}}}},true);"
+      "var j=pending();if(j)show(j.s);"
+      "document.addEventListener('visibilitychange',function(){if(!document.hidden){var j=pending();if(j)show(j.s);}});"
+      "document.getElementById('gX').addEventListener('click',function(){bar.hidden=true;try{localStorage.removeItem(K);}catch(e){}});"
+      "document.getElementById('gHelp').addEventListener('click',function(){var t=document.getElementById('gHelpT');t.hidden=!t.hidden;});"
+      "var st=document.getElementById('gSticky'),picks=document.getElementById('picks'),hero=document.querySelector('.lp-hero');"
+      "if(st&&picks&&hero&&'IntersectionObserver' in window){var inPick=false,pastHero=false;"
+      "function upd(){var on=pastHero&&!inPick&&bar.hidden;st.classList.toggle('on',on);st.setAttribute('aria-hidden',on?'false':'true');st.querySelector('a').tabIndex=on?0:-1;}"
+      "new IntersectionObserver(function(es){es.forEach(function(e){if(e.target===hero)pastHero=!e.isIntersecting;else inPick=e.isIntersecting;});upd();},{threshold:0}).observe(hero);"
+      "var seen={};var io2=new IntersectionObserver(function(es){es.forEach(function(e){seen[e.target.id]=e.isIntersecting;});inPick=!!(seen.picks||seen.venues);upd();},{threshold:0});"
+      "['picks','venues'].forEach(function(id){var el=document.getElementById(id);if(el)io2.observe(el);});"
+      "new MutationObserver(upd).observe(bar,{attributes:true,attributeFilter:['hidden']});}"
+      "})();</script><!--/gr-->")
+
 NETWORK = '<script src="https://probe2928-crypto.github.io/chainbrief/network.js" data-site="perpline" defer></script>'
 
 GA = ('<!--ga--><script>(function(){if(location.hostname!=="probe2928-crypto.github.io")return;var s=document.createElement("script");s.async=true;'
@@ -1486,7 +1578,7 @@ def full_doc(page):
     h, b = page.split("<!--BODY-->", 1)
     return ('<!doctype html><html lang="en"><head><meta charset="utf-8">' + GA +
             '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">'
-            + h + "</head><body>" + b + NETWORK + bm_tracking() + "</body></html>\n")
+            + h + "</head><body>" + b + NETWORK + bm_tracking() + growth_kit() + "</body></html>\n")
 
 PREVIEW = OUT / ".preview"  # artifact preview copy (git-ignored)
 
