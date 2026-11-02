@@ -22,6 +22,7 @@ https://probe2928-crypto.github.io/perpline/start.html?utm_source=bitmedia&utm_m
 
 ## 배너 (banners/)
 3가지 톤(ivory · klein · noir) × 10개 사이즈 + 애니메이션 GIF 3종(300x250, 728x90, 160x600)
+- **peach (2026-11-02 전략회의)**: 광고 랜딩 개편(첫 화면 'Open BTCC · get 60% back')과 같은 메시지 — 'Futures fees, 60% back.' + 'Get 60% back →'. 10사이즈, 모두 200KB 이하. 생성: `node ads/src/peach_banners.js <newsreader woff2 폴더>`. Ivory와 A/B 용도 — Bitmedia 업로드는 세준 OK 후(예산 그대로).
 
 ## 텍스트 광고 문구
 - Your trading fees, returned. Get up to 60% of your futures fees back in USDT, every Monday.
