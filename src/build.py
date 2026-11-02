@@ -129,17 +129,19 @@ FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="p
 CSS = r"""
 /* Layout: a maison advertising page. Centered spaced wordmark, Didone display set very large, airy columns, hairline rules, one tone color per page. */
 :root{
-  --paper:#FFFFFF; --ink:#111111; --muted:#6E6A65; --hair:#E5E2DD; --wash:#F5F4F1;
+  --paper:#FBF4EC; --ink:#111111; --muted:#655D55; --hair:#E4D5C4; --wash:#F3E6D8;
   --tone:#1F2FA0; --tone-ink:#FFFFFF; --up:#1E6B47; --down:#9B2335;
+  /* pastel section tints (light theme only) */
+  --t1:#F8E4D6; --t2:#ECE8F8; --t3:#E2F0E8; --t4:#FAF0D4; --t5:#E2ECF7; --t6:#F6E2E8;
   --display:"DM Serif Display","Didot","Bodoni 72",Georgia,serif;
   --sans:"Jost","Futura","Century Gothic",system-ui,sans-serif;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --paper:#0D0D0E; --ink:#F1EEE8; --muted:#9A958E; --hair:#2A2A2C; --wash:#161617;
-  --tone:var(--tone-d,#8C97FF); --tone-ink:#0D0D0E; --up:#6CC79C; --down:#E58A99; color-scheme:dark}}
+  --tone:var(--tone-d,#8C97FF); --tone-ink:#0D0D0E; --up:#6CC79C; --down:#E58A99; --t1:var(--paper);--t2:var(--wash);--t3:var(--paper);--t4:var(--wash);--t5:var(--paper);--t6:var(--wash); color-scheme:dark}}
 :root[data-theme="dark"]{
   --paper:#0D0D0E; --ink:#F1EEE8; --muted:#9A958E; --hair:#2A2A2C; --wash:#161617;
-  --tone:var(--tone-d,#8C97FF); --tone-ink:#0D0D0E; --up:#6CC79C; --down:#E58A99; color-scheme:dark}
+  --tone:var(--tone-d,#8C97FF); --tone-ink:#0D0D0E; --up:#6CC79C; --down:#E58A99; --t1:var(--paper);--t2:var(--wash);--t3:var(--paper);--t4:var(--wash);--t5:var(--paper);--t6:var(--wash); color-scheme:dark}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 img{max-width:100%}
@@ -207,6 +209,12 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 
 /* sections */
 section.chapter{padding-block:clamp(64px,9vw,120px);border-top:1px solid var(--hair)}
+section.chapter{background:var(--t1)}
+section.chapter:nth-of-type(6n+2){background:var(--t2)}
+section.chapter:nth-of-type(6n+3){background:var(--t3)}
+section.chapter:nth-of-type(6n+4){background:var(--t4)}
+section.chapter:nth-of-type(6n+5){background:var(--t5)}
+section.chapter:nth-of-type(6n){background:var(--t6)}
 .chap-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px 56px;align-items:end;margin-bottom:48px}
 .chap-head p{color:var(--muted);font-weight:300;max-width:52ch}
 @media (max-width:820px){.chap-head{grid-template-columns:1fr}}
@@ -370,7 +378,7 @@ footer{border-top:1px solid var(--ink);padding-block:64px 80px}
 .slide.on .slide-in > *:nth-child(3){animation-delay:.16s}
 .slide.on .slide-in > *:nth-child(4){animation-delay:.24s}
 @keyframes slideRise{from{transform:translateX(48px)}to{transform:none}}
-.s-silk{background:var(--paper);color:var(--ink)}
+.s-silk{background:var(--t1);color:var(--ink)}
 .s-silk h1 em{color:var(--tone)}
 .s-gold{background:#0B0B0C;color:#F1EEE8}
 .s-gold .label{color:#C9A45C}
@@ -383,7 +391,7 @@ footer{border-top:1px solid var(--ink);padding-block:64px 80px}
 .s-tone .label,.s-tone .lede{color:var(--tone-ink);opacity:.85}
 .btn.inv{background:var(--tone-ink);border-color:var(--tone-ink);color:var(--tone)}
 .btn.inv:hover{background:transparent;color:var(--tone-ink)}
-.s-chart{background:var(--wash);color:var(--ink)}
+.s-chart{background:var(--t3);color:var(--ink)}
 .s-chart h2 em{color:var(--tone)}
 .stage-ui{position:absolute;left:0;right:0;bottom:28px;z-index:2;display:flex;justify-content:space-between;align-items:center;gap:16px;color:var(--ink)}
 .stage[data-ui="light"] .stage-ui{color:#F1EEE8}
@@ -653,7 +661,7 @@ def build_landing():
     lpcss = """
 .notice{background:var(--ink);color:var(--paper);font-size:12.5px;letter-spacing:.06em;text-align:center;padding-block:10px}
 .notice b{font-weight:500}
-.lp-hero{position:relative;overflow:hidden;border-bottom:1px solid var(--hair)}
+.lp-hero{position:relative;overflow:hidden;border-bottom:1px solid var(--hair);background:var(--t1)}
 .lp-hero > .fx{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
 .lp-hero .wrap{position:relative;z-index:1;padding-block:clamp(56px,9vw,112px) clamp(48px,7vw,88px);display:flex;flex-direction:column;gap:24px;align-items:flex-start}
 .lp-hero h1{font-size:clamp(46px,7.4vw,104px)}
@@ -699,7 +707,7 @@ def build_landing():
 .payout .yr b{color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums}
 @media (prefers-reduced-motion:reduce){.pick .rule{transition:none;transform:none}}
 /* [그로스 2026-11] 3-step strip right under the hero: the claim step is visible before the first sign-up button */
-.lp-how{border-bottom:1px solid var(--hair)}
+.lp-how{border-bottom:1px solid var(--hair);background:var(--t2)}
 .lp-how ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
 .lp-how li{display:flex;gap:14px;align-items:baseline;padding:22px 24px 22px 0;font-size:15px;line-height:1.45;color:var(--muted)}
 .lp-how li + li{padding-left:24px;border-left:1px solid var(--hair)}
