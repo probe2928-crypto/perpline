@@ -669,6 +669,21 @@ def build_landing():
 .lp-hero h1 em{color:var(--tone)}
 .lp-points{display:flex;flex-wrap:wrap;gap:10px 28px;font-size:14px;color:var(--muted)}
 .lp-points span::before{content:"— ";color:var(--tone)}
+.lp-cta{align-items:center;gap:14px 26px}
+.lp-cta .lp-alt{font-size:14px;color:var(--ink);text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+.lp-next{margin:-10px 0 0;font-size:13px;color:var(--muted)}
+@media (max-width:640px){
+.notice{font-size:11px;letter-spacing:.03em;padding-block:6px;line-height:1.45}
+.lp-hero .wrap{padding-block:28px 32px;gap:18px}
+.lp-hero h1{font-size:38px}
+.lp-hero .lede{font-size:15px}
+.lp-cta{width:100%;flex-direction:column;align-items:stretch}
+.lp-cta .btn{width:100%;min-height:56px;justify-content:center;text-align:center;font-size:15px;letter-spacing:.02em;text-transform:none}
+.lp-cta .lp-alt{align-self:center}
+.lp-next{margin-top:-6px;font-size:12px;text-align:center;align-self:stretch}
+.lp-points{display:none}
+.lp-hero > .fx{opacity:.4}
+}
 /* podium: three picks, maison campaign cards */
 .podium{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--ink)}
 .pick{position:relative;display:flex;flex-direction:column;gap:18px;padding:34px 32px 32px;border-bottom:1px solid var(--hair)}
@@ -756,7 +771,8 @@ def build_landing():
       <span class="label">La remise · {CONFIG['brand']}</span>
       <h1 id="h1">Get up to {hi}% of your<br>futures fees <em>back.</em></h1>
       <p class="lede">Open a futures account through {CONFIG['brand']}, trade as usual, and we send part of every fee you pay back to you in USDT, every Monday.</p>
-      <div class="cta"><a class="btn" href="#picks">Choose an exchange</a><a class="btn line" href="#back">See what you get back</a></div>
+      <div class="cta lp-cta" data-place="hero"><a class="btn tone" href="{esc(link(rk[0],'lp-hero'))}" target="_blank" rel="sponsored nofollow noopener">Open {esc(rk[0]['name'])} · get {rk[0]['rebate']}% back</a><a class="lp-alt" href="#picks">Compare all {len(VENUES)} exchanges</a></div>
+      <p class="lp-next">Then send your UID to @{CONFIG['telegram_dm']} on Telegram. Paid every Monday in USDT.</p>
       <div class="lp-points"><span>{len(VENUES)} exchanges</span><span>{lo}–{hi}% back</span><span>Paid weekly in USDT</span><span>No password, no API keys</span></div>
     </div>
   </section>
