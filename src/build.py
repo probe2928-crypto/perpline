@@ -477,6 +477,7 @@ def header(prefix):
       <a class="hide-sm" href="{TG_GROUP}" target="_blank" rel="noopener">Community</a>
       <a class="langsw" id="langSw" href="#" hidden>한국어</a>
       <span class="btc">BTC <b id="pillPrice" class="num">$80,300</b></span>
+      <span class="auth-slot" data-auth-slot hidden></span>
       <button type="button" class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="menuPanel">Menu</button>
     </div>
   </div>
@@ -1574,6 +1575,7 @@ def growth_kit():
       "})();</script><!--/gr-->")
 
 NETWORK = '<script src="https://probe2928-crypto.github.io/chainbrief/network.js" data-site="perpline" defer></script>'
+AUTH = f'<script src="{CONFIG["domain"]}/auth-config.js" defer></script>'  # 회원 로그인 — auth-config.js 에 키가 없으면 아무것도 안 함
 
 GA = ('<!--ga--><script>(function(){if(location.hostname!=="probe2928-crypto.github.io")return;var s=document.createElement("script");s.async=true;'
       's.src="https://www.googletagmanager.com/gtag/js?id=G-8YQ1BGBDR7";document.head.appendChild(s);window.dataLayer=window.dataLayer||[];'
@@ -1586,7 +1588,7 @@ def full_doc(page):
     h, b = page.split("<!--BODY-->", 1)
     return ('<!doctype html><html lang="en"><head><meta charset="utf-8">' + GA +
             '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">'
-            + h + "</head><body>" + b + NETWORK + bm_tracking() + growth_kit() + "</body></html>\n")
+            + h + "</head><body>" + b + NETWORK + AUTH + bm_tracking() + growth_kit() + "</body></html>\n")
 
 PREVIEW = OUT / ".preview"  # artifact preview copy (git-ignored)
 
