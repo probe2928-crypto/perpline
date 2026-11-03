@@ -496,6 +496,8 @@ def header(prefix):
   </div>
 </header>"""
 
+from guides import LINKS as _GUIDE_LINKS  # noqa: E402  (src/ is on sys.path when run as a script)
+
 def footer(prefix):
     items = "".join(f'<li><a href="{prefix}exchanges/{v["slug"]}.html">{esc(v["name"])} referral code</a></li>' for v in ranked(VENUES))
     return f"""<footer>
@@ -508,6 +510,8 @@ def footer(prefix):
     <div>
       <h4>Exchange guides</h4>
       <ul>{items}</ul>
+      <h4 style="margin-top:22px">Fee guides</h4>
+      <ul>{"".join(f'<li><a href="{CONFIG['domain']}/guides/{s}.html">{esc(t)}</a></li>' for s, t in _GUIDE_LINKS)}</ul>
     </div>
     <div>
       <div class="restrict"><h4>Restricted jurisdictions</h4>
@@ -1630,6 +1634,12 @@ def build():
     (OUT / "returns.html").write_text(rt, encoding="utf-8")
     (OUT / "ko" / "returns.html").write_text(ko_doc(full_doc(build_returns(head, header, footer, esc, COMMON_JS, CONFIG, FAB, lang="ko")),
         "../", "../returns.html", CONFIG["domain"] + "/returns.html").replace('window.LANG_ALT="ko/returns.html"', 'window.LANG_ALT="../returns.html"'), encoding="utf-8")
+    from guides import build_guides
+    guide_urls = []
+    for root in (OUT, PREVIEW): (root / "guides").mkdir(parents=True, exist_ok=True)
+    for slug, gp, gurl in build_guides(head, header, footer, esc, COMMON_JS, CONFIG, FAB, VENUES, pct, net, link, TG_DM):
+        (OUT / "guides" / f"{slug}.html").write_text(full_doc(gp), encoding="utf-8")
+        guide_urls.append(gurl)
     lp = full_doc(build_landing())
     (OUT / "start.html").write_text(lp.replace('<head><meta charset="utf-8">', '<head><meta charset="utf-8"><meta name="robots" content="noindex">', 1), encoding="utf-8")
     nf = full_doc(head(f"Page not found | {CONFIG['brand']}", "This page does not exist.", CONFIG["domain"] + "/404.html") +
@@ -1641,7 +1651,7 @@ def build():
     nf = nf.replace("<div class=\"fab\">", "<div class=\"fab\" hidden>")
     (OUT / "404.html").write_text(nf.replace('<head><meta charset="utf-8">', '<head><meta charset="utf-8"><meta name="robots" content="noindex">', 1), encoding="utf-8")
     today = datetime.date.today().isoformat()
-    urls = [CONFIG["domain"] + "/", CONFIG["domain"] + "/returns.html", CONFIG["domain"] + "/projects.html"] + [f"{CONFIG['domain']}/exchanges/{v['slug']}.html" for v in ranked(VENUES)]
+    urls = [CONFIG["domain"] + "/", CONFIG["domain"] + "/returns.html", CONFIG["domain"] + "/projects.html"] + [f"{CONFIG['domain']}/exchanges/{v['slug']}.html" for v in ranked(VENUES)] + guide_urls
     (OUT / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
         "".join(f"  <url><loc>{u}</loc><lastmod>{today}</lastmod></url>\n" for u in urls) + "</urlset>\n", encoding="utf-8")
     (OUT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {CONFIG['domain']}/sitemap.xml\n", encoding="utf-8")
