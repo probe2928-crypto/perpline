@@ -1603,6 +1603,8 @@ def growth_kit():
 
 NETWORK = '<script src="https://probe2928-crypto.github.io/chainbrief/network.js" data-site="perpline" defer></script>'
 AUTH = f'<script src="{CONFIG["domain"]}/auth-config.js" defer></script>'  # 회원 로그인 — auth-config.js 에 키가 없으면 아무것도 안 함
+# sign-up draw (off unless event/event-config.js says enabled — the config file alone loads, ~1 KB)
+EVENT = '<script src="' + CONFIG["domain"].split("github.io", 1)[-1] + '/event/event-config.js" defer></script>'
 
 GA = ('<!--ga--><script>(function(){if(location.hostname!=="probe2928-crypto.github.io")return;var s=document.createElement("script");s.async=true;'
       's.src="https://www.googletagmanager.com/gtag/js?id=G-8YQ1BGBDR7";document.head.appendChild(s);window.dataLayer=window.dataLayer||[];'
@@ -1615,7 +1617,7 @@ def full_doc(page):
     h, b = page.split("<!--BODY-->", 1)
     return ('<!doctype html><html lang="en"><head><meta charset="utf-8">' + GA +
             '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">'
-            + h + "</head><body>" + b + NETWORK + AUTH + bm_tracking() + growth_kit() + "</body></html>\n")
+            + h + "</head><body>" + b + NETWORK + AUTH + EVENT + bm_tracking() + growth_kit() + "</body></html>\n")
 
 PREVIEW = OUT / ".preview"  # artifact preview copy (git-ignored)
 
@@ -1647,6 +1649,11 @@ def build():
     for slug, gp, gurl in build_guides(head, header, footer, esc, COMMON_JS, CONFIG, FAB, VENUES, pct, net, link, TG_DM):
         (OUT / "guides" / f"{slug}.html").write_text(full_doc(gp), encoding="utf-8")
         guide_urls.append(gurl)
+    from event_page import build_event
+    (OUT / "event").mkdir(exist_ok=True)
+    ev = full_doc(build_event(head, header, footer, esc, COMMON_JS, CONFIG, TG_DM, FAB))
+    (OUT / "event" / "index.html").write_text(ev.replace('<html lang="en"><head><meta charset="utf-8">',
+        '<html lang="en" data-event-page data-event-hide><head><meta charset="utf-8"><meta name="robots" content="noindex">', 1), encoding="utf-8")
     lp = full_doc(build_landing())
     (OUT / "start.html").write_text(lp.replace('<head><meta charset="utf-8">', '<head><meta charset="utf-8"><meta name="robots" content="noindex">', 1), encoding="utf-8")
     nf = full_doc(head(f"Page not found | {CONFIG['brand']}", "This page does not exist.", CONFIG["domain"] + "/404.html") +
