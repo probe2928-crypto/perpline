@@ -676,6 +676,8 @@ def build_landing():
 .lp-cta{align-items:center;gap:14px 26px}
 .lp-cta .lp-alt{font-size:14px;color:var(--ink);text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
 .lp-next{margin:-10px 0 0;font-size:13px;color:var(--muted)}
+.lp-ex{margin:-12px 0 0;font-size:14px;color:var(--muted);max-width:40em;border-left:2px solid var(--tone);padding:2px 0 2px 12px}
+.lp-ex b{color:var(--ink);font-weight:500}
 @media (max-width:640px){
 .notice{font-size:11px;letter-spacing:.03em;padding-block:6px;line-height:1.45}
 .lp-hero .wrap{padding-block:28px 32px;gap:18px}
@@ -685,6 +687,7 @@ def build_landing():
 .lp-cta .btn{width:100%;min-height:56px;justify-content:center;text-align:center;font-size:15px;letter-spacing:.02em;text-transform:none}
 .lp-cta .lp-alt{align-self:center}
 .lp-next{margin-top:-6px;font-size:12px;text-align:center;align-self:stretch}
+.lp-ex{margin-top:-4px;font-size:13px;line-height:1.5}
 .lp-points{display:none}
 .lp-hero > .fx{opacity:.4}
 }
@@ -746,6 +749,9 @@ def build_landing():
         ("Which exchange should I pick?", f"If you mostly use market orders, compare the \"You pay\" column: the taker fee left after your rebate. The lowest on our list is {pct(min(nets))}. Pick an exchange where you do not already have an account, since only new accounts count."),
     ]
     order = {v["slug"]: i for i, v in enumerate(rk)}
+    # [그로스 2026-11-03 실험] hero 아래 구체 금액 예시 — rk[0] 표준 taker 수수료 × 리베이트 비율로 계산(지어낸 숫자 아님)
+    ex_fee = 100_000 * rk[0]["taker"] / 100
+    ex_back = ex_fee * rk[0]["rebate"] / 100
     picks = sorted([v for v in VENUES if v["taker"] is not None], key=lambda v: (-v["rebate"], v["taker"], order[v["slug"]]))[:3]
     why = {0: "Highest rebate and lowest headline taker fee on our list.", 1: "Among the highest rebates, at a standard taker fee.", 2: "Same rebate tier, a strong alternative to compare."}
     picks_html = "".join(f"""<article class="pick">
@@ -777,6 +783,7 @@ def build_landing():
       <p class="lede">Open a futures account through {CONFIG['brand']}, trade as usual, and we send part of every fee you pay back to you in USDT, every Monday.</p>
       <div class="cta lp-cta" data-place="hero"><a class="btn tone" href="{esc(link(rk[0],'lp-hero'))}" target="_blank" rel="sponsored nofollow noopener">Open {esc(rk[0]['name'])} · get {rk[0]['rebate']}% back</a><a class="lp-alt" href="#picks">Compare all {len(VENUES)} exchanges</a></div>
       <p class="lp-next">Then send your UID to @{CONFIG['telegram_dm']} on Telegram. Paid every Monday in USDT.</p>
+      <p class="lp-ex" data-place="hero-example">Example: $100,000 traded in a month on {esc(rk[0]['name'])} is ${ex_fee:,.0f} in taker fees, so <b>${ex_back:,.0f} comes back to you</b>. No password or API key needed.</p>
       <div class="lp-points"><span>{len(VENUES)} exchanges</span><span>{lo}–{hi}% back</span><span>Paid weekly in USDT</span><span>No password, no API keys</span></div>
     </div>
   </section>
