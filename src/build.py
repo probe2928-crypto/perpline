@@ -471,6 +471,7 @@ def header(prefix):
       <a href="{prefix}index.html#note">Market</a>
       <a href="{prefix}returns.html">Returns</a>
       <a href="{prefix}projects.html">Projects</a>
+      <a href="{prefix}alphax.html" style="white-space:nowrap">0% Fees</a>
     </nav>
     <a class="wordmark" href="{prefix}index.html">{CONFIG['brand']}</a>
     <div class="right">
@@ -490,6 +491,7 @@ def header(prefix):
       <a href="{prefix}index.html#faq">Questions</a>
       <a href="{prefix}returns.html">Returns heatmap</a>
       <a href="{prefix}projects.html">Projects</a>
+      <a href="{prefix}alphax.html">0% fees · AlphaX</a>
       <a href="{TG_GROUP}" target="_blank" rel="noopener">Community</a>
       <a href="{TG_DM}" target="_blank" rel="noopener">Support on Telegram</a>
     </div>
@@ -951,6 +953,16 @@ def build_index():
       <div><b class="num">{pct(min(nets))}</b><span class="label">Lowest taker after rebate</span></div>
     </div>
   </div>
+
+  <a class="ax-band" href="alphax.html" aria-label="AlphaX spotlight: 0% maker and 0% taker fees">
+    <span class="label">Spotlight</span>
+    <b><em>0%</em> maker · <em>0%</em> taker</b>
+    <span class="ax-band-t">Trade on AlphaX with zero trading fees →</span>
+  </a>
+  <style>.ax-band{{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 28px;padding:22px clamp(20px,5vw,72px);background:var(--ink);color:var(--paper);text-decoration:none;border-top:1px solid var(--ink)}}
+.ax-band .label{{color:var(--paper);opacity:.7}}.ax-band b{{font-family:var(--display);font-weight:400;font-size:clamp(28px,3.4vw,44px);line-height:1}}
+.ax-band em{{font-style:italic;color:var(--tone-d,#8C97FF)}}.ax-band-t{{font-size:13px;letter-spacing:.18em;text-transform:uppercase}}
+.ax-band:hover .ax-band-t{{text-decoration:underline}}</style>
 
   <section class="chapter" id="venues" aria-labelledby="venH" style="border-top:0">
     <div class="wrap">
@@ -1641,6 +1653,8 @@ def build():
     (OUT / "projects.html").write_text(pj, encoding="utf-8")
     from returns_page import build_returns
     rt = full_doc(build_returns(head, header, footer, esc, COMMON_JS, CONFIG, FAB))
+    from alphax_page import build_alphax
+    (OUT / "alphax.html").write_text(full_doc(build_alphax(head, header, footer, esc, COMMON_JS, CONFIG, FAB)), encoding="utf-8")
     (OUT / "returns.html").write_text(rt, encoding="utf-8")
     (OUT / "ko" / "returns.html").write_text(ko_doc(full_doc(build_returns(head, header, footer, esc, COMMON_JS, CONFIG, FAB, lang="ko")),
         "../", "../returns.html", CONFIG["domain"] + "/returns.html").replace('window.LANG_ALT="ko/returns.html"', 'window.LANG_ALT="../returns.html"'), encoding="utf-8")
@@ -1682,7 +1696,7 @@ def build():
         ("What Perpline is", "Perpline lists crypto futures exchanges with referral links and pays part of the referral commission back to you as a fee rebate. Nothing here is financial advice. Perpline is not directed at residents of the Republic of Korea, the United States or any jurisdiction where the listed exchanges are not licensed to serve local users."),
     ], LEGAL_TERMS)
     today = datetime.date.today().isoformat()
-    urls = [CONFIG["domain"] + "/", CONFIG["domain"] + "/returns.html", CONFIG["domain"] + "/projects.html", CONFIG["domain"] + "/privacy.html", CONFIG["domain"] + "/terms.html"] + [f"{CONFIG['domain']}/exchanges/{v['slug']}.html" for v in ranked(VENUES)] + guide_urls
+    urls = [CONFIG["domain"] + "/", CONFIG["domain"] + "/returns.html", CONFIG["domain"] + "/projects.html", CONFIG["domain"] + "/alphax.html", CONFIG["domain"] + "/privacy.html", CONFIG["domain"] + "/terms.html"] + [f"{CONFIG['domain']}/exchanges/{v['slug']}.html" for v in ranked(VENUES)] + guide_urls
     (OUT / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
         "".join(f"  <url><loc>{u}</loc><lastmod>{today}</lastmod></url>\n" for u in urls) + "</urlset>\n", encoding="utf-8")
     (OUT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {CONFIG['domain']}/sitemap.xml\n", encoding="utf-8")
