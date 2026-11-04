@@ -498,6 +498,7 @@ def header(prefix):
   </div>
 </header>"""
 
+from promo_alphax import promo_strip as _promo_strip  # noqa: E402
 from guides import LINKS as _GUIDE_LINKS  # noqa: E402  (src/ is on sys.path when run as a script)
 
 def footer(prefix):
@@ -777,6 +778,7 @@ def build_landing():
 <!--BODY-->
 <div class="notice" role="note"><div class="wrap"><b>Not available to residents of the United States or South Korea.</b> 18+ · Leveraged trading can lose you all of your margin.</div></div>
 {header('')}
+{_promo_strip(CONFIG['domain'], 'lp-promo-strip')}
 <main id="top">
   <section class="lp-hero" aria-labelledby="h1">
     <canvas class="fx" data-fx="silk" aria-hidden="true"></canvas>
@@ -891,6 +893,7 @@ def build_index():
         CONFIG['domain'] + "/", f'<script type="application/ld+json">{json.dumps(ld)}</script>')}
 <!--BODY-->
 {header('')}
+{_promo_strip(CONFIG['domain'], 'home-promo-strip')}
 <main id="top">
   <section class="stage" id="stage" aria-roledescription="carousel" aria-label="Perpline highlights">
     <div class="stage-track" id="stageTrack">
@@ -1664,6 +1667,10 @@ def build():
     for slug, gp, gurl in build_guides(head, header, footer, esc, COMMON_JS, CONFIG, FAB, VENUES, pct, net, link, TG_DM):
         (OUT / "guides" / f"{slug}.html").write_text(full_doc(gp), encoding="utf-8")
         guide_urls.append(gurl)
+    from promo_alphax import build_promo
+    (OUT / "promos").mkdir(exist_ok=True)
+    promo_page, promo_url = build_promo(head, header, footer, esc, COMMON_JS, CONFIG, FAB, TG_DM, FX_JS)
+    (OUT / "promos" / "alphax.html").write_text(full_doc(promo_page), encoding="utf-8")
     from event_page import build_event
     (OUT / "event").mkdir(exist_ok=True)
     ev = full_doc(build_event(head, header, footer, esc, COMMON_JS, CONFIG, TG_DM, FAB))
@@ -1696,7 +1703,7 @@ def build():
         ("What Perpline is", "Perpline lists crypto futures exchanges with referral links and pays part of the referral commission back to you as a fee rebate. Nothing here is financial advice. Perpline is not directed at residents of the Republic of Korea, the United States or any jurisdiction where the listed exchanges are not licensed to serve local users."),
     ], LEGAL_TERMS)
     today = datetime.date.today().isoformat()
-    urls = [CONFIG["domain"] + "/", CONFIG["domain"] + "/returns.html", CONFIG["domain"] + "/projects.html", CONFIG["domain"] + "/alphax.html", CONFIG["domain"] + "/privacy.html", CONFIG["domain"] + "/terms.html"] + [f"{CONFIG['domain']}/exchanges/{v['slug']}.html" for v in ranked(VENUES)] + guide_urls
+    urls = [CONFIG["domain"] + "/", CONFIG["domain"] + "/returns.html", CONFIG["domain"] + "/projects.html", CONFIG["domain"] + "/alphax.html", CONFIG["domain"] + "/privacy.html", CONFIG["domain"] + "/terms.html"] + [f"{CONFIG['domain']}/exchanges/{v['slug']}.html" for v in ranked(VENUES)] + guide_urls + [promo_url]
     (OUT / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
         "".join(f"  <url><loc>{u}</loc><lastmod>{today}</lastmod></url>\n" for u in urls) + "</urlset>\n", encoding="utf-8")
     (OUT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {CONFIG['domain']}/sitemap.xml\n", encoding="utf-8")
