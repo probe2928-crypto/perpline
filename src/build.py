@@ -897,7 +897,7 @@ def build_index():
           <span class="label">{CONFIG['edition']}</span>
           <h1 id="h1">Your trading fees,<br><em>returned.</em></h1>
           <p class="lede">Sign up to a futures exchange through {CONFIG['brand']} and we send {min(v['rebate'] for v in VENUES)}–{max_reb}% of the fees you pay back to you, in USDT, every week.</p>
-          <div class="cta"><a class="btn" href="#venues">Choose an exchange</a><a class="btn line" href="#rebate">How the rebate works</a></div>
+          <div class="cta" data-place="home-hero"><a class="btn" href="{esc(link(rk[0],'home-hero'))}" target="_blank" rel="sponsored nofollow noopener">Open {esc(rk[0]['name'])} · {rk[0]['rebate']}% back</a><a class="btn line" href="#venues">Compare all {len(VENUES)} exchanges</a></div>
         </div>
       </article>
       <article class="slide s-gold" aria-roledescription="slide" aria-label="2 of 4">
@@ -1584,7 +1584,7 @@ def growth_kit():
       "function pending(){try{var j=JSON.parse(localStorage.getItem(K)||'null');if(j&&Date.now()-j.t<2592e5)return j;}catch(e){}return null;}"
       "document.addEventListener('click',function(ev){var a=ev.target.closest&&ev.target.closest('a');if(!a)return;var href=a.href||'';"
       "if(/(^|\\s)sponsored(\\s|$)/.test(a.getAttribute('rel')||'')){var s=slugOf(href),pl=placeOf(a);"
-      "send('pl_signup_click',{venue:s,place:pl});send('pl_signup_'+s,{place:pl});"
+      "send('pl_signup_click',{venue:s,place:pl});send('pl_signup_'+s,{place:pl});if(/\\/perpline\\/(index\\.html)?$/.test(location.pathname))send('pl_signup_home',{venue:s,place:pl});"
       "try{localStorage.setItem(K,JSON.stringify({s:s,t:Date.now()}));}catch(e){}setTimeout(function(){show(s);},400);return;}"
       "if(href.indexOf('t.me/'+TG)>-1){var j=pending();send('pl_claim_click',{venue:j?j.s:'none',place:placeOf(a)});"
       "if(a.id==='gGo'){try{localStorage.removeItem(K);}catch(e){}}}},true);"
