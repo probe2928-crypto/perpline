@@ -124,7 +124,7 @@ def ranked(lst):
     known = sorted([v for v in lst if v["taker"] is not None], key=lambda v: (v["taker"], v["maker"]))
     return known + [v for v in lst if v["taker"] is None]
 
-FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Jost:wght@300;400;500;600&display=swap">'
+FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Jost:wght@300;400;500;600&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tenor+Sans&display=swap">'
 
 CSS = r"""
 /* Layout: a maison advertising page. Centered spaced wordmark, Didone display set very large, airy columns, hairline rules, one tone color per page. */
@@ -522,6 +522,7 @@ def footer(prefix):
       <p>We count visits with Google Analytics 4 (pages viewed, device type, approximate region). Advertising features and Google signals are off, and in the EEA, UK and Switzerland it runs without cookies. Opt out with your browser settings or the <a href="https://tools.google.com/dlpage/gaoptout" rel="noopener">Google Analytics opt-out add-on</a>. Sign-up links may also record a click for our ad network. <a href="{prefix}privacy.html">Privacy notice</a> · <a href="{prefix}terms.html">Terms</a></p>
     </div>
   </div>
+  <div class="wrap"><p class="seren-line" style="margin:40px 0 0;font:12px/1.6 'Tenor Sans',sans-serif;color:var(--muted)"><span style="letter-spacing:.2em">SEREN</span> <span style="color:#8C8478">/</span> PERPLINE</p></div>
 </footer>"""
 
 FAB = f"""<div class="fab">
