@@ -2,6 +2,27 @@
   "note": "Project of the Week / Month. Process: chainbrief docs/PROJECT_PROMO.md. Set archive: true when the slot ends.",
   "items": [
     {
+      "slug": "krapi-trading-workshop",
+      "name": "KRAPI · AI Trading Agent Workshop",
+      "slot": "week",
+      "label": "W45 · Nov 5 – Nov 11, 2026",
+      "start": "2026-11-05",
+      "end": "2026-11-11",
+      "sector": "AI · Trading · Event",
+      "headline": "Bring a laptop, leave with your own trading dashboard.",
+      "points": [
+        "Hands-on week 2 of KRAPI's AI Trading Agent Build Workshop — Sat, Nov 7, 6:30–10 pm KST, Gangnam, Seoul (in person, run in Korean).",
+        "Issue and connect exchange API keys, then build a personal dashboard for balances and positions.",
+        "Bring a laptop; snacks and drinks provided. Entry by host approval on Luma.",
+        "Tip: create keys with withdrawals off and an IP allow-list."
+      ],
+      "website": "https://luma.com/tjzu8pca",
+      "x": "https://x.com/0xjeffai",
+      "telegram": "",
+      "story": "https://probe2928-crypto.github.io/chainbrief/en/projects/krapi-trading-workshop/",
+      "archive": false
+    },
+    {
       "slug": "miuro",
       "name": "MIURO.AI",
       "slot": "week",
@@ -20,7 +41,7 @@
       "x": "https://x.com/MiuroAI",
       "telegram": "https://t.me/miuro_ai",
       "story": "https://probe2928-crypto.github.io/chainbrief/en/projects/miuro/",
-      "archive": false
+      "archive": true
     }
   ]
 }
