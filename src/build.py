@@ -46,7 +46,7 @@ VENUES = [
          note="Standard 0.02% / 0.05% perpetual rate.",
          about="OrangeX charges the common 0.02% maker / 0.05% taker rate on perpetuals. With our rebate, the taker fee you actually pay drops below most of the market."),
     dict(slug="bitget",   name="Bitget",   maker=0.02, taker=0.06, rebate=40, code=None,
-         ref="https://partner.bitget.com/bg/PJHUWG",
+         ref="https://partner.bitget.com/bg/UN4442",
          note="Fee depends on account level; BGB holders get discounts.",
          about="Bitget is known for copy trading and a large futures market. Fees fall with account level, and holding its BGB token unlocks further discounts."),
     dict(slug="bitunix",  name="Bitunix",  maker=0.02, taker=0.06, rebate=55, code="Lbya",
