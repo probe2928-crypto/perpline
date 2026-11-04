@@ -111,7 +111,7 @@ def logo(v, prefix, cls):
             src = f"{prefix}assets/logos/{v['slug']}.{ext}"; break
     src = src or LOGOS.get(v["slug"])
     if not src: return ""
-    return f'<span class="{cls}"><img src="{esc(src)}" alt="{esc(v["name"])} logo" loading="{'lazy' if cls=='vlogo' else 'eager'}" referrerpolicy="no-referrer"></span>'
+    return f'<span class="{cls}"><img src="{esc(src)}" alt="{esc(v["name"])} logo" loading="{'lazy' if cls=='vlogo' else 'eager'}" referrerpolicy="no-referrer" data-n="{esc(v['name'][:1])}" onerror="this.parentNode.textContent=this.dataset.n"></span>'
 
 def link(v, src):
     if CONFIG["track_base"]:

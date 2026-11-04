@@ -43,6 +43,11 @@ CSS = """
 .gd-card b.big{font-family:var(--display);font-weight:400;font-size:44px;line-height:1;color:var(--tone)}
 .gd-card .btn{justify-content:center;text-align:center}
 .gd-faq{margin-top:56px}
+.gd-top{display:none}
+@media (max-width:960px){.gd-top{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;margin-top:22px;padding-top:16px;border-top:1px solid var(--ink)}
+.gd-top .row{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.gd-top b{font-family:var(--display);font-weight:400;font-size:30px;line-height:1;color:var(--tone)}
+.gd-top .btn{width:100%;min-height:52px;font-size:15px;letter-spacing:.02em;text-transform:none}}
 """
 
 
@@ -170,8 +175,7 @@ def build_guides(head, header, footer, esc, common_js, config, fab, venues, pct,
                 {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in g["faqs"]]},
             {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
                 {"@type": "ListItem", "position": 1, "name": config["brand"], "item": config["domain"] + "/"},
-                {"@type": "ListItem", "position": 2, "name": "Guides", "item": canonical},
-                {"@type": "ListItem", "position": 3, "name": g["crumb"], "item": canonical}]},
+                {"@type": "ListItem", "position": 2, "name": g["crumb"], "item": canonical}]},
         ]
         ld_html = "".join(f'<script type="application/ld+json">{json.dumps(x)}</script>' for x in ld)
         v = g["venue"]
@@ -183,6 +187,11 @@ def build_guides(head, header, footer, esc, common_js, config, fab, venues, pct,
     <span class="label">Guide · Fees</span>
     <h1>{g['h1']}</h1>
     <p class="lede">{esc(g['lede'])}</p>
+    <div class="gd-top" data-place="guide-top">
+      <div class="row"><span class="label">{esc(v['name'])} · {v['rebate']}% rebate</span><b class="num">{esc(g['side_big'])}</b></div>
+      <span class="fine">{esc(g['side_label'])}</span>
+      <a class="btn" href="{esc(g['signup'])}" target="_blank" rel="sponsored nofollow noopener">Sign up to {esc(v['name'])} · {v['rebate']}% back</a>
+    </div>
     <div class="gd-meta"><span class="label">By the {config['brand']} desk</span><span class="label">Fees checked {esc(g['checked'])}</span><span class="label">Not for KR / US residents</span></div>
   </div></section>
   <div class="wrap gd">
