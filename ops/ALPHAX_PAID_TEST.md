@@ -43,3 +43,15 @@
 | 제외 | | | | Crypto News Update™·Crypto Breaking News™·CryptoNews_proo(조회/구독 70~80%, 광고글만 조회 1/5 → 봇 의심), Blockipedia(구독자 한 달 +9.9K 구매 의심), 에어드롭 채널들(선물 유저 아님) |
 - 추천안: Crypto Asset Report + Crypto Scalp Signals = $144 (예상 조회 약 2.7만, CPM 약 $5.4) → 추적 링크 ax-tg1(CAR), ax-tg2(Scalp)
 - 대안(분산): Scalp $24 + Crypto News $10.10 + (2차용 잔액 보관)
+
+## 매체 비교 회의 (11/5 13:30) — 150달러로 갈 수 있는 곳
+| 매체 | 최소 | 결제 | 판단 |
+|---|---|---|---|
+| Telega.io (텔레그램 채널 게시물) | 채널 1곳 $10~ | 카드(Visa·Master), USDT(TRC20), TON, 계좌이체 | 1순위. 미게시 시 잔액 환불, 선물 유저 채널에 바로 닿음 |
+| A-ADS (배너, 하루 단위 과금) | 약 $100~ | 코인(BTC·USDT·TRX 등) | 2순위 후보. 크립토 사이트 CPM $18~52, 배너라 가입 전환 낮음 |
+| Coinzilla | €100 예치 | 카드·계좌·코인 | KYC 필요 + 거래소 광고 심사 → 2차 |
+| Bitmedia | $300 | 코인·계좌 | 2차 (기존 계정 있음) |
+| Cointraffic €3,000 / Blockchain-Ads $10,000 | | | 예산 밖 |
+| 텔레그램 공식 Ads | TON 결제 | TON | 거래소 광고가 '위험 금융'으로 막힐 위험 → 제외 |
+| X 인플루언서 | 협상 | USDT 직접 송금 | 에스크로 없음 → 2차 |
+결론: 1차 150달러는 Telega.io 전액 (추천안 CAR $120 + Scalp $24).
