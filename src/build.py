@@ -1600,7 +1600,7 @@ def growth_kit():
       "<script>(function(){"
       f"var V={data},TG='{tg}',SITE='site_mvvy2a4d_govfksp';"
       "var live=/(^|\\.)perpline\\.tech$|^probe2928-crypto\\.github\\.io$/.test(location.hostname)&&!navigator.webdriver;"
-      "function send(name,props){if(!live)return;try{if(typeof window.va==='function'){window.va('event',name,props||{});return;}"
+      "function send(name,props){if(!live)return;try{if(typeof window.gtag==='function')window.gtag('event',name,Object.assign({transport_type:'beacon'},props||{}));}catch(e){}try{if(typeof window.va==='function'){window.va('event',name,props||{});return;}"
       "var p=JSON.stringify({site:SITE,type:'event',url:location.href,path:location.pathname,ref:document.referrer||null,w:innerWidth,ts:Date.now(),"
       "id:(window.crypto&&crypto.randomUUID)?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2),name:name,props:props||{}});"
       "navigator.sendBeacon&&navigator.sendBeacon('https://savri.io/api/collect',p);}catch(e){}}"
@@ -1690,12 +1690,14 @@ def build():
         (OUT / "go" / f"ax-{src}.html").write_text(
             '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow">'
             '<meta name="viewport" content="width=device-width,initial-scale=1"><title>Opening AlphaX sign-up…</title>'
-            '<meta http-equiv="refresh" content="2;url=https://www.alphax.com/partner/7lxP6X"></head>'
+            '<meta http-equiv="refresh" content="3;url=https://www.alphax.com/partner/7lxP6X">'
+            '<script async src="https://www.googletagmanager.com/gtag/js?id=G-8YQ1BGBDR7"></script>'
+            '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-8YQ1BGBDR7",{send_page_view:false});</script></head>'
             '<body style="font:16px system-ui;padding:40px;background:#FBF8F3;color:#121212">'
             '<p>Opening AlphaX sign-up · referral code 7lxP6X…</p><p><a href="https://www.alphax.com/partner/7lxP6X">Continue</a></p>'
             '<script>(function(){var U="https://www.alphax.com/partner/7lxP6X";try{if(!navigator.webdriver){var p=JSON.stringify({site:"site_mvvy2a4d_govfksp",type:"event",url:location.href,path:location.pathname,ref:document.referrer||null,w:innerWidth,ts:Date.now(),'
             'id:(window.crypto&&crypto.randomUUID)?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2),name:"pl_signup_alphax",props:{place:"' + src + '",venue:"alphax"}});'
-            'navigator.sendBeacon&&navigator.sendBeacon("https://savri.io/api/collect",p);}}catch(e){}setTimeout(function(){location.replace(U)},150);})();</script></body></html>',
+            'navigator.sendBeacon&&navigator.sendBeacon("https://savri.io/api/collect",p);}}catch(e){}var gone=false;function go(){if(!gone){gone=true;location.replace(U)}}try{gtag("event","pl_signup_alphax",{source:"' + src + '",venue:"alphax",transport_type:"beacon",event_callback:go});}catch(e){}setTimeout(go,900);})();</script></body></html>',
             encoding="utf-8")
     from event_page import build_event
     (OUT / "event").mkdir(exist_ok=True)
