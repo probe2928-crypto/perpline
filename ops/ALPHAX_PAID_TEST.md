@@ -33,3 +33,13 @@
 ## 사이트 반영 내역 (11/5)
 - 홈 띠배너·흐르는 목록·큰 0% 배너·거래소 목록 Pick·AlphaX 페이지·특집 페이지 → 전부 가입 링크로 직접 연결
 - 가입 클릭 집계 버그 수정 (live 체크가 github.io만 허용하던 것 → perpline.tech 포함), AlphaX 클릭은 'alphax'로 분류
+
+## Telega.io 후보 (11/5 13:30 조사, 세준 충전·승인 대기)
+| 채널 | 구독자 | 실제 평균 조회 | 1/24 가격 | 판단 |
+|---|---|---|---|---|
+| Crypto Asset Report (@CryptoAssetReport) | 111K | 22.5K | $120 | 추천. 속보 뉴스, 광고 월 2회뿐, 4년 5개월 채널, 구독자 월 -2.8K 감소 중 |
+| ✪ Crypto Scalp Signals (@crypto_scalp_signals) | 29K | 4.2K | $24 | 추천. BTC·ETH 단타 분석 = 선물 유저, 남성 90%, Telega 주문 1,764건·재주문 549건 |
+| Crypto News (@CryptosNews_Pro) | 23.6K | 3.0K | $10.10 | 저가 보조. 광고 월 41회로 많고 성인 광고도 섞임 |
+| 제외 | | | | Crypto News Update™·Crypto Breaking News™·CryptoNews_proo(조회/구독 70~80%, 광고글만 조회 1/5 → 봇 의심), Blockipedia(구독자 한 달 +9.9K 구매 의심), 에어드롭 채널들(선물 유저 아님) |
+- 추천안: Crypto Asset Report + Crypto Scalp Signals = $144 (예상 조회 약 2.7만, CPM 약 $5.4) → 추적 링크 ax-tg1(CAR), ax-tg2(Scalp)
+- 대안(분산): Scalp $24 + Crypto News $10.10 + (2차용 잔액 보관)
