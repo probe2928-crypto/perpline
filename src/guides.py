@@ -4,7 +4,7 @@ no Korea/US targeting, no return promises or price calls. Referral links and reb
 import json
 
 # footer links (slug, anchor text) — keep in sync with _guides()
-LINKS = [("bitget-futures-fees", "Bitget futures fees explained")]
+LINKS = [("bitget-futures-fees", "Bitget futures fees explained"), ("maker-vs-taker-fees", "Maker vs taker fees in futures")]
 
 CSS = """
 .gd-hero{padding-block:clamp(48px,7vw,96px) clamp(28px,4vw,48px);border-bottom:1px solid var(--hair)}
@@ -154,6 +154,113 @@ def _guides(V, pct, net, link, config, tg_dm):
         keyword="bitget futures fees",
         body=body, faqs=faqs, signup=signup,
         side_big=pct(eff_t), side_label=f"Taker you effectively pay after the {r}% rebate (standard {pct(TAKER)})",
+    ))
+
+    # ---- Maker vs taker fees (general explainer, Bitget used for the worked numbers) -------------
+    # Numbers: Bitget standard futures 0.02% maker / 0.06% taker, verified 2026-11-03 on Bitget's own
+    # Trading Fees FAQ (same check as the Bitget guide above). Definitions and the
+    # "commission fee = notional value * fee rate" formula read 2026-11-05 on BloFin's help centre.
+    ex = V["bitget"]
+    assert (ex["maker"], ex["taker"]) == (MAKER, TAKER), "Bitget fee in VENUES no longer matches the verified guide numbers"
+    r2 = ex["rebate"]
+    BLOFIN_FEE_URL = "https://blofin.zendesk.com/hc/en-us/articles/6228682731151-Trading-Fee"
+    signup2 = link(ex, "guide-maker-taker")
+    def d(x): return f"${x:,.0f}" if x == int(x) else f"${x:,.2f}"
+    margin, lev = 2000, 10
+    notional = margin * lev
+    f_t, f_m = notional * TAKER / 100, notional * MAKER / 100
+    trips = 30
+    mixes = [("Market in, market out", f_t + f_t), ("Limit in, market out", f_m + f_t), ("Limit in, limit out", f_m + f_m)]
+    rows2 = "".join(
+        f"<tr><td>{name}</td><td>{d(rt)}</td><td>{d(rt * trips)}</td><td>+{d(rt * trips * r2 / 100)}</td><td>{d(rt * trips * (1 - r2 / 100))}</td></tr>"
+        for name, rt in mixes)
+    worst, best = mixes[0][1] * trips, mixes[2][1] * trips
+    half = round((MAKER + TAKER) / 2, 4)
+    body2 = f"""
+<h2>The short version</h2>
+<p>Every futures trade you make is charged as either a <b>maker</b> or a <b>taker</b>. Makers add orders to the book and wait. Takers trade against orders that are already there. Almost every exchange charges takers more, often two or three times more, and most retail traders pay the taker rate on far more of their volume than they realise.</p>
+<p>This guide explains how an order ends up on one side or the other, how the fee is worked out in dollars, and what a realistic month looks like when you shift part of your trading from taker to maker. We use Bitget's standard USDT-margined futures rates ({pct(MAKER)} maker, {pct(TAKER)} taker, checked on Bitget's own fee FAQ on 3 November 2026) for the worked numbers, because they are typical of the market. The logic is the same on any venue in our <a href="../index.html#venues">exchange ranking</a>.</p>
+
+<h2>What makes an order a maker or a taker</h2>
+<p>The label is not about whether you are buying or selling, or long or short. It depends only on what your order does to the order book at the moment it is placed.</p>
+<ul>
+  <li><b>Taker:</b> an order that fills straight away against resting orders. BloFin's help centre describes it as an order that trades immediately before going on the order book. Market orders are always takers.</li>
+  <li><b>Maker:</b> an order that sits on the book, in whole or in part, until someone else fills it. A limit order placed below the current price when buying, or above it when selling, is the usual example.</li>
+</ul>
+<p>A limit order is not automatically a maker order. If you place a buy limit above the best ask, it crosses the spread and fills at once, so it is charged as a taker. Many exchanges offer a "post-only" option that cancels the order instead of letting it take, which is the simplest way to guarantee the maker rate when you are entering a position.</p>
+<p>The trades that quietly push traders onto the taker rate are exits. A stop-loss that triggers a market order is a taker trade. So is closing a position in a hurry, and so is a liquidation. Even a patient trader who enters with limit orders usually pays the taker rate on a good share of exits.</p>
+<p class="src">Source: <a href="{BLOFIN_FEE_URL}" target="_blank" rel="noopener">BloFin help centre, "Trading Fee"</a>, read 5 Nov 2026.</p>
+
+<h2>How the fee is calculated</h2>
+<p>Futures fees are charged on the full value of the position, not on the margin you put up. BloFin's help centre writes the formula as <i>commission fee = notional value × fee rate</i>, and Bitget's fee guide says the same in different words. Leverage does not change the rate. It changes the notional value you can open with the same margin, which is why fees feel so much heavier at high leverage.</p>
+<p>Say you post {d(margin)} of margin at {lev}x. That opens a {d(notional)} position. At Bitget's standard rates:</p>
+<ul>
+  <li>Opening with a market order costs {d(notional)} × {pct(TAKER)} = <b>{d(f_t)}</b>.</li>
+  <li>Opening with a resting limit order costs {d(notional)} × {pct(MAKER)} = <b>{d(f_m)}</b>.</li>
+</ul>
+<p>You pay again when you close. A round trip with market orders on both sides costs {d(f_t * 2)}, which is {(f_t * 2) / margin * 100:.1f}% of the margin you posted, before the price has moved at all.</p>
+
+<h2>A month of trading: three order habits compared</h2>
+<p>Here is the same trader making {trips} round trips of {d(notional)} in a month, with three different habits. The rebate column shows what comes back through {config['brand']}'s {r2}% rebate on Bitget.</p>
+<div class="gd-scroll"><table class="gd-tbl">
+  <thead><tr><th>Habit</th><th>Per round trip</th><th>Fees for {trips}</th><th>Rebate {r2}%</th><th>Net cost</th></tr></thead>
+  <tbody>{rows2}</tbody>
+</table></div>
+<p class="src">Bitget standard futures rates {pct(MAKER)} / {pct(TAKER)}, from the <a href="{FAQ_URL}" target="_blank" rel="noopener">Bitget Trading Fees FAQ</a>, checked 3 Nov 2026. Funding and VIP discounts are not included. The table is arithmetic, not a forecast of your trading.</p>
+<p>The gap between the first and last row is {d(worst - best)} a month on fees alone. Few people can trade only with limit orders, and nobody should skip a stop-loss to save a fee. The realistic target is the middle row: enter with limit orders when you are not in a hurry and accept the taker rate on exits.</p>
+<p>A useful way to think about it is your blended rate. If half your volume is maker and half is taker, you pay about {pct(half)} on average at these rates. Every bit of volume you move from taker to maker pulls that number down.</p>
+
+<h2>Where a rebate fits in</h2>
+<p>A fee rebate does not change which rate the exchange charges you. You still pay the normal maker or taker fee at the moment you trade. The exchange then pays the referrer a commission on those fees, and a rebate service hands part of it back to you.</p>
+<p>Through {config['brand']}, {r2}% of the Bitget futures fees you pay comes back in USDT every Monday. That brings the taker rate you effectively pay from {pct(TAKER)} to <b>{pct(net(TAKER, r2))}</b>, and the maker rate from {pct(MAKER)} to {pct(net(MAKER, r2))}. Because the rebate is a percentage of whatever you paid, it helps most on the taker volume you cannot avoid.</p>
+<p>Rebate rates differ by exchange. Our <a href="../index.html#venues">ranking of all eleven exchanges</a> sorts them by the taker fee you pay after the rebate, and the <a href="../index.html#fees">fee calculator</a> lets you plug in your own size and number of trades. If you want the Bitget detail, including funding, our <a href="bitget-futures-fees.html">Bitget futures fees guide</a> goes further.</p>
+
+<h2>Four habits that cut your taker share</h2>
+<ul>
+  <li><b>Enter with limit or post-only orders</b> when the setup is not time-critical. Waiting a few ticks often costs less than the fee difference.</li>
+  <li><b>Use limit take-profits.</b> A take-profit placed in advance rests on the book, so it is usually filled as a maker.</li>
+  <li><b>Trade less often, in larger steps.</b> Fees scale with notional value, so ten small scalps cost the same in fees as one position ten times the size, and usually more once you count the extra exits.</li>
+  <li><b>Check your account's rate after you log in.</b> Exchanges change fee tiers and run promotions. The rate on your own fee page always takes precedence over any guide, including this one.</li>
+</ul>
+
+<h2>How to sign up and claim the {r2}% rebate on Bitget</h2>
+<ol class="gd-steps">
+  <li><div><b>Open a new Bitget account through our link</b><p>The referral is attached by the sign-up button on this page, so there is no code to type. It works for new accounts only.</p></div></li>
+  <li><div><b>Secure and verify the account</b><p>Turn on two-factor authentication and complete identity checks if Bitget asks for them where you live.</p></div></li>
+  <li><div><b>Copy your UID</b><p>It is the account number shown on your profile in the Bitget app or website.</p></div></li>
+  <li><div><b>Send "Bitget + your UID" on Telegram</b><p>Message <a href="{tg_dm}" target="_blank" rel="noopener">@{config['telegram_dm']}</a>. We confirm within 24 hours. Never send a password, 2FA code or API key.</p></div></li>
+  <li><div><b>Get paid every Monday</b><p>Last week's rebate arrives in USDT. The minimum payout is 10 USDT; smaller amounts roll over.</p></div></li>
+</ol>
+<p style="margin-top:20px">Prefer another venue? Each exchange has its own page with the same steps, starting from the <a href="../index.html#venues">exchange list</a> or our <a href="../exchanges/bitget.html">Bitget referral page</a>.</p>
+
+<div class="gd-risk">
+  <h2>Before you trade</h2>
+  <p>Leveraged futures can lose you more than you expect, very quickly, and can wipe out your whole margin. Lower fees do not make a losing strategy profitable. Start with low leverage and only trade money you can afford to lose.</p>
+  <p style="margin-top:12px">Each exchange decides which countries it serves, so check its terms for where you live. This site is not for residents of the Republic of Korea or the United States, or of any place where the exchange is not allowed to serve you. Nothing here is investment advice, and {config['brand']} earns a referral commission, part of which it shares with you as the rebate.</p>
+</div>
+"""
+    faqs2 = [
+        ("What is the difference between maker and taker fees?",
+         f"A maker order rests on the order book until someone else fills it, so it adds liquidity. A taker order fills immediately against existing orders, so it removes liquidity. Exchanges charge takers more: on a standard Bitget futures account it is {pct(MAKER)} maker against {pct(TAKER)} taker (checked 3 November 2026)."),
+        ("Is a limit order always charged the maker fee?",
+         "No. A limit order priced through the market, such as a buy limit above the best ask, fills at once and is charged as a taker. Use a post-only option if you want the order cancelled rather than filled as a taker."),
+        ("Does a fee rebate apply to both maker and taker fees?",
+         f"Yes. The rebate is a share of the trading fees you actually pay, whichever side they come from. Through {config['brand']} on Bitget it is {r2}%, which brings the effective rates to {pct(net(MAKER, r2))} maker and {pct(net(TAKER, r2))} taker. Funding payments are not trading fees and are not rebated."),
+    ]
+    out.append(dict(
+        slug="maker-vs-taker-fees",
+        venue=ex,
+        title=f"Maker vs Taker Fees in Crypto Futures: What You Really Pay | {config['brand']}",
+        h1="Maker vs taker fees, <em>in real dollars.</em>",
+        crumb="Maker vs taker fees",
+        desc=(f"Maker vs taker fees in crypto futures, with dollar examples: why takers pay up to 3x more, "
+              f"how the fee is calculated, and how a {r2}% rebate lowers both."),
+        lede=("Most futures traders pay the taker rate far more often than they think. Here is how each order is classified, "
+              "what the difference costs in a month, and how to keep more of it."),
+        published="2026-11-05", modified="2026-11-05", checked="3 Nov 2026",
+        keyword="maker vs taker fees",
+        body=body2, faqs=faqs2, signup=signup2,
+        side_big=pct(net(TAKER, r2)), side_label=f"Bitget taker you effectively pay after the {r2}% rebate (standard {pct(TAKER)})",
     ))
     return out
 
