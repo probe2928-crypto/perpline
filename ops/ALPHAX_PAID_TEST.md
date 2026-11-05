@@ -55,3 +55,9 @@
 | 텔레그램 공식 Ads | TON 결제 | TON | 거래소 광고가 '위험 금융'으로 막힐 위험 → 제외 |
 | X 인플루언서 | 협상 | USDT 직접 송금 | 에스크로 없음 → 2차 |
 결론: 1차 150달러는 Telega.io 전액 (추천안 CAR $120 + Scalp $24).
+
+## 1차 주문 (11/5 13:55 KST) — 세준 B안 승인
+- Telega.io 주문 #2561026: Crypto Asset Report 1/24, $115.80 (HELLO_TELEGA 할인 -$4.20). 충전 $116 + 수수료 15% = 약 $133 결제. 잔액 $0.20
+- 광고: 이미지 ads/alphax/social-1080.png + 영문 글, 링크 https://perpline.tech/go/ax-tg1.html (GA4 source=tg1), Telega 클릭 추적 ON
+- 채널 주인 24시간 내 수락 → 게시 후 링크 보고. 게시 후 7일 뒤 GA4 tg1 클릭·AlphaX 포털 가입자 확인 → 2차(Scalp Signals 등) 결정
+- 참고: Telega 충전 수수료는 모든 결제수단 15% (얹는 방식). 예산 계산 때 ×1.15
