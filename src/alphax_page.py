@@ -4,7 +4,7 @@ Facts used: AlphaX press release (Jul 2026) — limited-time zero-fee framework 
 in eligible regions, covering crypto perpetuals, crypto spot and USDT-margined TradFi perpetuals.
 Not promoted in Korean (ko/ build is not generated for this page)."""
 
-REF = "https://www.alphax.com/user/invite/7lxP6X"
+REF = "https://www.alphax.com/partner/7lxP6X"
 
 CSS = """
 .ax-hero{position:relative;overflow:hidden;padding-block:clamp(56px,9vw,128px) clamp(44px,6vw,80px);border-bottom:1px solid var(--hair)}

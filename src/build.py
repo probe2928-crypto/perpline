@@ -652,7 +652,7 @@ def venue_rows(lst, ol_id, src='home'):
   <span class="vfees"><span class="vfee num"><span class="k">Maker</span>0%</span><span class="vfee num"><span class="k">Taker</span>0%</span></span>
   <span class="vreb">0%<small>Fees</small></span>
   <span class="vfees netc"><span class="vnet num"><span class="k">You pay</span>0%</span></span>
-  <a class="btn sm" href="https://www.alphax.com/user/invite/7lxP6X" target="_blank" rel="sponsored nofollow noopener" aria-label="Sign up for AlphaX">Sign up</a>
+  <a class="btn sm" href="https://www.alphax.com/partner/7lxP6X" target="_blank" rel="sponsored nofollow noopener" aria-label="Sign up for AlphaX">Sign up</a>
 </li>""")
     return "\n".join(out)
 
