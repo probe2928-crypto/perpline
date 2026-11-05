@@ -18,7 +18,7 @@
 - 국가 타기팅이 없고 언어·카테고리만 가능 → 미국 노출을 막을 수 없음. 쓴다면 소액 테스트만
 
 ## 랜딩
-https://probe2928-crypto.github.io/perpline/start.html?utm_source=bitmedia&utm_medium=banner&utm_campaign=rebate
+https://perpline.tech/start.html?utm_source=bitmedia&utm_medium=banner&utm_campaign=rebate
 
 ## 배너 (banners/)
 3가지 톤(ivory · klein · noir) × 10개 사이즈 + 애니메이션 GIF 3종(300x250, 728x90, 160x600)
