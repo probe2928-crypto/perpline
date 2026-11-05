@@ -1,6 +1,6 @@
 {
  "brand": "Perpline",
- "url": "https://probe2928-crypto.github.io/perpline/",
+ "url": "https://perpline.tech/",
  "telegram": "btcbullit",
  "feesChecked": "Oct 2026",
  "eligibility": "Not available to residents of South Korea or the United States.",
@@ -13,7 +13,7 @@
    "taker": 0.045,
    "ref": "https://partner.btcc.com/kr/c/DDHOR6",
    "logo": "https://coin-images.coingecko.com/markets/images/12/large/BTCC-LogoOnly_200x200.png?1722494798",
-   "page": "https://probe2928-crypto.github.io/perpline/exchanges/btcc.html"
+   "page": "https://perpline.tech/exchanges/btcc.html"
   },
   {
    "slug": "biconomy",
@@ -23,7 +23,7 @@
    "taker": null,
    "ref": "https://www.biconomy.com/sign-up?r_user_id=W999H2024",
    "logo": "https://coin-images.coingecko.com/markets/images/633/large/logo_B._200x200.png?1723787144",
-   "page": "https://probe2928-crypto.github.io/perpline/exchanges/biconomy.html"
+   "page": "https://perpline.tech/exchanges/biconomy.html"
   },
   {
    "slug": "crypfine",
@@ -33,7 +33,7 @@
    "taker": null,
    "ref": "https://www.crypfine.com/auth/NDVTRSK",
    "logo": null,
-   "page": "https://probe2928-crypto.github.io/perpline/exchanges/crypfine.html"
+   "page": "https://perpline.tech/exchanges/crypfine.html"
   },
   {
    "slug": "bitunix",
@@ -43,7 +43,7 @@
    "taker": 0.06,
    "ref": "https://www.bitunix.com/register?vipCode=Lbya",
    "logo": "https://coin-images.coingecko.com/markets/images/1185/large/APP_icon_1024.png?1706865197",
-   "page": "https://probe2928-crypto.github.io/perpline/exchanges/bitunix.html"
+   "page": "https://perpline.tech/exchanges/bitunix.html"
   },
   {
    "slug": "blofin",
@@ -53,7 +53,7 @@
    "taker": 0.06,
    "ref": "https://blofin.com/register?breferral_code=9mqzvd",
    "logo": "https://coin-images.coingecko.com/markets/images/1645/large/blofin_logo.jpeg?1718852326",
-   "page": "https://probe2928-crypto.github.io/perpline/exchanges/blofin.html"
+   "page": "https://perpline.tech/exchanges/blofin.html"
   },
   {
    "slug": "deepcoin",
@@ -63,7 +63,7 @@
    "taker": 0.06,
    "ref": "https://s.deepcoin.com/jdhaafj",
    "logo": "https://coin-images.coingecko.com/markets/images/1005/large/deepcoin.jpeg?1706864992",
-   "page": "https://probe2928-crypto.github.io/perpline/exchanges/deepcoin.html"
+   "page": "https://perpline.tech/exchanges/deepcoin.html"
   },
   {
    "slug": "gate",
@@ -73,7 +73,7 @@
    "taker": 0.05,
    "ref": "https://www.gate.com/share/vfffufhw",
    "logo": "https://coin-images.coingecko.com/markets/images/60/large/Frame_1.png?1747795534",
-   "page": "https://probe2928-crypto.github.io/perpline/exchanges/gate.html"
+   "page": "https://perpline.tech/exchanges/gate.html"
   },
   {
    "slug": "orangex",
@@ -83,7 +83,7 @@
    "taker": 0.05,
    "ref": "https://www.orangex.com/register?i=4htatgs2",
    "logo": "https://coin-images.coingecko.com/markets/images/1272/large/Subtract.png?1706865272",
-   "page": "https://probe2928-crypto.github.io/perpline/exchanges/orangex.html"
+   "page": "https://perpline.tech/exchanges/orangex.html"
   },
   {
    "slug": "bingx",
@@ -93,7 +93,7 @@
    "taker": 0.05,
    "ref": "https://bingx.com/invite/8PFSGN/",
    "logo": "https://coin-images.coingecko.com/markets/images/812/large/YtFwQwJr_400x400.jpg?1706864837",
-   "page": "https://probe2928-crypto.github.io/perpline/exchanges/bingx.html"
+   "page": "https://perpline.tech/exchanges/bingx.html"
   },
   {
    "slug": "okx",
@@ -103,7 +103,7 @@
    "taker": 0.05,
    "ref": "https://www.okx.com/join/96335797",
    "logo": "https://coin-images.coingecko.com/markets/images/96/large/WeChat_Image_20220117220452.png?1706864283",
-   "page": "https://probe2928-crypto.github.io/perpline/exchanges/okx.html"
+   "page": "https://perpline.tech/exchanges/okx.html"
   },
   {
    "slug": "bitget",
@@ -113,7 +113,7 @@
    "taker": 0.06,
    "ref": "https://partner.bitget.com/bg/UN4442",
    "logo": "https://coin-images.coingecko.com/markets/images/540/large/2023-07-25_21.47.43.jpg?1706864507",
-   "page": "https://probe2928-crypto.github.io/perpline/exchanges/bitget.html"
+   "page": "https://perpline.tech/exchanges/bitget.html"
   }
  ]
 }

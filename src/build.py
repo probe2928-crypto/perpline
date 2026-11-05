@@ -9,7 +9,7 @@ OUT = pathlib.Path(__file__).resolve().parent.parent  # repo root = site
 
 # ============ CONFIG ============
 CONFIG = {
-    "domain": "https://probe2928-crypto.github.io/perpline",  # change to your real domain later
+    "domain": "https://perpline.tech",  # custom domain (Porkbun, 2026-11-05)
     "brand": "Perpline",
     "telegram_dm": "btcbullit",                # 1:1 support
     "telegram_group_url": "https://t.me/+_QeSr3G2JGYxMmJl",   # community group invite link

@@ -24,8 +24,8 @@
     "mimic": "header.top .right a.hide-sm",
     "brand": "Perpline",
     "links": {
-      "terms": "https://probe2928-crypto.github.io/perpline/terms.html",
-      "privacy": "https://probe2928-crypto.github.io/perpline/privacy.html"
+      "terms": "https://perpline.tech/terms.html",
+      "privacy": "https://perpline.tech/privacy.html"
     },
     "versions": {
       "terms": "2026-11-02",
