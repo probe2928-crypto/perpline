@@ -49,7 +49,7 @@ T = {
  "lede": {"en": "For a limited time, AlphaX charges nothing to trade in eligible regions. No maker fee, no taker fee, on crypto perpetuals, spot and USDT-margined TradFi perpetuals. Every basis point you used to hand the exchange stays in your P&L.",
           "zh": "限时活动：在符合条件的地区，AlphaX 交易不收手续费。加密永续、现货以及 USDT 本位的传统金融永续合约，挂单 0%、吃单 0%。以前交给交易所的每一个基点，现在都留在你的盈亏里。"},
  "cta": {"en": "Open an AlphaX account", "zh": "注册 AlphaX"},
- "ctanote": {"en": "Referral link · takes about a minute", "zh": "推荐链接 · 约一分钟完成注册"},
+ "ctanote": {"en": "Referral code 7lxP6X · applied automatically through this link", "zh": "邀请码 7lxP6X · 通过此链接注册自动生效"},
  "mathh": {"en": "What 0% is worth on a $100,000 trade", "zh": "一笔 10 万美元的交易，0% 意味着什么"},
  "th": {"en": ["Venue", "Open as maker", "Open as taker", "Round trip, taker"], "zh": ["交易所", "挂单开仓", "吃单开仓", "吃单开平一次"]},
  "typical": {"en": "Typical perp rate (0.02% / 0.05%)", "zh": "常见永续费率（0.02% / 0.05%）"},
