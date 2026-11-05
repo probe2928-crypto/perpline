@@ -472,7 +472,7 @@ def header(prefix):
       <a href="{prefix}index.html#note">Market</a>
       <a href="{prefix}returns.html">Returns</a>
       <a href="{prefix}projects.html">Projects</a>
-      <a href="{prefix}alphax.html" style="white-space:nowrap">0% Fees</a>
+      <!--ax--><a href="{prefix}alphax.html" style="white-space:nowrap">0% Fees</a><!--/ax-->
     </nav>
     <a class="wordmark" href="{prefix}index.html">{CONFIG['brand']}</a>
     <div class="right">
@@ -492,7 +492,7 @@ def header(prefix):
       <a href="{prefix}index.html#faq">Questions</a>
       <a href="{prefix}returns.html">Returns heatmap</a>
       <a href="{prefix}projects.html">Projects</a>
-      <a href="{prefix}alphax.html">0% fees · AlphaX</a>
+      <!--ax--><a href="{prefix}alphax.html">0% fees · AlphaX</a><!--/ax-->
       <a href="{TG_GROUP}" target="_blank" rel="noopener">Community</a>
       <a href="{TG_DM}" target="_blank" rel="noopener">Support on Telegram</a>
     </div>
@@ -622,7 +622,7 @@ def marquee(rows, prefix):
     items = "".join(
         f'<a class="mq-item" href="{prefix}exchanges/{v["slug"]}.html">{logo(v, prefix, "mq-logo")}<span class="mq-name">{esc(v["name"])}</span><span class="mq-pct">{v["rebate"]}%</span></a>'
         for v in rows)
-    items = f'<a class="mq-item" href="{prefix}alphax.html">{logo(dict(slug="alphax", name="AlphaX"), prefix, "mq-logo")}<span class="mq-name">AlphaX</span><span class="mq-pct">0% fee</span></a>' + items
+    items = f'<!--ax--><a class="mq-item" href="https://www.alphax.com/partner/7lxP6X" target="_blank" rel="sponsored nofollow noopener">{logo(dict(slug="alphax", name="AlphaX"), prefix, "mq-logo")}<span class="mq-name">AlphaX</span><span class="mq-pct">0% fee</span></a><!--/ax-->' + items
     dup = items.replace('<a ', '<a tabindex="-1" aria-hidden="true" ')
     return f'<div class="mq mq-logos" aria-label="Exchanges and rebates"><div class="mq-track">{items}{dup}</div></div>'
 
@@ -646,14 +646,14 @@ def venue_rows(lst, ol_id, src='home'):
 </li>""")
     if lst is VENUES:
         ax = dict(slug="alphax", name="AlphaX")
-        out.insert(0, f"""<li class="vrow vrow-ax">
+        out.insert(0, f"""<!--ax--><li class="vrow vrow-ax">
   <span class="vno">Pick</span>
   <span class="vname"><a class="nm" href="alphax.html">{logo(ax,'','vlogo')}AlphaX</a><span class="vnote">Zero trading fees on crypto perps, spot and TradFi perps.</span><span class="lowest">0% maker · 0% taker</span></span>
   <span class="vfees"><span class="vfee num"><span class="k">Maker</span>0%</span><span class="vfee num"><span class="k">Taker</span>0%</span></span>
   <span class="vreb">0%<small>Fees</small></span>
   <span class="vfees netc"><span class="vnet num"><span class="k">You pay</span>0%</span></span>
   <a class="btn sm" href="https://www.alphax.com/partner/7lxP6X" target="_blank" rel="sponsored nofollow noopener" aria-label="Sign up for AlphaX">Sign up</a>
-</li>""")
+</li><!--/ax-->""")
     return "\n".join(out)
 
 
@@ -905,7 +905,7 @@ def build_index():
         CONFIG['domain'] + "/", f'<script type="application/ld+json">{json.dumps(ld)}</script>')}
 <!--BODY-->
 {header('')}
-{_promo_strip(CONFIG['domain'], 'home-promo-strip')}
+<!--ax-->{_promo_strip(CONFIG['domain'], 'home-promo-strip')}<!--/ax-->
 <main id="top">
   <section class="stage" id="stage" aria-roledescription="carousel" aria-label="Perpline highlights">
     <div class="stage-track" id="stageTrack">
@@ -969,15 +969,15 @@ def build_index():
     </div>
   </div>
 
-  <a class="ax-band" href="alphax.html" aria-label="AlphaX spotlight: 0% maker and 0% taker fees">
+  <!--ax--><a class="ax-band" href="https://www.alphax.com/partner/7lxP6X" target="_blank" rel="sponsored nofollow noopener" aria-label="Sign up on AlphaX: 0% maker and 0% taker fees, referral code 7lxP6X">
     <span class="label">Spotlight</span>
     <b><em>0%</em> maker · <em>0%</em> taker</b>
-    <span class="ax-band-t">Trade on AlphaX with zero trading fees →</span>
+    <span class="ax-band-t">Sign up on AlphaX · code 7lxP6X →</span>
   </a>
   <style>.ax-band{{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 28px;padding:22px clamp(20px,5vw,72px);background:var(--ink);color:var(--paper);text-decoration:none;border-top:1px solid var(--ink)}}
 .ax-band .label{{color:var(--paper);opacity:.7}}.ax-band b{{font-family:var(--display);font-weight:400;font-size:clamp(28px,3.4vw,44px);line-height:1}}
 .ax-band em{{font-style:italic;color:var(--tone-d,#8C97FF)}}.ax-band-t{{font-size:13px;letter-spacing:.18em;text-transform:uppercase}}
-.ax-band:hover .ax-band-t{{text-decoration:underline}}</style>
+.ax-band:hover .ax-band-t{{text-decoration:underline}}</style><!--/ax-->
 
   <section class="chapter" id="venues" aria-labelledby="venH" style="border-top:0">
     <div class="wrap">
@@ -1533,6 +1533,7 @@ def ko_doc(doc, depth_alt, alt_href, canon):
     doc = re.sub(r'<!--bm-->.*?<!--/bm-->', '', doc, flags=re.S)  # owner-only pages: no ad tracking
     doc = re.sub(r'<!--ga-->.*?<!--/ga-->', '', doc, flags=re.S)  # ...and no visit statistics
     doc = re.sub(r'<!--gr-->.*?<!--/gr-->', '', doc, flags=re.S)  # ...and no growth kit (owner clicks must not count in Savri)
+    doc = re.sub(r'<!--ax-->.*?<!--/ax-->', '', doc, flags=re.S)  # AlphaX is not available in South Korea: never on ko/ pages
     d = _ko(doc)
     d = d.replace('<html lang="en">', '<html lang="ko">', 1)
     d = d.replace('<head><meta charset="utf-8">', f'<head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow">', 1)
