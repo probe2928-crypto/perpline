@@ -1629,7 +1629,7 @@ def growth_kit():
       "new MutationObserver(upd).observe(bar,{attributes:true,attributeFilter:['hidden']});}"
       "})();</script><!--/gr-->")
 
-NETWORK = '<script src="https://probe2928-crypto.github.io/chainbrief/network.js" data-site="perpline" defer></script>'
+NETWORK = '<script src="https://chainbrief.app/network.js" data-site="perpline" defer></script>'
 AUTH = f'<script src="{CONFIG["domain"]}/auth-config.js" defer></script>'  # 회원 로그인 — auth-config.js 에 키가 없으면 아무것도 안 함
 # sign-up draw (off unless event/event-config.js says enabled — the config file alone loads, ~1 KB)
 EVENT = '<script src="' + CONFIG["domain"].split("github.io", 1)[-1] + '/event/event-config.js" defer></script>'

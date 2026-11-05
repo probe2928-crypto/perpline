@@ -1,11 +1,11 @@
 """Perpline · Returns — monthly / quarterly / yearly coin returns heatmap.
 Widget + data are shared with CHAINBRIEF (same github.io origin):
-  script  https://probe2928-crypto.github.io/chainbrief/returns.js
-  data    https://probe2928-crypto.github.io/chainbrief/api/returns.json (refreshed every 6h by chainbrief deploy)
+  script  https://chainbrief.app/returns.js
+  data    https://chainbrief.app/api/returns.json (refreshed every 6h by chainbrief deploy)
 Public page: English with a 中文 switch (?lang=zh). Korean copy lives only in the owner-only ko/ build."""
 import pathlib
 
-CB = "https://probe2928-crypto.github.io/chainbrief/"
+CB = "https://chainbrief.app/"
 RT_CSS = (pathlib.Path(__file__).resolve().parent / "returns.css").read_text(encoding="utf-8")
 CSS = """
 .rt{--line:var(--hair);--mute:var(--muted);--f-num:var(--display);--f-label:var(--sans);--f-display:var(--display);--fs-label:11px;--fs-meta:13px;--tr-caps:.18em}

@@ -428,7 +428,7 @@ html:not([data-rl]) [data-l="en"],html:not([data-rl]) [data-l="ko"],html[data-rl
     <h1 data-l="ko">코인 수익률, <em>달마다 한눈에.</em></h1><p class="lede" data-l="ko">비트코인·이더리움·솔라나·XRP가 달마다, 분기마다, 해마다 얼마나 오르고 내렸는지 한 표로 봐요. 세로로 보면 같은 달의 해마다 성적(계절성), 가로로 보면 그해의 흐름이에요. 위 카드는 이번 달·분기·올해를 역대 중앙값과 비교해요.</p>
   </div></section>
   <section class="rt-body"><div class="wrap">
-    <div class="rt" id="rtApp" data-returns data-lang="ko" data-src="https://probe2928-crypto.github.io/chainbrief/api/returns.json"></div>
+    <div class="rt" id="rtApp" data-returns data-lang="ko" data-src="https://chainbrief.app/api/returns.json"></div>
   </div></section>
 </main>
 <footer>
@@ -473,7 +473,7 @@ R.setAttribute("data-lang",x);if(re&&window.RTinit)window.RTinit(R);
 try{var u=new URL(location.href);if(x==="zh")u.searchParams.set("lang","zh");else u.searchParams.delete("lang");history.replaceState(null,"",u)}catch(e){}}
 set(l,false);
 document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".rt-lang [data-set]");if(b)set(b.dataset.set,true)});})();</script>
-<script src="https://probe2928-crypto.github.io/chainbrief/returns.js" defer></script>
+<script src="https://chainbrief.app/returns.js" defer></script>
 <script>window.HOME="index.html"; window.LANG="ko"; window.LANG_ALT="../returns.html";
 
 const $ = id => document.getElementById(id);
@@ -500,4 +500,4 @@ async function btcPill(){
   }catch(e){}
 }
 
-btcPill();</script><script src="https://probe2928-crypto.github.io/chainbrief/network.js" data-site="perpline" defer></script><script src="https://perpline.tech/auth-config.js" defer></script><script src="https://perpline.tech/event/event-config.js" defer></script></body></html>
+btcPill();</script><script src="https://chainbrief.app/network.js" data-site="perpline" defer></script><script src="https://perpline.tech/auth-config.js" defer></script><script src="https://perpline.tech/event/event-config.js" defer></script></body></html>
