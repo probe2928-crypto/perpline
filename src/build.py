@@ -230,6 +230,7 @@ section.chapter:nth-of-type(6n){background:var(--t6)}
 /* venue list */
 .vlist{list-style:none;margin:0;padding:0;border-top:1px solid var(--ink)}
 .vrow{display:grid;grid-template-columns:56px minmax(0,1.5fr) 80px 80px 96px 110px auto;gap:18px;align-items:center;padding-block:24px;border-bottom:1px solid var(--hair)}
+.vrow-ax{background:color-mix(in srgb,var(--tone) 8%,transparent);border-left:3px solid var(--tone);padding-left:12px}.vrow-ax .vno{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--tone)}.vrow-ax .vreb{color:var(--tone)}
 .vhead{padding-block:0 12px;border-bottom:0}
 .vhead span{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
 .vno{font-family:var(--display);font-style:italic;font-size:18px;color:var(--muted)}
@@ -621,6 +622,7 @@ def marquee(rows, prefix):
     items = "".join(
         f'<a class="mq-item" href="{prefix}exchanges/{v["slug"]}.html">{logo(v, prefix, "mq-logo")}<span class="mq-name">{esc(v["name"])}</span><span class="mq-pct">{v["rebate"]}%</span></a>'
         for v in rows)
+    items = f'<a class="mq-item" href="{prefix}alphax.html">{logo(dict(slug="alphax", name="AlphaX"), prefix, "mq-logo")}<span class="mq-name">AlphaX</span><span class="mq-pct">0% fee</span></a>' + items
     dup = items.replace('<a ', '<a tabindex="-1" aria-hidden="true" ')
     return f'<div class="mq mq-logos" aria-label="Exchanges and rebates"><div class="mq-track">{items}{dup}</div></div>'
 
@@ -641,6 +643,16 @@ def venue_rows(lst, ol_id, src='home'):
   <span class="vreb">{v['rebate']}%<small>Rebate</small></span>
   <span class="vfees netc">{net_s}</span>
   <a class="btn sm" href="{esc(link(v,src))}" target="_blank" rel="sponsored nofollow noopener" aria-label="Sign up for {esc(v['name'])}">Sign up</a>
+</li>""")
+    if lst is VENUES:
+        ax = dict(slug="alphax", name="AlphaX")
+        out.insert(0, f"""<li class="vrow vrow-ax">
+  <span class="vno">Pick</span>
+  <span class="vname"><a class="nm" href="alphax.html">{logo(ax,'','vlogo')}AlphaX</a><span class="vnote">Zero trading fees on crypto perps, spot and TradFi perps.</span><span class="lowest">0% maker · 0% taker</span></span>
+  <span class="vfees"><span class="vfee num"><span class="k">Maker</span>0%</span><span class="vfee num"><span class="k">Taker</span>0%</span></span>
+  <span class="vreb">0%<small>Fees</small></span>
+  <span class="vfees netc"><span class="vnet num"><span class="k">You pay</span>0%</span></span>
+  <a class="btn sm" href="https://www.alphax.com/user/invite/7lxP6X" target="_blank" rel="sponsored nofollow noopener" aria-label="Sign up for AlphaX">Sign up</a>
 </li>""")
     return "\n".join(out)
 
