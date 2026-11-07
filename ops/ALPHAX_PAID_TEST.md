@@ -4,7 +4,7 @@
 수익 구조: 수수료는 0%지만 AlphaX가 추천 유저 거래량에 따라 세준에게 지급.
 
 ## 링크 (모두 확인 완료)
-- 가입 링크 (11/05 17:09 세준 지시로 교체): https://www.alphax.com/en-us/register?invite_code=7lxP6X — 사이트·go/ax-*·텔레그램·페북 전부 이 링크. (예전 partner/·user/invite/ 링크는 쓰지 말 것)
+- 가입 링크 (11/08 세준 결정): 공식 추천 링크 https://www.alphax.com/partner/7lxP6X — AlphaX가 추천 기록 후 가입 화면(register?invite_code=7lxP6X)으로 넘김. register 링크를 직접 걸면 해외 테스트에서 코드 칸이 비어 보여서 되돌림. 사이트·go/ax-*·텔레그램·페북 전부 partner 링크.
 - 예전 링크 https://www.alphax.com/user/invite/7lxP6X 도 가입 양식 + 코드 자동 입력 (SNS 게시물은 그대로 둬도 됨)
 - 채널별 추적 링크: https://perpline.tech/go/ax-{tg1,tg2,tg3,tg4,x1,x2,bm,meta,cb}.html
   → GA4(G-8YQ1BGBDR7) 이벤트 `pl_signup_alphax` (source=채널) 기록 후 바로 가입 화면으로 이동
