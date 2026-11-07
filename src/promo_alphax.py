@@ -4,7 +4,7 @@ every reward on this page is a trading/position VOUCHER, not cash, and the zero-
 The sign-up link is Sejun's own AlphaX invite. AlphaX is not in VENUES (no Perpline fee rebate), so the growth kit's
 'claim your rebate' bar never shows for it."""
 
-REF = "https://www.alphax.com/en-us/register?invite_code=7lxP6X"
+REF = "https://www.alphax.com/partner/7lxP6X"
 HUB = "https://www.alphax.com/en-us/activity/reward-center"
 PR = "https://beincrypto.com/alphax-rolls-out-global-zero-fee-trading/"
 CHECKED = "5 Nov 2026"

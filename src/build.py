@@ -622,7 +622,7 @@ def marquee(rows, prefix):
     items = "".join(
         f'<a class="mq-item" href="{prefix}exchanges/{v["slug"]}.html">{logo(v, prefix, "mq-logo")}<span class="mq-name">{esc(v["name"])}</span><span class="mq-pct">{v["rebate"]}%</span></a>'
         for v in rows)
-    items = f'<!--ax--><a class="mq-item" href="https://www.alphax.com/en-us/register?invite_code=7lxP6X" target="_blank" rel="sponsored nofollow noopener">{logo(dict(slug="alphax", name="AlphaX"), prefix, "mq-logo")}<span class="mq-name">AlphaX</span><span class="mq-pct">0% fee</span></a><!--/ax-->' + items
+    items = f'<!--ax--><a class="mq-item" href="https://www.alphax.com/partner/7lxP6X" target="_blank" rel="sponsored nofollow noopener">{logo(dict(slug="alphax", name="AlphaX"), prefix, "mq-logo")}<span class="mq-name">AlphaX</span><span class="mq-pct">0% fee</span></a><!--/ax-->' + items
     dup = items.replace('<a ', '<a tabindex="-1" aria-hidden="true" ')
     return f'<div class="mq mq-logos" aria-label="Exchanges and rebates"><div class="mq-track">{items}{dup}</div></div>'
 
@@ -652,7 +652,7 @@ def venue_rows(lst, ol_id, src='home'):
   <span class="vfees"><span class="vfee num"><span class="k">Maker</span>0%</span><span class="vfee num"><span class="k">Taker</span>0%</span></span>
   <span class="vreb">0%<small>Fees</small></span>
   <span class="vfees netc"><span class="vnet num"><span class="k">You pay</span>0%</span></span>
-  <a class="btn sm" href="https://www.alphax.com/en-us/register?invite_code=7lxP6X" target="_blank" rel="sponsored nofollow noopener" aria-label="Sign up for AlphaX">Sign up</a>
+  <a class="btn sm" href="https://www.alphax.com/partner/7lxP6X" target="_blank" rel="sponsored nofollow noopener" aria-label="Sign up for AlphaX">Sign up</a>
 </li><!--/ax-->""")
     return "\n".join(out)
 
@@ -969,7 +969,7 @@ def build_index():
     </div>
   </div>
 
-  <!--ax--><a class="ax-band" href="https://www.alphax.com/en-us/register?invite_code=7lxP6X" target="_blank" rel="sponsored nofollow noopener" aria-label="Sign up on AlphaX: 0% maker and 0% taker fees, referral code 7lxP6X">
+  <!--ax--><a class="ax-band" href="https://www.alphax.com/partner/7lxP6X" target="_blank" rel="sponsored nofollow noopener" aria-label="Sign up on AlphaX: 0% maker and 0% taker fees, referral code 7lxP6X">
     <span class="label">Spotlight</span>
     <b><em>0%</em> maker · <em>0%</em> taker</b>
     <span class="ax-band-t">Sign up on AlphaX · code 7lxP6X →</span>
@@ -1690,12 +1690,12 @@ def build():
         (OUT / "go" / f"ax-{src}.html").write_text(
             '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow">'
             '<meta name="viewport" content="width=device-width,initial-scale=1"><title>Opening AlphaX sign-up…</title>'
-            '<meta http-equiv="refresh" content="3;url=https://www.alphax.com/en-us/register?invite_code=7lxP6X">'
+            '<meta http-equiv="refresh" content="3;url=https://www.alphax.com/partner/7lxP6X">'
             '<script async src="https://www.googletagmanager.com/gtag/js?id=G-8YQ1BGBDR7"></script>'
             '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-8YQ1BGBDR7",{send_page_view:false});</script></head>'
             '<body style="font:16px system-ui;padding:40px;background:#FBF8F3;color:#121212">'
-            '<p>Opening AlphaX sign-up · referral code 7lxP6X…</p><p><a href="https://www.alphax.com/en-us/register?invite_code=7lxP6X">Continue</a></p>'
-            '<script>(function(){var U="https://www.alphax.com/en-us/register?invite_code=7lxP6X";try{if(!navigator.webdriver){var p=JSON.stringify({site:"site_mvvy2a4d_govfksp",type:"event",url:location.href,path:location.pathname,ref:document.referrer||null,w:innerWidth,ts:Date.now(),'
+            '<p>Opening AlphaX sign-up · referral code 7lxP6X…</p><p><a href="https://www.alphax.com/partner/7lxP6X">Continue</a></p>'
+            '<script>(function(){var U="https://www.alphax.com/partner/7lxP6X";try{if(!navigator.webdriver){var p=JSON.stringify({site:"site_mvvy2a4d_govfksp",type:"event",url:location.href,path:location.pathname,ref:document.referrer||null,w:innerWidth,ts:Date.now(),'
             'id:(window.crypto&&crypto.randomUUID)?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2),name:"pl_signup_alphax",props:{place:"' + src + '",venue:"alphax"}});'
             'navigator.sendBeacon&&navigator.sendBeacon("https://savri.io/api/collect",p);}}catch(e){}var gone=false;function go(){if(!gone){gone=true;location.replace(U)}}try{gtag("event","pl_signup_alphax",{source:"' + src + '",venue:"alphax",transport_type:"beacon",event_callback:go});}catch(e){}setTimeout(go,900);})();</script></body></html>',
             encoding="utf-8")
