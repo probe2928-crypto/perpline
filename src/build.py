@@ -345,6 +345,13 @@ form.cs textarea{min-height:110px;resize:vertical}
 
 /* faq */
 .faq{border-top:1px solid var(--ink);max-width:860px}
+/* related guides (exchange pages) */
+.rguide{list-style:none;margin:0;padding:0;border-top:1px solid var(--ink);max-width:860px}
+.rguide li{border-bottom:1px solid var(--hair)}
+.rguide a{display:flex;align-items:baseline;justify-content:space-between;gap:18px;padding:18px 0;text-decoration:none}
+.rguide b{font-family:var(--display);font-weight:400;font-size:clamp(22px,2.2vw,28px);line-height:1.15}
+.rguide span{font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.rguide a:hover b{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
 details{border-bottom:1px solid var(--hair);padding-block:22px}
 summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:20px;font-family:var(--display);font-size:clamp(20px,2.2vw,26px);line-height:1.25}
 summary::-webkit-details-marker{display:none}
@@ -1283,6 +1290,8 @@ $("csForm").addEventListener("submit",async e=>{
 # ============ EXCHANGE PAGES ============
 def build_exchange(v, idx):
     tone = TONES[idx % len(TONES)]
+    _rg = sorted(_GUIDE_LINKS, key=lambda g: 0 if g[0].startswith(v["slug"] + "-") else 1)
+    rguide_html = "".join(f'<li><a href="{CONFIG["domain"]}/guides/{gs}.html"><b>{esc(gt)}</b><span>Read guide</span></a></li>' for gs, gt in _rg)
     variant = idx % 3  # 0: tone block, 1: centered type, 2: split
     rk = ranked(VENUES)
     known = [x for x in rk if x["taker"] is not None]
@@ -1495,6 +1504,13 @@ def build_exchange(v, idx):
 
   <section class="chapter">
     <div class="wrap">
+      <div class="chap-head"><div><span class="label">Further reading</span><h2>Before you pick a fee tier</h2></div><p>Plain-English guides on how futures fees are charged, so the rebate above is easy to check.</p></div>
+      <ul class="rguide">{rguide_html}</ul>
+    </div>
+  </section>
+
+  <section class="chapter">
+    <div class="wrap">
       <div class="chap-head"><div><span class="label">V · Questions</span><h2>{esc(name)} referral FAQ</h2></div></div>
       <div class="faq">
         {''.join(f'<details><summary>{esc(q)}</summary><p>{esc(a)}</p></details>' for q,a in faqs)}
@@ -1636,7 +1652,7 @@ AUTH = f'<script src="{CONFIG["domain"]}/auth-config.js" defer></script>'  # 회
 # sign-up draw (off unless event/event-config.js says enabled — the config file alone loads, ~1 KB)
 EVENT = '<script src="' + CONFIG["domain"].split("github.io", 1)[-1] + '/event/event-config.js" defer></script>'
 
-GA = ('<!--ga--><script>(function(){if(location.hostname!=="probe2928-crypto.github.io")return;var s=document.createElement("script");s.async=true;'
+GA = ('<!--ga--><script>(function(){if(!/(^|\\.)perpline\\.tech$|^probe2928-crypto\\.github\\.io$/.test(location.hostname)||navigator.webdriver)return;var s=document.createElement("script");s.async=true;'
       's.src="https://www.googletagmanager.com/gtag/js?id=G-8YQ1BGBDR7";document.head.appendChild(s);window.dataLayer=window.dataLayer||[];'
       'window.gtag=function(){dataLayer.push(arguments)};var D={ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied"};'
       'gtag("consent","default",Object.assign({analytics_storage:"denied",region:["AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR","HU","IS","IE","IT","LV","LI","LT","LU","MT","NL","NO","PL","PT","RO","SK","SI","ES","SE","GB","CH"]},D));'

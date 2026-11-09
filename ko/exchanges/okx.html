@@ -226,6 +226,13 @@ form.cs textarea{min-height:110px;resize:vertical}
 
 /* faq */
 .faq{border-top:1px solid var(--ink);max-width:860px}
+/* related guides (exchange pages) */
+.rguide{list-style:none;margin:0;padding:0;border-top:1px solid var(--ink);max-width:860px}
+.rguide li{border-bottom:1px solid var(--hair)}
+.rguide a{display:flex;align-items:baseline;justify-content:space-between;gap:18px;padding:18px 0;text-decoration:none}
+.rguide b{font-family:var(--display);font-weight:400;font-size:clamp(22px,2.2vw,28px);line-height:1.15}
+.rguide span{font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.rguide a:hover b{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
 details{border-bottom:1px solid var(--hair);padding-block:22px}
 summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:20px;font-family:var(--display);font-size:clamp(20px,2.2vw,26px);line-height:1.25}
 summary::-webkit-details-marker{display:none}
@@ -489,6 +496,13 @@ footer{border-top:1px solid var(--ink);padding-block:64px 80px}
 
   <section class="chapter">
     <div class="wrap">
+      <div class="chap-head"><div><span class="label">더 읽기</span><h2>수수료 등급을 고르기 전에</h2></div><p>선물 수수료가 어떻게 매겨지는지 쉽게 정리한 가이드입니다. 위 페이백 계산을 직접 확인해 보세요.</p></div>
+      <ul class="rguide"><li><a href="https://perpline.tech/guides/bitget-futures-fees.html"><b>비트겟 선물 수수료 정리</b><span>가이드 보기</span></a></li><li><a href="https://perpline.tech/guides/maker-vs-taker-fees.html"><b>선물 메이커·테이커 수수료 차이</b><span>가이드 보기</span></a></li></ul>
+    </div>
+  </section>
+
+  <section class="chapter">
+    <div class="wrap">
       <div class="chap-head"><div><span class="label">V · 질문</span><h2>OKX 레퍼럴 FAQ</h2></div></div>
       <div class="faq">
         <details><summary>OKX 레퍼럴 코드는 뭔가요?</summary><p>저희 OKX 레퍼럴은 가입 링크로 자동 적용돼서 따로 입력할 코드가 없어요. 저희 링크로 가입한 뒤 텔레그램 @btcbullit에게 UID를 보내면 40% 수수료 페이백이 활성화돼요.</p></details><details><summary>OKX에서는 페이백을 얼마나 받나요?</summary><p>Perpline은 OKX에서 낸 선물 거래 수수료의 40%를 매주 USDT로 돌려드려요. 일반 테이커 수수료 0.05% 기준으로 실제 요율은 0.03%가 돼요.</p></details><details><summary>OKX 선물 수수료는 얼마인가요?</summary><p>OKX의 일반(비 VIP) USDT 무기한 선물 수수료는 메이커 0.02%, 테이커 0.05%예요 (2026년 10월 확인). 실제로는 계정에 적용된 요율이 우선해요.</p></details><details><summary>기존 OKX 계정에 레퍼럴 코드를 추가할 수 있나요?</summary><p>보통은 안 돼요. 거래소는 계정을 만들 때 레퍼럴을 연결하므로, 페이백을 받으려면 저희 링크로 새 OKX 계정을 만들어야 해요.</p></details><details><summary>비밀번호나 API 키가 필요한가요?</summary><p>아니요. 거래소 이름과 계정 UID만 있으면 돼요. 비밀번호, 2FA 코드, API 키는 누구에게도 알려주지 마세요.</p></details><details><summary>제 국가에서도 OKX 이용이 가능한가요?</summary><p>서비스 국가는 OKX에서 정해요. 가입 전에 거주 국가 관련 약관을 확인하세요. 이 사이트는 대한민국과 미국 거주자를 대상으로 하지 않아요.</p></details>
@@ -514,7 +528,7 @@ footer{border-top:1px solid var(--ink);padding-block:64px 80px}
       <h4>거래소 가이드</h4>
       <ul><li><a href="../exchanges/btcc.html">BTCC 레퍼럴 코드</a></li><li><a href="../exchanges/okx.html">OKX 레퍼럴 코드</a></li><li><a href="../exchanges/gate.html">Gate 레퍼럴 코드</a></li><li><a href="../exchanges/bingx.html">BingX 레퍼럴 코드</a></li><li><a href="../exchanges/orangex.html">OrangeX 레퍼럴 코드</a></li><li><a href="../exchanges/bitget.html">Bitget 레퍼럴 코드</a></li><li><a href="../exchanges/bitunix.html">Bitunix 레퍼럴 코드</a></li><li><a href="../exchanges/blofin.html">BloFin 레퍼럴 코드</a></li><li><a href="../exchanges/deepcoin.html">Deepcoin 레퍼럴 코드</a></li><li><a href="../exchanges/biconomy.html">Biconomy 레퍼럴 코드</a></li><li><a href="../exchanges/crypfine.html">Crypfine 레퍼럴 코드</a></li></ul>
       <h4 style="margin-top:22px">Fee guides</h4>
-      <ul><li><a href="https://perpline.tech/guides/bitget-futures-fees.html">Bitget futures fees explained</a></li><li><a href="https://perpline.tech/guides/maker-vs-taker-fees.html">Maker vs taker fees in futures</a></li></ul>
+      <ul><li><a href="https://perpline.tech/guides/bitget-futures-fees.html">비트겟 선물 수수료 정리</a></li><li><a href="https://perpline.tech/guides/maker-vs-taker-fees.html">선물 메이커·테이커 수수료 차이</a></li></ul>
     </div>
     <div>
       <div class="restrict"><h4>이용 제한 지역</h4>
