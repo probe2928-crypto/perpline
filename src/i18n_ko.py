@@ -202,30 +202,32 @@ EXACT.update({
 
 # market note (update when the note changes)
 NOTE = {
-    "Snapshot · Oct 25, 2026": "스냅샷 · 2026년 10월 25일", "Oct 25, 2026": "2026년 10월 25일",
-    "IV · Le marché · Sunday, Oct 25, 2026": "IV · 시황 · 2026년 10월 25일 (일)",
-    "Longs flushed under $80K. The Fed decides the next leg.": "8만 달러 아래 롱 청산. 다음 방향은 연준이 정한다.",
-    "Bitcoin slipped below $80,000 late in the week and is holding around $80,300. The move was driven by forced selling, not fresh shorts: more than nine in ten BTC liquidations over the last 24 hours hit long positions. When the selling is mostly liquidations, it often runs out once over-leveraged longs are cleared.":
-        "비트코인은 주 후반 8만 달러 아래로 밀렸다가 8만 300달러 근처에서 버티고 있어요. 새로운 숏이 아니라 강제 매도가 끌어내린 하락이에요. 지난 24시간 BTC 청산의 90% 이상이 롱 포지션이었어요. 매도가 대부분 청산이면, 과도한 레버리지 롱이 정리되고 나서 힘이 빠지는 경우가 많아요.",
-    "The pressure came from outside crypto. US spot Bitcoin ETFs posted their largest single-day outflow since late June on Oct 22, the same day the Nasdaq had its worst session since early June on worries about AI spending. Oil also climbed to its highest level since May, which pushes back against hopes for rate cuts.":
-        "압력은 코인 밖에서 왔어요. 10월 22일 미국 현물 비트코인 ETF에서 6월 말 이후 하루 최대 순유출이 나왔고, 같은 날 나스닥은 AI 투자 우려로 6월 초 이후 최악의 하루를 보냈어요. 유가도 5월 이후 최고치로 올라 금리 인하 기대를 꺾고 있어요.",
-    "The next catalyst is the Fed. The FOMC meets Oct 27–28 with the decision on Wednesday. Until then, the $79.3K low and the $81.0–81.4K band are the lines that matter. Leverage is still the main risk in both directions, so size positions so a single wick can't liquidate you.":
-        "다음 변수는 연준이에요. FOMC는 10월 27–28일에 열리고 수요일에 결정이 나와요. 그때까지는 7만 9,300달러 저점과 8만 1,000–8만 1,400달러 구간이 핵심이에요. 양방향 모두 레버리지가 가장 큰 위험이니, 꼬리 한 번에 청산되지 않게 포지션 크기를 잡으세요.",
-    "BTC liquidations, 24h": "BTC 청산 (24시간)", "Share that were longs": "그중 롱 비중",
-    "All-crypto liquidations, 24h": "전체 코인 청산 (24시간)",
-    "Spot ETF net flow, Oct 22": "현물 ETF 순유입, 10/22", "Spot ETF net flow, Oct 23": "현물 ETF 순유입, 10/23",
-    "Spot ETF net flow, Oct 21": "현물 ETF 순유입, 10/21", "FOMC decision": "FOMC 결정", "Wed, Oct 28": "10/28 (수)",
-    "Close above $81.4K": "8만 1,400달러 위 마감", "Pressure shifts to shorts.": "압력이 숏 쪽으로 넘어가요.",
-    "and then the": "다음으로", "rebound high from Oct 21 come back into view.": "(10/21 반등 고점)이 다시 시야에 들어와요.",
-    "$79.3K – $81.4K": "7만 9,300 – 8만 1,400달러",
-    "Most likely into the Fed. Expect": "연준 발표 전까지 가장 유력한 시나리오. 펀딩비가 재조정되는 동안",
-    "and fake breaks on both sides while funding resets.": "과 양방향 속임 돌파를 예상하세요.",
-    "Close below $79.3K": "7만 9,300달러 아래 마감", "A fresh round of": "새로운",
-    "is likely. Watch whether ETF outflows continue after the decision.": "이 나올 가능성이 커요. 결정 이후에도 ETF 유출이 이어지는지 보세요.",
-    "Market commentary for information only. Not investment advice. Data: CoinGecko, CoinGlass and SoSoValue figures as reported Oct 24–25, 2026.":
-        "정보 제공용 시황이며 투자 조언이 아니에요. 데이터: CoinGecko, CoinGlass, SoSoValue (2026년 10월 24–25일 기준).",
-    "Oct 21 rebound high": "10/21 반등 고점", "Oct 23 level": "10/23 가격대",
-    "24h high · resistance": "24시간 고점 · 저항", "24h low · support": "24시간 저점 · 지지",
+    "Snapshot · Nov 8, 2026": "스냅샷 · 2026년 11월 8일", "Nov 8, 2026": "2026년 11월 8일",
+    "IV · Le marché · Monday, Nov 9, 2026": "IV · 시황 · 2026년 11월 9일 (월)",
+    "Stuck under $76K as ETF money leaves. CPI is the next test.": "7만 6,000달러 아래에 갇힌 채 ETF 자금 이탈. 다음 시험대는 CPI.",
+    "Bitcoin spent the weekend flat just under $76,000, trading near $75,850 on Sunday. It is on track for a fifth straight weekly decline after jumping above $80,000 on Nov 4 and giving it all back the next day. A tech-stock sell-off on Nov 5 pushed it briefly under $75,000, its lowest level in about seven weeks.":
+        "비트코인은 주말 내내 7만 6,000달러 바로 아래에서 횡보했고, 일요일에는 7만 5,850달러 근처에서 거래됐어요. 11월 4일 8만 달러 위로 뛰었다가 다음 날 전부 반납했고, 5주 연속 주간 하락이 예상돼요. 11월 5일 기술주 급락으로 잠시 7만 5,000달러 밑까지 내려가 약 7주 만의 최저치를 기록했어요.",
+    "The selling was leveraged longs being forced out. CoinGlass logged about $1.24B of liquidations in the 24 hours to Nov 6, and nearly 89% of that was long positions. Spot Bitcoin ETFs added to the pressure: they took out $1.28B over Nov 2–6, including $411.9M on Friday alone, most of it from one fund.":
+        "매도의 정체는 레버리지 롱의 강제 청산이었어요. CoinGlass에 따르면 11월 6일까지 24시간 동안 약 12억 4,000만 달러가 청산됐고, 그중 89% 가까이가 롱 포지션이었어요. 현물 비트코인 ETF도 압력을 더했어요. 11월 2–6일 사이 12억 8,000만 달러가 빠져나갔고, 금요일 하루에만 4억 1,190만 달러가 나갔는데 대부분 한 펀드에서 나왔어요.",
+    "This week's data matters. US CPI is due Nov 10, and the Fed's next decision is Dec 9. October payrolls came in at 165,000, far above forecasts, which pushed Treasury yields higher. Until Bitcoin clears $76K, the $75K area is the line that matters. Leverage cuts both ways, so size positions so one wick can't liquidate you.":
+        "이번 주는 지표가 중요해요. 미국 CPI가 11월 10일에 나오고, 연준의 다음 결정은 12월 9일이에요. 10월 고용은 16만 5,000명 증가로 예상을 크게 웃돌아 국채 금리를 끌어올렸어요. 비트코인이 7만 6,000달러를 넘기 전까지는 7만 5,000달러 부근이 핵심이에요. 레버리지는 양쪽으로 작동하니, 꼬리 한 번에 청산되지 않게 포지션 크기를 잡으세요.",
+    "BTC price, Nov 8": "BTC 가격, 11/8", "Weekly change": "주간 변동",
+    "All-crypto liquidations, 24h to Nov 6": "전체 코인 청산 (11/6까지 24시간)", "Share that were longs": "그중 롱 비중",
+    "Spot ETF net flow, Nov 6": "현물 ETF 순유입, 11/6", "Spot ETF net flow, Nov 2–6": "현물 ETF 순유입, 11/2–6",
+    "US CPI release": "미국 CPI 발표", "Tue, Nov 10": "11/10 (화)", "Fed decision": "연준 결정", "Wed, Dec 9": "12/9 (수)",
+    "Close above $76K": "7만 6,000달러 위 마감", "Short-term pressure eases. The": "단기 압력이 누그러져요. 청산이 몰려 있다고 보도된",
+    "zone, where liquidation clusters were reported, is the next area to watch.": "구간이 다음으로 볼 가격대예요.",
+    "$75K – $76K": "7만 5,000 – 7만 6,000달러",
+    "Where it has traded since Friday. Expect": "금요일 이후 머물러 온 구간이에요. CPI가 나오기 전까지 주말 거래량이 얕은 가운데",
+    "and thin weekend volume until CPI is out.": "이 예상돼요.",
+    "low conviction": "방향성 부족",
+    "Close below $75K": "7만 5,000달러 아래 마감", "The Sept low near": "9월 저점",
+    "comes into view, and more": "이 시야에 들어오고, 추가",
+    "long liquidations": "롱 청산", "are possible. Watch whether ETF outflows continue.": "도 가능해요. ETF 유출이 이어지는지 보세요.",
+    "Market commentary for information only. Not investment advice. Data: price and range per IBTimes and crypto.news (Nov 8, 2026); CoinGlass liquidation figures via NFTevening; spot ETF flows per SoSoValue and Farside Investors (Nov 5–6, 2026).":
+        "정보 제공용 시황이며 투자 조언이 아니에요. 데이터: 가격·범위는 IBTimes, crypto.news (2026년 11월 8일), 청산은 CoinGlass 수치를 NFTevening이 인용, 현물 ETF 흐름은 SoSoValue·Farside Investors (2026년 11월 5–6일) 기준.",
+    "Liquidation cluster": "청산 집중 구간", "24h high · resistance": "24시간 고점 · 저항",
+    "24h low · support": "24시간 저점 · 지지", "Sept low": "9월 저점",
 }
 EXACT.update(NOTE)
 
@@ -300,7 +302,7 @@ JS = [
 ]
 for k, v in NOTE.items():
     JS.append((f'label:"{k}"', f'label:"{v}"'))
-JS.append(('when:"Oct 25, 2026"', 'when:"2026년 10월 25일"'))
+JS.append(('when:"Nov 8, 2026"', 'when:"2026년 11월 8일"'))
 
 
 def lookup(t):

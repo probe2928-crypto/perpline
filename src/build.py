@@ -478,7 +478,7 @@ def header(prefix):
     <div class="right">
       <a class="hide-sm" href="{TG_GROUP}" target="_blank" rel="noopener">Community</a>
       <a class="langsw" id="langSw" href="#" hidden>한국어</a>
-      <span class="btc">BTC <b id="pillPrice" class="num">$80,300</b></span>
+      <span class="btc">BTC <b id="pillPrice" class="num">$75,851</b></span>
       <span class="auth-slot" data-auth-slot hidden></span>
       <button type="button" class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="menuPanel">Menu</button>
     </div>
@@ -941,7 +941,7 @@ def build_index():
         <div class="slide-in wrap">
           <span class="label">Le marché</span>
           <h2>Bitcoin, read<br><em>three times a week.</em></h2>
-          <p class="lede">BTC <b class="num" id="stageBtc">$80,300</b> · desk notes every Monday, Wednesday and Friday.</p>
+          <p class="lede">BTC <b class="num" id="stageBtc">$75,851</b> · desk notes every Monday, Wednesday and Friday.</p>
           <div class="cta"><a class="btn" href="#note">Read the note</a></div>
         </div>
       </article>
@@ -1049,13 +1049,13 @@ def build_index():
     <div class="wrap">
       <div class="market">
         <div>
-          <span class="label">BTC / USD · <span id="feedLabel">Snapshot · Oct 25, 2026</span></span>
-          <div class="price" style="margin-top:14px"><small>$</small><span id="priceVal">80,300</span></div>
+          <span class="label">BTC / USD · <span id="feedLabel">Snapshot · Nov 8, 2026</span></span>
+          <div class="price" style="margin-top:14px"><small>$</small><span id="priceVal">75,851</span></div>
           <div class="stats">
             <div class="stat"><span class="label">24h</span><b class="chg" id="chg">—</b></div>
-            <div class="stat"><span class="label">24h low</span><b id="lo">79,263</b></div>
-            <div class="stat"><span class="label">24h high</span><b id="hi">81,445</b></div>
-            <div class="stat"><span class="label">Updated</span><b id="upd">Oct 25, 2026</b></div>
+            <div class="stat"><span class="label">24h low</span><b id="lo">75,541</b></div>
+            <div class="stat"><span class="label">24h high</span><b id="hi">76,106</b></div>
+            <div class="stat"><span class="label">Updated</span><b id="upd">Nov 8, 2026</b></div>
           </div>
         </div>
         <div class="ladder" aria-label="Key price levels">
@@ -1064,30 +1064,31 @@ def build_index():
         </div>
       </div>
       <div class="chap-head">
-        <div><span class="label">IV · Le marché · Sunday, Oct 25, 2026</span><h2 id="noteH">Longs flushed under $80K. The Fed decides the next leg.</h2></div>
+        <div><span class="label">IV · Le marché · Monday, Nov 9, 2026</span><h2 id="noteH">Stuck under $76K as ETF money leaves. CPI is the next test.</h2></div>
       </div>
       <div class="note-grid">
         <div class="prose">
-          <p>Bitcoin slipped below $80,000 late in the week and is holding around $80,300. The move was driven by forced selling, not fresh shorts: more than nine in ten BTC liquidations over the last 24 hours hit long positions. When the selling is mostly liquidations, it often runs out once over-leveraged longs are cleared.</p>
-          <p>The pressure came from outside crypto. US spot Bitcoin ETFs posted their largest single-day outflow since late June on Oct 22, the same day the Nasdaq had its worst session since early June on worries about AI spending. Oil also climbed to its highest level since May, which pushes back against hopes for rate cuts.</p>
-          <p>The next catalyst is the Fed. The FOMC meets Oct 27–28 with the decision on Wednesday. Until then, the $79.3K low and the $81.0–81.4K band are the lines that matter. Leverage is still the main risk in both directions, so size positions so a single wick can't liquidate you.</p>
+          <p>Bitcoin spent the weekend flat just under $76,000, trading near $75,850 on Sunday. It is on track for a fifth straight weekly decline after jumping above $80,000 on Nov 4 and giving it all back the next day. A tech-stock sell-off on Nov 5 pushed it briefly under $75,000, its lowest level in about seven weeks.</p>
+          <p>The selling was leveraged longs being forced out. CoinGlass logged about $1.24B of liquidations in the 24 hours to Nov 6, and nearly 89% of that was long positions. Spot Bitcoin ETFs added to the pressure: they took out $1.28B over Nov 2–6, including $411.9M on Friday alone, most of it from one fund.</p>
+          <p>This week's data matters. US CPI is due Nov 10, and the Fed's next decision is Dec 9. October payrolls came in at 165,000, far above forecasts, which pushed Treasury yields higher. Until Bitcoin clears $76K, the $75K area is the line that matters. Leverage cuts both ways, so size positions so one wick can't liquidate you.</p>
         </div>
         <div class="facts" aria-label="Key numbers">
-          <div class="fact"><span>BTC liquidations, 24h</span><span>$239.7M</span></div>
-          <div class="fact"><span>Share that were longs</span><span class="neg">93.1%</span></div>
-          <div class="fact"><span>All-crypto liquidations, 24h</span><span>$820.8M</span></div>
-          <div class="fact"><span>Spot ETF net flow, Oct 22</span><span class="neg">−$635.5M</span></div>
-          <div class="fact"><span>Spot ETF net flow, Oct 23</span><span class="neg">−$137.9M</span></div>
-          <div class="fact"><span>Spot ETF net flow, Oct 21</span><span class="pos">+$528.4M</span></div>
-          <div class="fact"><span>FOMC decision</span><span>Wed, Oct 28</span></div>
+          <div class="fact"><span>BTC price, Nov 8</span><span>~$75,851</span></div>
+          <div class="fact"><span>Weekly change</span><span class="neg">≈ −2.7%</span></div>
+          <div class="fact"><span>All-crypto liquidations, 24h to Nov 6</span><span>$1.24B</span></div>
+          <div class="fact"><span>Share that were longs</span><span class="neg">88.8%</span></div>
+          <div class="fact"><span>Spot ETF net flow, Nov 6</span><span class="neg">−$411.9M</span></div>
+          <div class="fact"><span>Spot ETF net flow, Nov 2–6</span><span class="neg">−$1.28B</span></div>
+          <div class="fact"><span>US CPI release</span><span>Tue, Nov 10</span></div>
+          <div class="fact"><span>Fed decision</span><span>Wed, Dec 9</span></div>
         </div>
       </div>
       <div class="scen">
-        <article><span class="label" style="color:var(--up)">If it reclaims</span><h3>Close above $81.4K</h3><p>Pressure shifts to shorts. <strong>$81.7K</strong> and then the <strong>$84.3K</strong> rebound high from Oct 21 come back into view.</p></article>
-        <article><span class="label">If it chops</span><h3>$79.3K – $81.4K</h3><p>Most likely into the Fed. Expect <strong>low conviction</strong> and fake breaks on both sides while funding resets.</p></article>
-        <article><span class="label" style="color:var(--down)">If it loses</span><h3>Close below $79.3K</h3><p>A fresh round of <strong>long liquidations</strong> is likely. Watch whether ETF outflows continue after the decision.</p></article>
+        <article><span class="label" style="color:var(--up)">If it reclaims</span><h3>Close above $76K</h3><p>Short-term pressure eases. The <strong>$76.5–77.5K</strong> zone, where liquidation clusters were reported, is the next area to watch.</p></article>
+        <article><span class="label">If it chops</span><h3>$75K – $76K</h3><p>Where it has traded since Friday. Expect <strong>low conviction</strong> and thin weekend volume until CPI is out.</p></article>
+        <article><span class="label" style="color:var(--down)">If it loses</span><h3>Close below $75K</h3><p>The Sept low near <strong>$74.97K</strong> comes into view, and more <strong>long liquidations</strong> are possible. Watch whether ETF outflows continue.</p></article>
       </div>
-      <p class="fine" style="margin-top:28px">Market commentary for information only. Not investment advice. Data: CoinGecko, CoinGlass and SoSoValue figures as reported Oct 24–25, 2026.</p>
+      <p class="fine" style="margin-top:28px">Market commentary for information only. Not investment advice. Data: price and range per IBTimes and crypto.news (Nov 8, 2026); CoinGlass liquidation figures via NFTevening; spot ETF flows per SoSoValue and Farside Investors (Nov 5–6, 2026).</p>
     </div>
   </section>
 
@@ -1146,12 +1147,12 @@ window.LANG="en"; window.LANG_ALT="ko/index.html";
 {FX_JS}
 const CONTACT = {{ telegram:"{CONFIG['telegram_dm']}", formEndpoint:"{CONFIG['form_endpoint']}" }};
 const VENUES = {js_venues};
-const SNAP = {{ price:80300, lo:79263, hi:81445, chg:null, when:"Oct 25, 2026" }};
+const SNAP = {{ price:75851, lo:75541, hi:76106, chg:null, when:"Nov 8, 2026" }};
 const LEVELS = [
-  {{ p:84333, label:"Oct 21 rebound high", kind:"r" }},
-  {{ p:81668, label:"Oct 23 level", kind:"r" }},
-  {{ p:81445, label:"24h high · resistance", kind:"r" }},
-  {{ p:79263, label:"24h low · support", kind:"s" }}
+  {{ p:77000, label:"Liquidation cluster", kind:"r" }},
+  {{ p:76106, label:"24h high · resistance", kind:"r" }},
+  {{ p:75541, label:"24h low · support", kind:"s" }},
+  {{ p:74967, label:"Sept low", kind:"s" }}
 ];
 """
     page += CAROUSEL_JS_SRC + INDEX_JS
