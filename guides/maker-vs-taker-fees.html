@@ -365,6 +365,10 @@ footer{border-top:1px solid var(--ink);padding-block:64px 80px}
 .gd-risk{margin-top:56px;padding:24px;border:1px solid var(--ink)}
 .gd-risk h2{margin-top:0!important;font-size:26px!important}
 .gd-risk p{font-size:15.5px!important}
+.gd-mid{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 20px;margin:40px 0 0;padding:18px 20px;border:1px solid var(--ink)}
+.gd-mid .fine{display:block;font-size:13.5px;color:var(--muted);margin-top:4px;max-width:34ch}
+.gd-mid .btn{white-space:nowrap}
+@media (max-width:560px){.gd-mid .btn{width:100%;text-align:center}}
 .gd-side{align-self:start;position:sticky;top:88px;display:flex;flex-direction:column;gap:18px}
 @media (max-width:960px){.gd-side{position:static}}
 .gd-card{border-top:1px solid var(--ink);padding-top:18px;display:flex;flex-direction:column;gap:10px}
@@ -440,7 +444,7 @@ footer{border-top:1px solid var(--ink);padding-block:64px 80px}
 <p>The trades that quietly push traders onto the taker rate are exits. A stop-loss that triggers a market order is a taker trade. So is closing a position in a hurry, and so is a liquidation. Even a patient trader who enters with limit orders usually pays the taker rate on a good share of exits.</p>
 <p class="src">Source: <a href="https://blofin.zendesk.com/hc/en-us/articles/6228682731151-Trading-Fee" target="_blank" rel="noopener">BloFin help centre, "Trading Fee"</a>, read 5 Nov 2026.</p>
 
-<h2>How the fee is calculated</h2>
+<div class="gd-mid" data-place="guide-mid"><div><span class="label">Bitget · 40% rebate</span><span class="fine">Bitget taker you effectively pay after the 40% rebate (standard 0.06%)</span></div><a class="btn" href="https://partner.bitget.com/bg/UN4442" target="_blank" rel="sponsored nofollow noopener">Sign up to Bitget · 40% back</a></div><h2>How the fee is calculated</h2>
 <p>Futures fees are charged on the full value of the position, not on the margin you put up. BloFin's help centre writes the formula as <i>commission fee = notional value × fee rate</i>, and Bitget's fee guide says the same in different words. Leverage does not change the rate. It changes the notional value you can open with the same margin, which is why fees feel so much heavier at high leverage.</p>
 <p>Say you post $2,000 of margin at 10x. That opens a $20,000 position. At Bitget's standard rates:</p>
 <ul>

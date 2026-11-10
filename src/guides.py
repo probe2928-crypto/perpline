@@ -37,6 +37,10 @@ CSS = """
 .gd-risk{margin-top:56px;padding:24px;border:1px solid var(--ink)}
 .gd-risk h2{margin-top:0!important;font-size:26px!important}
 .gd-risk p{font-size:15.5px!important}
+.gd-mid{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 20px;margin:40px 0 0;padding:18px 20px;border:1px solid var(--ink)}
+.gd-mid .fine{display:block;font-size:13.5px;color:var(--muted);margin-top:4px;max-width:34ch}
+.gd-mid .btn{white-space:nowrap}
+@media (max-width:560px){.gd-mid .btn{width:100%;text-align:center}}
 .gd-side{align-self:start;position:sticky;top:88px;display:flex;flex-direction:column;gap:18px}
 @media (max-width:960px){.gd-side{position:static}}
 .gd-card{border-top:1px solid var(--ink);padding-top:18px;display:flex;flex-direction:column;gap:10px}
@@ -367,6 +371,17 @@ def _guides(V, pct, net, link, config, tg_dm):
     return out
 
 
+def _with_mid_cta(body, g, v, esc):
+    """E3: one compact sign-up card before the 3rd <h2>, so long guides have a button between the top and the bottom steps."""
+    parts = body.split("<h2")
+    if len(parts) < 4:
+        return body
+    card = (f'<div class="gd-mid" data-place="guide-mid"><div><span class="label">{esc(v["name"])} · {v["rebate"]}% rebate</span>'
+            f'<span class="fine">{esc(g["side_label"])}</span></div>'
+            f'<a class="btn" href="{esc(g["signup"])}" target="_blank" rel="sponsored nofollow noopener">Sign up to {esc(v["name"])} · {v["rebate"]}% back</a></div>')
+    return "<h2".join(parts[:3]) + card + "<h2" + "<h2".join(parts[3:])
+
+
 def build_guides(head, header, footer, esc, common_js, config, fab, venues, pct, net, link, tg_dm):
     """Returns [(slug, page_html)] for every guide; build.py writes guides/<slug>.html."""
     V = {v["slug"]: v for v in venues}
@@ -405,7 +420,7 @@ def build_guides(head, header, footer, esc, common_js, config, fab, venues, pct,
   </div></section>
   <div class="wrap gd">
     <article class="gd-body">
-      {g['body']}
+      {_with_mid_cta(g['body'], g, v, esc)}
       <section class="gd-faq" aria-labelledby="gdFaq">
         <h2 id="gdFaq">Questions</h2>
         <div class="faq">{''.join(f'<details><summary>{esc(q)}</summary><p>{esc(a)}</p></details>' for q, a in g['faqs'])}</div>

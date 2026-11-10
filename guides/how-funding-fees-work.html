@@ -365,6 +365,10 @@ footer{border-top:1px solid var(--ink);padding-block:64px 80px}
 .gd-risk{margin-top:56px;padding:24px;border:1px solid var(--ink)}
 .gd-risk h2{margin-top:0!important;font-size:26px!important}
 .gd-risk p{font-size:15.5px!important}
+.gd-mid{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 20px;margin:40px 0 0;padding:18px 20px;border:1px solid var(--ink)}
+.gd-mid .fine{display:block;font-size:13.5px;color:var(--muted);margin-top:4px;max-width:34ch}
+.gd-mid .btn{white-space:nowrap}
+@media (max-width:560px){.gd-mid .btn{width:100%;text-align:center}}
 .gd-side{align-self:start;position:sticky;top:88px;display:flex;flex-direction:column;gap:18px}
 @media (max-width:960px){.gd-side{position:static}}
 .gd-card{border-top:1px solid var(--ink);padding-top:18px;display:flex;flex-direction:column;gap:10px}
@@ -436,7 +440,7 @@ footer{border-top:1px solid var(--ink);padding-block:64px 80px}
 <p>Funding fixes that with a small, regular payment. If the perpetual trades above spot, the rate turns positive and longs pay shorts. Holding a long becomes slightly more expensive and holding a short slightly more rewarding, which nudges the two prices back together. When the perpetual trades below spot, the rate turns negative and the payment runs the other way.</p>
 <p>Because the rate follows the market, it changes from one funding time to the next. A long that receives funding this week can be paying it next week.</p>
 
-<h2>How the funding payment is calculated</h2>
+<div class="gd-mid" data-place="guide-mid"><div><span class="label">Bitget · 40% rebate</span><span class="fine">Bitget taker you effectively pay after the 40% rebate (funding not included)</span></div><a class="btn" href="https://partner.bitget.com/bg/UN4442" target="_blank" rel="sponsored nofollow noopener">Sign up to Bitget · 40% back</a></div><h2>How the funding payment is calculated</h2>
 <p>Bitget's fee breakdown gives the formula as <b>position value × funding rate</b>. Bitget's trading fees FAQ says funding is exchanged between long and short holders every 8 hours, which works out to three funding times a day on contracts with that interval. The contract page shows a countdown to the next one, and that countdown is the number to trust for the specific market you trade.</p>
 <p>Like the trading fee, funding is worked out on the full position value, not the margin. Post $1,000 of margin at 10x and you hold a $10,000 position, so funding is calculated on $10,000. Leverage does not change the rate, but it multiplies what the rate costs you relative to the money you actually put in.</p>
 <p>Take that $10,000 long and a funding rate of +0.01%. At the funding time you pay $10,000 × 0.01% = <b>$1</b>, and that amount goes to traders holding shorts. If the rate had been −0.01%, you would have received $1 instead. If you close the position before the funding time, nothing is charged or paid for that interval.</p>
