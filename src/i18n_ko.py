@@ -121,7 +121,7 @@ EXACT = {
     "VI · Questions": "VI · 자주 묻는 질문", "Before you trade": "거래 전에",
     "Further reading": "더 읽기", "Before you pick a fee tier": "수수료 등급을 고르기 전에",
     "Plain-English guides on how futures fees are charged, so the rebate above is easy to check.": "선물 수수료가 어떻게 매겨지는지 쉽게 정리한 가이드입니다. 위 페이백 계산을 직접 확인해 보세요.",
-    "Read guide": "가이드 보기", "Bitget futures fees explained": "비트겟 선물 수수료 정리", "Maker vs taker fees in futures": "선물 메이커·테이커 수수료 차이",
+    "Read guide": "가이드 보기", "Bitget futures fees explained": "비트겟 선물 수수료 정리", "Maker vs taker fees in futures": "선물 메이커·테이커 수수료 차이", "How funding fees work": "선물 펀딩비 계산법",
     "How much rebate will I get?": "페이백은 얼마나 받나요?",
     "Between 40% and 60% of the futures trading fees you pay, depending on the exchange. Each exchange's rate is shown in the list and on its guide page.":
         "거래소에 따라 낸 선물 거래 수수료의 40%~60%예요. 거래소별 비율은 목록과 각 가이드 페이지에 나와 있어요.",

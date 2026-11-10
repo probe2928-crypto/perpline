@@ -4,7 +4,7 @@ no Korea/US targeting, no return promises or price calls. Referral links and reb
 import json
 
 # footer links (slug, anchor text) — keep in sync with _guides()
-LINKS = [("bitget-futures-fees", "Bitget futures fees explained"), ("maker-vs-taker-fees", "Maker vs taker fees in futures")]
+LINKS = [("bitget-futures-fees", "Bitget futures fees explained"), ("maker-vs-taker-fees", "Maker vs taker fees in futures"), ("how-funding-fees-work", "How funding fees work")]
 
 CSS = """
 .gd-hero{padding-block:clamp(48px,7vw,96px) clamp(28px,4vw,48px);border-bottom:1px solid var(--hair)}
@@ -262,6 +262,108 @@ def _guides(V, pct, net, link, config, tg_dm):
         body=body2, faqs=faqs2, signup=signup2,
         side_big=pct(net(TAKER, r2)), side_label=f"Bitget taker you effectively pay after the {r2}% rebate (standard {pct(TAKER)})",
     ))
+
+    # ---- How funding fees work (perpetual futures funding explainer, Bitget used for the worked numbers) ----
+    # Facts used: Bitget Trading Fees FAQ (funding exchanged every 8 hours; standard futures 0.02% / 0.06%) and
+    # "Understanding Bitget's Fees" (funding = position value x funding rate), both checked 2026-11-03 (same check as above).
+    # BloFin help centre "Trading Fee" (commission fee = notional value x fee rate) re-read 2026-11-10.
+    # Funding rates in the tables are labelled hypothetical round numbers for arithmetic only, not exchange data.
+    fx = V["bitget"]
+    assert (fx["maker"], fx["taker"]) == (MAKER, TAKER), "Bitget fee in VENUES no longer matches the verified guide numbers"
+    r3 = fx["rebate"]
+    signup3 = link(fx, "guide-funding")
+    def m(x): return f"${x:,.0f}" if x == int(x) else f"${x:,.2f}"
+    pos3 = 10000
+    margin3, lev3 = 1000, 10
+    per_day = 3  # 8-hour interval
+    rates = [0.01, 0.03]
+    holds = [("One funding time (8 hours)", 1), ("One day", per_day), ("One week", per_day * 7), ("30 days", per_day * 30)]
+    rows3 = "".join(
+        f"<tr><td>{h}</td>" + "".join(f"<td>{m(pos3 * fr / 100 * n)}</td>" for fr in rates) + "</tr>"
+        for h, n in holds)
+    rt3 = pos3 * TAKER / 100 * 2
+    rt3_net = rt3 * (1 - r3 / 100)
+    wk_fund = pos3 * rates[0] / 100 * per_day * 7
+    body3 = f"""
+<h2>The short version</h2>
+<p>A perpetual futures contract never expires, so exchanges use <b>funding</b> to keep its price close to the spot market. At fixed times, traders on one side of the market pay traders on the other side. When the funding rate is positive, longs pay shorts. When it is negative, shorts pay longs. The exchange sets the rate, but the money moves between traders.</p>
+<p>The payment is the value of your position multiplied by the funding rate at that moment. It is charged only if you hold a position when funding is settled, and it is completely separate from the trading fee you pay to open and close. That last point matters for rebates: a fee rebate is a share of your trading fees, so it never covers funding.</p>
+<p>This guide walks through the calculation in dollars, shows how funding compares with trading fees over different holding periods, and explains what to check on the contract page before you open a position. Where we need a real exchange, we use Bitget, whose own fee FAQ we checked on 3 November 2026.</p>
+
+<h2>Why perpetual futures need funding</h2>
+<p>A quarterly futures contract has an end date. As that date gets closer, its price is pulled toward the spot price, because on expiry the two have to meet. A perpetual has no end date, so nothing pulls it back by itself. If more traders want to be long than short, the perpetual can drift above the spot price and stay there.</p>
+<p>Funding fixes that with a small, regular payment. If the perpetual trades above spot, the rate turns positive and longs pay shorts. Holding a long becomes slightly more expensive and holding a short slightly more rewarding, which nudges the two prices back together. When the perpetual trades below spot, the rate turns negative and the payment runs the other way.</p>
+<p>Because the rate follows the market, it changes from one funding time to the next. A long that receives funding this week can be paying it next week.</p>
+
+<h2>How the funding payment is calculated</h2>
+<p>Bitget's fee breakdown gives the formula as <b>position value × funding rate</b>. Bitget's trading fees FAQ says funding is exchanged between long and short holders every 8 hours, which works out to three funding times a day on contracts with that interval. The contract page shows a countdown to the next one, and that countdown is the number to trust for the specific market you trade.</p>
+<p>Like the trading fee, funding is worked out on the full position value, not the margin. Post {m(margin3)} of margin at {lev3}x and you hold a {m(pos3)} position, so funding is calculated on {m(pos3)}. Leverage does not change the rate, but it multiplies what the rate costs you relative to the money you actually put in.</p>
+<p>Take that {m(pos3)} long and a funding rate of +0.01%. At the funding time you pay {m(pos3)} × 0.01% = <b>{m(pos3 * 0.01 / 100)}</b>, and that amount goes to traders holding shorts. If the rate had been −0.01%, you would have received {m(pos3 * 0.01 / 100)} instead. If you close the position before the funding time, nothing is charged or paid for that interval.</p>
+<p class="src">Sources: <a href="{BRK_URL}" target="_blank" rel="noopener">Understanding Bitget's Fees</a> and the <a href="{FAQ_URL}" target="_blank" rel="noopener">Bitget Trading Fees FAQ</a>, checked 3 Nov 2026. Bitget may use a different interval on some contracts; the countdown on each contract page shows the live schedule.</p>
+
+<h2>What funding adds up to over time</h2>
+<p>A single funding payment looks tiny. The cost comes from repetition. The table below shows a {m(pos3)} position held through a run of funding times with an 8-hour interval, at two hypothetical rates. The rates are round numbers picked to make the arithmetic easy to follow. They are not a forecast, and real rates move every interval and can flip sign.</p>
+<div class="gd-scroll"><table class="gd-tbl">
+  <thead><tr><th>Held for</th><th>Rate +0.01% each time</th><th>Rate +0.03% each time</th></tr></thead>
+  <tbody>{rows3}</tbody>
+</table></div>
+<p class="src">Arithmetic only: {m(pos3)} × hypothetical rate × number of funding times, assuming the rate stays the same, which it rarely does. Three funding times a day reflects the 8-hour interval in Bitget's FAQ (checked 3 Nov 2026).</p>
+<p>For comparison, opening and closing that same {m(pos3)} position with market orders at Bitget's standard {pct(TAKER)} taker rate costs {m(rt3)} in trading fees. A trader who is in and out within a few hours mostly pays trading fees. A trader who holds for a week at a steady +0.01% pays {m(wk_fund)} in funding on top, which is already more than the round-trip fee. The longer you hold, the more funding decides your cost.</p>
+
+<h2>Funding is not a trading fee, and no rebate covers it</h2>
+<p>This is the point most often misunderstood. A trading fee is charged by the exchange each time an order fills, and the exchange keeps it. Funding is paid from one group of traders to another. The exchange does not earn it, so there is no referral commission on it, and nothing for a rebate service to share.</p>
+<p>What a rebate does cover is the trading fee, whichever side of the market you are on. Through {config['brand']}, {r3}% of the Bitget futures fees you pay comes back in USDT every Monday. On the round trip above, that turns {m(rt3)} into {m(rt3_net)}, and brings the taker rate you effectively pay from {pct(TAKER)} to <b>{pct(net(TAKER, r3))}</b>. Funding stays exactly as the exchange calculates it.</p>
+<p>So when you compare exchanges, compare trading fees after the rebate, and treat funding as a market cost that depends on the contract and the moment. Our <a href="../index.html#venues">exchange ranking</a> sorts every venue by the taker fee you pay after the rebate. If you want the detail on order types, read <a href="maker-vs-taker-fees.html">maker vs taker fees</a>, and for the full Bitget fee picture see our <a href="bitget-futures-fees.html">Bitget futures fees guide</a>.</p>
+
+<h2>What to check before you open a position</h2>
+<ul>
+  <li><b>The current funding rate and its sign.</b> It is shown on the contract page next to the price. Positive means longs pay; negative means shorts pay.</li>
+  <li><b>The countdown to the next funding time.</b> Opening a long a few minutes before a large positive funding time means paying it almost at once.</li>
+  <li><b>How long you plan to hold.</b> For a trade of a few hours, funding is a small line. For a position held for weeks, it can become the biggest cost on the bill.</li>
+  <li><b>Unusually large rates.</b> A rate many times higher than normal usually means the market is crowded on one side. That is a sign of risk, not a reason to trade.</li>
+</ul>
+<p>Receiving funding is not free money. A trader who opens a short only to collect positive funding still carries the full price risk of that short, and one bad move can cost far more than months of funding.</p>
+
+<h2>How to sign up and claim the {r3}% rebate on Bitget</h2>
+<ol class="gd-steps">
+  <li><div><b>Open a new Bitget account through our link</b><p>The referral is attached by the sign-up button on this page, so there is no code to type. It works for new accounts only.</p></div></li>
+  <li><div><b>Secure and verify the account</b><p>Turn on two-factor authentication and complete identity checks if Bitget asks for them where you live.</p></div></li>
+  <li><div><b>Copy your UID</b><p>It is the account number shown on your profile in the Bitget app or website.</p></div></li>
+  <li><div><b>Send "Bitget + your UID" on Telegram</b><p>Message <a href="{tg_dm}" target="_blank" rel="noopener">@{config['telegram_dm']}</a>. We confirm within 24 hours. Never send a password, 2FA code or API key.</p></div></li>
+  <li><div><b>Get paid every Monday</b><p>Last week's rebate on your trading fees arrives in USDT. The minimum payout is 10 USDT; smaller amounts roll over.</p></div></li>
+</ol>
+<p style="margin-top:20px">Other venues work the same way. Start from the <a href="../index.html#venues">exchange list</a> or go straight to our <a href="../exchanges/bitget.html">Bitget referral page</a>.</p>
+
+<div class="gd-risk">
+  <h2>Before you trade</h2>
+  <p>Leveraged futures can lose you more than you expect, very quickly, and can wipe out your whole margin. Funding can add to those losses on positions you hold for a long time. Start with low leverage and only trade money you can afford to lose.</p>
+  <p style="margin-top:12px">Each exchange decides which countries it serves, so check its terms for where you live. This site is not for residents of the Republic of Korea or the United States, or of any place where the exchange is not allowed to serve you. Nothing here is investment advice, and {config['brand']} earns a referral commission, part of which it shares with you as the rebate.</p>
+</div>
+"""
+    faqs3 = [
+        ("How are funding fees calculated in crypto futures?",
+         "The payment is your position value multiplied by the funding rate at the funding time, as Bitget's fee breakdown puts it. It is calculated on the full position, leverage included, not on your margin. You pay or receive it only if you hold a position when funding is settled."),
+        ("Who pays funding, longs or shorts?",
+         "It depends on the sign of the rate. When the funding rate is positive, longs pay shorts. When it is negative, shorts pay longs. The rate changes every interval; Bitget's fee FAQ says funding is exchanged every 8 hours (checked 3 November 2026)."),
+        ("Does a fee rebate cover funding fees?",
+         f"No. Funding moves between traders and the exchange does not earn it, so there is no commission to share. A rebate covers trading fees only. Through {config['brand']} on Bitget, {r3}% of your trading fees comes back, which brings the effective taker rate from {pct(TAKER)} to {pct(net(TAKER, r3))}."),
+    ]
+    out.append(dict(
+        slug="how-funding-fees-work",
+        venue=fx,
+        title=f"How Funding Fees Work in Crypto Futures (With Dollar Examples) | {config['brand']}",
+        h1="How funding fees work, <em>in plain numbers.</em>",
+        crumb="How funding fees work",
+        desc=("How funding fees work on perpetual futures: who pays whom, the position value × rate formula, "
+              "what funding costs over a day, a week or a month, and why no rebate covers it."),
+        lede=("Funding is the cost of holding a perpetual, and it has nothing to do with your trading fee. "
+              "Here is how it is calculated, what it adds up to, and what to check before you open."),
+        published="2026-11-10", modified="2026-11-10", checked="3 Nov 2026",
+        keyword="how funding fees work",
+        body=body3, faqs=faqs3, signup=signup3,
+        side_big=pct(net(TAKER, r3)), side_label=f"Bitget taker you effectively pay after the {r3}% rebate (funding not included)",
+    ))
+
     return out
 
 
