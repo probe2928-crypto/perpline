@@ -485,7 +485,7 @@ def header(prefix):
     <div class="right">
       <a class="hide-sm" href="{TG_GROUP}" target="_blank" rel="noopener">Community</a>
       <a class="langsw" id="langSw" href="#" hidden>한국어</a>
-      <span class="btc">BTC <b id="pillPrice" class="num">$75,851</b></span>
+      <span class="btc">BTC <b id="pillPrice" class="num">$73,363</b></span>
       <span class="auth-slot" data-auth-slot hidden></span>
       <button type="button" class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="menuPanel">Menu</button>
     </div>
@@ -948,7 +948,7 @@ def build_index():
         <div class="slide-in wrap">
           <span class="label">Le marché</span>
           <h2>Bitcoin, read<br><em>three times a week.</em></h2>
-          <p class="lede">BTC <b class="num" id="stageBtc">$75,851</b> · desk notes every Monday, Wednesday and Friday.</p>
+          <p class="lede">BTC <b class="num" id="stageBtc">$73,363</b> · desk notes every Monday, Wednesday and Friday.</p>
           <div class="cta"><a class="btn" href="#note">Read the note</a></div>
         </div>
       </article>
@@ -998,6 +998,7 @@ def build_index():
       </div>
       <div role="tabpanel" id="panel-cex" aria-labelledby="tab-cex">
         <p class="tab-desc">Centralized exchanges. You register with email, verify identity where required, and the exchange holds your funds.</p>
+        <p class="fine" data-place="venues-trust" style="margin:-6px 0 14px">Fees checked {CONFIG['fees_checked']} · Rebate paid every Monday in USDT · No password or API keys needed.</p>
         <div class="vrow vhead" aria-hidden="true"><span>No.</span><span>Exchange</span><span>Maker</span><span>Taker</span><span>Rebate</span><span>You pay</span><span></span></div>
         <ol class="vlist">{venue_rows(VENUES,'cex')}</ol>
       </div>
@@ -1056,13 +1057,13 @@ def build_index():
     <div class="wrap">
       <div class="market">
         <div>
-          <span class="label">BTC / USD · <span id="feedLabel">Snapshot · Nov 8, 2026</span></span>
-          <div class="price" style="margin-top:14px"><small>$</small><span id="priceVal">75,851</span></div>
+          <span class="label">BTC / USD · <span id="feedLabel">Snapshot · Nov 10, 2026</span></span>
+          <div class="price" style="margin-top:14px"><small>$</small><span id="priceVal">73,363</span></div>
           <div class="stats">
             <div class="stat"><span class="label">24h</span><b class="chg" id="chg">—</b></div>
-            <div class="stat"><span class="label">24h low</span><b id="lo">75,541</b></div>
-            <div class="stat"><span class="label">24h high</span><b id="hi">76,106</b></div>
-            <div class="stat"><span class="label">Updated</span><b id="upd">Nov 8, 2026</b></div>
+            <div class="stat"><span class="label">24h low</span><b id="lo">—</b></div>
+            <div class="stat"><span class="label">24h high</span><b id="hi">—</b></div>
+            <div class="stat"><span class="label">Updated</span><b id="upd">Nov 10, 2026</b></div>
           </div>
         </div>
         <div class="ladder" aria-label="Key price levels">
@@ -1071,31 +1072,31 @@ def build_index():
         </div>
       </div>
       <div class="chap-head">
-        <div><span class="label">IV · Le marché · Monday, Nov 9, 2026</span><h2 id="noteH">Stuck under $76K as ETF money leaves. CPI is the next test.</h2></div>
+        <div><span class="label">IV · Le marché · Wednesday, Nov 11, 2026</span><h2 id="noteH">Hot CPI drags Bitcoin toward $73K and its 200-day average.</h2></div>
       </div>
       <div class="note-grid">
         <div class="prose">
-          <p>Bitcoin spent the weekend flat just under $76,000, trading near $75,850 on Sunday. It is on track for a fifth straight weekly decline after jumping above $80,000 on Nov 4 and giving it all back the next day. A tech-stock sell-off on Nov 5 pushed it briefly under $75,000, its lowest level in about seven weeks.</p>
-          <p>The selling was leveraged longs being forced out. CoinGlass logged about $1.24B of liquidations in the 24 hours to Nov 6, and nearly 89% of that was long positions. Spot Bitcoin ETFs added to the pressure: they took out $1.28B over Nov 2–6, including $411.9M on Friday alone, most of it from one fund.</p>
-          <p>This week's data matters. US CPI is due Nov 10, and the Fed's next decision is Dec 9. October payrolls came in at 165,000, far above forecasts, which pushed Treasury yields higher. Until Bitcoin clears $76K, the $75K area is the line that matters. Leverage cuts both ways, so size positions so one wick can't liquidate you.</p>
+          <p>A hotter-than-expected inflation report sent Bitcoin lower on Tuesday. October CPI rose 0.4% against forecasts of 0.3%, and core CPI rose 0.3% against 0.2%. Bitcoin traded near $73,360, down about 1.6% on the day after opening around $74,260. US stocks fell too, with the Nasdaq down 1.51%, and the 10-year Treasury yield moved above 5%.</p>
+          <p>Leveraged longs took the damage. CoinGlass logged about $716M of liquidations in 24 hours, $589M of it long positions. Spot Bitcoin ETFs are still seeing money leave: $1.28B went out over Nov 2–6, and another $201M on Nov 9, the third straight day of outflows.</p>
+          <p>Traders are watching the 200-day moving average near $73,200. Wintermute says a daily close below it opens the way to $68K, while a close above $80K with renewed ETF inflows would be needed to turn its view constructive. The Fed's next decision is Dec 9. Leverage cuts both ways, so size positions so one wick can't liquidate you.</p>
         </div>
         <div class="facts" aria-label="Key numbers">
-          <div class="fact"><span>BTC price, Nov 8</span><span>~$75,851</span></div>
-          <div class="fact"><span>Weekly change</span><span class="neg">≈ −2.7%</span></div>
-          <div class="fact"><span>All-crypto liquidations, 24h to Nov 6</span><span>$1.24B</span></div>
-          <div class="fact"><span>Share that were longs</span><span class="neg">88.8%</span></div>
-          <div class="fact"><span>Spot ETF net flow, Nov 6</span><span class="neg">−$411.9M</span></div>
+          <div class="fact"><span>BTC price, Nov 10</span><span>~$73,360</span></div>
+          <div class="fact"><span>Oct CPI, month over month</span><span>+0.4% (forecast 0.3%)</span></div>
+          <div class="fact"><span>Core CPI, month over month</span><span>+0.3% (forecast 0.2%)</span></div>
+          <div class="fact"><span>All-crypto liquidations, 24h</span><span>$716M</span></div>
+          <div class="fact"><span>Share that were longs</span><span class="neg">≈ 82%</span></div>
+          <div class="fact"><span>Spot ETF net flow, Nov 9</span><span class="neg">−$201M</span></div>
           <div class="fact"><span>Spot ETF net flow, Nov 2–6</span><span class="neg">−$1.28B</span></div>
-          <div class="fact"><span>US CPI release</span><span>Tue, Nov 10</span></div>
           <div class="fact"><span>Fed decision</span><span>Wed, Dec 9</span></div>
         </div>
       </div>
       <div class="scen">
-        <article><span class="label" style="color:var(--up)">If it reclaims</span><h3>Close above $76K</h3><p>Short-term pressure eases. The <strong>$76.5–77.5K</strong> zone, where liquidation clusters were reported, is the next area to watch.</p></article>
-        <article><span class="label">If it chops</span><h3>$75K – $76K</h3><p>Where it has traded since Friday. Expect <strong>low conviction</strong> and thin weekend volume until CPI is out.</p></article>
-        <article><span class="label" style="color:var(--down)">If it loses</span><h3>Close below $75K</h3><p>The Sept low near <strong>$74.97K</strong> comes into view, and more <strong>long liquidations</strong> are possible. Watch whether ETF outflows continue.</p></article>
+        <article><span class="label" style="color:var(--up)">If it holds</span><h3>Close above $73.2K</h3><p>Holding the 200-day average eases short-term pressure. The <strong>$75.5K</strong> area, the 50-week average, is the next level to watch.</p></article>
+        <article><span class="label">If it chops</span><h3>$73.2K – $75.5K</h3><p>Between the 200-day and 50-week averages, where it has traded since Sunday. Expect <strong>low conviction</strong> while the market digests CPI and ETF flows.</p></article>
+        <article><span class="label" style="color:var(--down)">If it loses</span><h3>Close below $73.2K</h3><p>Wintermute flags <strong>$68K</strong> as the next area, and more <strong>long liquidations</strong> are possible. Watch whether ETF outflows continue.</p></article>
       </div>
-      <p class="fine" style="margin-top:28px">Market commentary for information only. Not investment advice. Data: price and range per IBTimes and crypto.news (Nov 8, 2026); CoinGlass liquidation figures via NFTevening; spot ETF flows per SoSoValue and Farside Investors (Nov 5–6, 2026).</p>
+      <p class="fine" style="margin-top:28px">Market commentary for information only. Not investment advice. Data: price per The Block and Fortune (Nov 10, 2026); CPI per FXStreet and The Block; CoinGlass liquidation figures via FXStreet; spot ETF flows per Farside Investors via crypto.news (Nov 2–6) and KuCoin News (Nov 9); moving-average levels per Wintermute and Bitget analysts.</p>
     </div>
   </section>
 
@@ -1154,12 +1155,11 @@ window.LANG="en"; window.LANG_ALT="ko/index.html";
 {FX_JS}
 const CONTACT = {{ telegram:"{CONFIG['telegram_dm']}", formEndpoint:"{CONFIG['form_endpoint']}" }};
 const VENUES = {js_venues};
-const SNAP = {{ price:75851, lo:75541, hi:76106, chg:null, when:"Nov 8, 2026" }};
+const SNAP = {{ price:73363, lo:null, hi:null, chg:null, when:"Nov 10, 2026" }};
 const LEVELS = [
-  {{ p:77000, label:"Liquidation cluster", kind:"r" }},
-  {{ p:76106, label:"24h high · resistance", kind:"r" }},
-  {{ p:75541, label:"24h low · support", kind:"s" }},
-  {{ p:74967, label:"Sept low", kind:"s" }}
+  {{ p:75500, label:"50-week avg · resistance", kind:"r" }},
+  {{ p:73200, label:"200-day avg · support", kind:"s" }},
+  {{ p:71252, label:"Lower support zone (top)", kind:"s" }}
 ];
 """
     page += CAROUSEL_JS_SRC + INDEX_JS
@@ -1240,9 +1240,9 @@ function drawLadder(price){
   ls.forEach(l=>{
     const yy=y(l.p), col=l.kind==="s"?c("--up"):c("--down");
     el("line",{x1:80,x2:420,y1:yy,y2:yy,stroke:col,"stroke-width":1,"stroke-dasharray":"2 5"});
-    const ny=Math.max(yy+4,lastNum+15); lastNum=ny;
+    const pyy=y(price); let ny=Math.max(yy+4,lastNum+15); if(Math.abs(yy-pyy)<18 && yy>=pyy) ny=Math.max(ny,pyy+22); lastNum=ny;
     el("text",{x:0,y:ny,"font-family":"Jost, sans-serif","font-size":12,fill:c("--muted")}).textContent=fmt(l.p);
-    let ly=yy-7; if(ly<lastLab+15) ly=yy+15; lastLab=ly;
+    let ly=yy-7; if(ly<lastLab+15 || (Math.abs(yy-pyy)<18 && yy>=pyy)) ly=yy+15; lastLab=ly;
     el("text",{x:420,y:ly,"text-anchor":"end","font-family":"Jost, sans-serif","font-size":11,"letter-spacing":"1.5",fill:col}).textContent=l.label.toUpperCase();
   });
   const py=y(price);
