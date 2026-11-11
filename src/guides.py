@@ -392,7 +392,7 @@ def build_guides(head, header, footer, esc, common_js, config, fab, venues, pct,
         ld = [
             {"@context": "https://schema.org", "@type": "Article", "headline": h1_plain, "description": g["desc"],
              "datePublished": g["published"], "dateModified": g["modified"], "mainEntityOfPage": canonical,
-             "image": f"{config['domain']}/assets/og.png",
+             "image": f"{config['domain']}/assets/og/{g['slug']}.png",
              "author": {"@type": "Organization", "name": config["brand"], "url": config["domain"] + "/"},
              "publisher": {"@type": "Organization", "name": config["brand"], "url": config["domain"] + "/"}},
             {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
@@ -404,6 +404,7 @@ def build_guides(head, header, footer, esc, common_js, config, fab, venues, pct,
         ld_html = "".join(f'<script type="application/ld+json">{json.dumps(x)}</script>' for x in ld)
         v = g["venue"]
         hd = head(g["title"], g["desc"], canonical, ld_html).replace('<meta property="og:type" content="website">', '<meta property="og:type" content="article">', 1)
+        hd = hd.replace(f"{config['domain']}/assets/og.png", f"{config['domain']}/assets/og/{g['slug']}.png")
         page = hd + f"""<style>{CSS}</style><!--BODY-->{header('../')}
 <main>
   <div class="wrap"><nav class="crumbs" aria-label="Breadcrumb" style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);padding-block:18px"><a href="../index.html" style="text-decoration:none">{config['brand']}</a> / Guides / {esc(g['crumb'])}</nav></div>

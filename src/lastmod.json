@@ -1,0 +1,86 @@
+{
+ "alphax.html": [
+  "164f28a0a6baee47",
+  "2026-11-11"
+ ],
+ "exchanges/biconomy.html": [
+  "0279150b222926af",
+  "2026-11-11"
+ ],
+ "exchanges/bingx.html": [
+  "d0fbd4bdb27e15ce",
+  "2026-11-11"
+ ],
+ "exchanges/bitget.html": [
+  "1af7ed0e62fbb1dd",
+  "2026-11-11"
+ ],
+ "exchanges/bitunix.html": [
+  "3839e7bc36573230",
+  "2026-11-11"
+ ],
+ "exchanges/blofin.html": [
+  "0c6983a1f4739cff",
+  "2026-11-11"
+ ],
+ "exchanges/btcc.html": [
+  "6e136fdd445a1567",
+  "2026-11-11"
+ ],
+ "exchanges/crypfine.html": [
+  "952c95553b03eac8",
+  "2026-11-11"
+ ],
+ "exchanges/deepcoin.html": [
+  "327405190d442309",
+  "2026-11-11"
+ ],
+ "exchanges/gate.html": [
+  "a2911d8ba71b7665",
+  "2026-11-11"
+ ],
+ "exchanges/okx.html": [
+  "97c45adc7b8bdded",
+  "2026-11-11"
+ ],
+ "exchanges/orangex.html": [
+  "c3f96a820a21cbeb",
+  "2026-11-11"
+ ],
+ "guides/bitget-futures-fees.html": [
+  "acedce9c42b32a37",
+  "2026-11-03"
+ ],
+ "guides/how-funding-fees-work.html": [
+  "a4c87780973484f4",
+  "2026-11-10"
+ ],
+ "guides/maker-vs-taker-fees.html": [
+  "fceee98ce05ebb03",
+  "2026-11-05"
+ ],
+ "index.html": [
+  "3834962e8c37801b",
+  "2026-11-11"
+ ],
+ "privacy.html": [
+  "0ec36140d9237569",
+  "2026-11-11"
+ ],
+ "projects.html": [
+  "89b64684aaf2d897",
+  "2026-11-11"
+ ],
+ "promos/alphax.html": [
+  "64606d4fa49b85f4",
+  "2026-11-11"
+ ],
+ "returns.html": [
+  "2fee153dad5aca7b",
+  "2026-11-11"
+ ],
+ "terms.html": [
+  "701e6ea0d294773f",
+  "2026-11-11"
+ ]
+}

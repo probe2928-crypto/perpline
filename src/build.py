@@ -1748,9 +1748,29 @@ def build():
         ("What Perpline is", "Perpline lists crypto futures exchanges with referral links and pays part of the referral commission back to you as a fee rebate. Nothing here is financial advice. Perpline is not directed at residents of the Republic of Korea, the United States or any jurisdiction where the listed exchanges are not licensed to serve local users."),
     ], LEGAL_TERMS)
     today = datetime.date.today().isoformat()
+    # lastmod: 매 빌드 '오늘'로 찍지 않고, 페이지 내용(빌드 날짜·시황 숫자 등 매일 바뀌는 줄 제외)이 바뀐 날만 올린다.
+    # 기록은 src/lastmod.json(경로 → [내용 해시, 날짜]). 가이드는 guides.py의 modified와 비교해 더 늦은 날짜.
+    lm_path = pathlib.Path(__file__).parent / "lastmod.json"
+    try: lm = json.loads(lm_path.read_text(encoding="utf-8"))
+    except Exception: lm = {}
+    import hashlib
+    def _norm(t):
+        t = re.sub(r"<script\b[^>]*>.*?</script>", "", t, flags=re.S)  # 시세·피드 JS 제외
+        t = re.sub(r"20\d\d-\d\d-\d\d|\b\d{1,2} (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* 20\d\d", "", t)
+        return hashlib.sha1(t.encode("utf-8")).hexdigest()[:16]
+    def lastmod_for(u):
+        rel = u[len(CONFIG["domain"]):].lstrip("/") or "index.html"
+        f = OUT / rel
+        if not f.exists(): return today
+        h = _norm(f.read_text(encoding="utf-8"))
+        prev = lm.get(rel)
+        d = prev[1] if prev and prev[0] == h else today
+        lm[rel] = [h, d]
+        return d
     urls = [CONFIG["domain"] + "/", CONFIG["domain"] + "/returns.html", CONFIG["domain"] + "/projects.html", CONFIG["domain"] + "/alphax.html", CONFIG["domain"] + "/privacy.html", CONFIG["domain"] + "/terms.html"] + [f"{CONFIG['domain']}/exchanges/{v['slug']}.html" for v in ranked(VENUES)] + guide_urls + [promo_url]
     (OUT / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
-        "".join(f"  <url><loc>{u}</loc><lastmod>{today}</lastmod></url>\n" for u in urls) + "</urlset>\n", encoding="utf-8")
+        "".join(f"  <url><loc>{u}</loc><lastmod>{lastmod_for(u)}</lastmod></url>\n" for u in urls) + "</urlset>\n", encoding="utf-8")
+    lm_path.write_text(json.dumps(lm, indent=1, sort_keys=True) + "\n", encoding="utf-8")
     (OUT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {CONFIG['domain']}/sitemap.xml\n", encoding="utf-8")
     # public feed for partner sites (CHAINBRIEF exchange sheet reads this — same origin on github.io)
     def logo_url(v):
