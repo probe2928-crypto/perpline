@@ -64,7 +64,7 @@
 - [ ] 기존 계정 FAQ를 거래소별로(재연결 가능 여부는 공식 문서로 확인된 것만).
 
 **W3 (11/16–11/22) — 검색(SEO)**
-- [ ] 비교 페이지 3개 생성(build.py에 페이지 함수 추가): 'BTCC vs Bitunix vs BloFin fees after rebate', 'Lowest futures fees 2026 (after rebate)', 'How futures fee rebates work'. 표는 VENUES 데이터 그대로, sitemap 포함.
+- [ ] 비교 페이지 3개 생성(build.py에 페이지 함수 추가): 'BTCC vs Bitunix vs BloFin fees after rebate', 'Lowest futures fees 2026 (after rebate)', 'How futures fee rebates work'. 표는 VENUES 데이터 그대로, sitemap 포함. ※ 'How futures fee rebates work'는 11/12 콘텐츠 에디터(서이오)가 가이드로 선행 게시(guides/how-fee-rebates-work.html) — 같은 주제 비교 페이지는 만들지 말고 이 가이드로 링크.
 - [ ] 서치콘솔(Supermetrics GW 또는 OpenSEO)로 Perpline 노출 검색어 확인 → 가이드 페이지 제목·설명 수정.
 
 **W4 (11/23–11/29) — 커뮤니티·영상·리타기팅·KOL**

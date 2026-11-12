@@ -1,86 +1,90 @@
 {
  "alphax.html": [
-  "164f28a0a6baee47",
-  "2026-11-11"
+  "cca985877cfd41dc",
+  "2026-11-12"
  ],
  "exchanges/biconomy.html": [
-  "0279150b222926af",
-  "2026-11-11"
+  "8381fbee5a6e41ab",
+  "2026-11-12"
  ],
  "exchanges/bingx.html": [
-  "d0fbd4bdb27e15ce",
-  "2026-11-11"
+  "7da927de2c3e0887",
+  "2026-11-12"
  ],
  "exchanges/bitget.html": [
-  "1af7ed0e62fbb1dd",
-  "2026-11-11"
+  "891fb70038f0e1dc",
+  "2026-11-12"
  ],
  "exchanges/bitunix.html": [
-  "3839e7bc36573230",
-  "2026-11-11"
+  "ef8a83b4eaae259d",
+  "2026-11-12"
  ],
  "exchanges/blofin.html": [
-  "0c6983a1f4739cff",
-  "2026-11-11"
+  "2ae991a25a04e5d7",
+  "2026-11-12"
  ],
  "exchanges/btcc.html": [
-  "6e136fdd445a1567",
-  "2026-11-11"
+  "b6eb6bcc5e93924d",
+  "2026-11-12"
  ],
  "exchanges/crypfine.html": [
-  "952c95553b03eac8",
-  "2026-11-11"
+  "68c793a5598c4dee",
+  "2026-11-12"
  ],
  "exchanges/deepcoin.html": [
-  "327405190d442309",
-  "2026-11-11"
+  "4a0c014c90664db3",
+  "2026-11-12"
  ],
  "exchanges/gate.html": [
-  "a2911d8ba71b7665",
-  "2026-11-11"
+  "d7dac60cbc3f02bc",
+  "2026-11-12"
  ],
  "exchanges/okx.html": [
-  "97c45adc7b8bdded",
-  "2026-11-11"
+  "7e3ba13b0cefc0b7",
+  "2026-11-12"
  ],
  "exchanges/orangex.html": [
-  "c3f96a820a21cbeb",
-  "2026-11-11"
+  "db236ed5da6d9a92",
+  "2026-11-12"
  ],
  "guides/bitget-futures-fees.html": [
-  "acedce9c42b32a37",
-  "2026-11-03"
+  "92e12dea2a999901",
+  "2026-11-12"
+ ],
+ "guides/how-fee-rebates-work.html": [
+  "9bf6107a1de64fae",
+  "2026-11-12"
  ],
  "guides/how-funding-fees-work.html": [
-  "a4c87780973484f4",
-  "2026-11-10"
+  "1f50b235ddb376f2",
+  "2026-11-12"
  ],
  "guides/maker-vs-taker-fees.html": [
-  "fceee98ce05ebb03",
-  "2026-11-05"
+  "5458d4ce86975d69",
+  "2026-11-12"
  ],
  "index.html": [
-  "3834962e8c37801b",
-  "2026-11-11"
+  "9ad9b2aa1b428e1b",
+  "2026-11-12"
  ],
  "privacy.html": [
-  "0ec36140d9237569",
-  "2026-11-11"
+  "cafecfabbe43a734",
+  "2026-11-12"
  ],
  "projects.html": [
-  "89b64684aaf2d897",
-  "2026-11-11"
+  "be0d66e632eb2cf1",
+  "2026-11-12"
  ],
  "promos/alphax.html": [
-  "64606d4fa49b85f4",
-  "2026-11-11"
+  "dadb2237af222914",
+  "2026-11-12"
  ],
  "returns.html": [
-  "2fee153dad5aca7b",
-  "2026-11-11"
+  "8f3716c464901b56",
+  "2026-11-12"
  ],
  "terms.html": [
-  "701e6ea0d294773f",
-  "2026-11-11"
+  "74e6b8510334d9e6",
+  "2026-11-12"
  ]
 }

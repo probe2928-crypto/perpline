@@ -4,7 +4,7 @@ no Korea/US targeting, no return promises or price calls. Referral links and reb
 import json
 
 # footer links (slug, anchor text) — keep in sync with _guides()
-LINKS = [("bitget-futures-fees", "Bitget futures fees explained"), ("maker-vs-taker-fees", "Maker vs taker fees in futures"), ("how-funding-fees-work", "How funding fees work")]
+LINKS = [("bitget-futures-fees", "Bitget futures fees explained"), ("maker-vs-taker-fees", "Maker vs taker fees in futures"), ("how-funding-fees-work", "How funding fees work"), ("how-fee-rebates-work", "How futures fee rebates work")]
 
 CSS = """
 .gd-hero{padding-block:clamp(48px,7vw,96px) clamp(28px,4vw,48px);border-bottom:1px solid var(--hair)}
@@ -366,6 +366,113 @@ def _guides(V, pct, net, link, config, tg_dm):
         keyword="how funding fees work",
         body=body3, faqs=faqs3, signup=signup3,
         side_big=pct(net(TAKER, r3)), side_label=f"Bitget taker you effectively pay after the {r3}% rebate (funding not included)",
+    ))
+
+    # ---- How futures fee rebates work (rebate explainer, Bitget used for the worked numbers) ----------
+    # Fee numbers: Bitget standard futures 0.02% maker / 0.06% taker from Bitget's Trading Fees FAQ, checked
+    # 2026-11-03 (same check as above). Rebate shares, payout day, minimum and claim steps are Perpline's own
+    # terms from VENUES/CONFIG. No exchange commission rates are stated because we have not seen them published.
+    rx = V["bitget"]
+    assert (rx["maker"], rx["taker"]) == (MAKER, TAKER), "Bitget fee in VENUES no longer matches the verified guide numbers"
+    r4 = rx["rebate"]
+    signup4 = link(rx, "guide-rebates")
+    def k(x): return f"${x:,.0f}" if x == int(x) else f"${x:,.2f}"
+    pos4, trips4 = 10000, 40
+    rt4_t = pos4 * TAKER / 100 * 2
+    rt4_m = pos4 * (MAKER + TAKER) / 100
+    mo4_t, mo4_m = rt4_t * trips4, rt4_m * trips4
+    back4_t, back4_m = mo4_t * r4 / 100, mo4_m * r4 / 100
+    vs = sorted([x for x in V.values()], key=lambda x: (-x["rebate"], x["name"]))
+    rows4 = "".join(f'<tr><td><a href="../exchanges/{x["slug"]}.html">{x["name"]}</a></td><td>{x["rebate"]}%</td></tr>' for x in vs)
+    lo4, hi4 = min(x["rebate"] for x in vs), max(x["rebate"] for x in vs)
+    body4 = f"""
+<h2>The short version</h2>
+<p>A futures fee rebate is a share of the trading fees you pay, handed back to you after you trade. You open an exchange account through a rebate partner's referral link, you trade as normal at the exchange's normal rate, and the partner returns an agreed percentage of those fees to you on a schedule.</p>
+<p>Nothing about the trade itself changes. The exchange charges the same fee on every fill, your orders go to the same order book, and the partner never touches your account. What changes is your cost over a month: if {r4}% of your fees come back, you have effectively paid {100 - r4}% of the listed rate.</p>
+<p>This guide explains where the money comes from, works through a month of trading in dollars, and lists what to check before you trust any rebate service, including ours. For the dollar example we use Bitget, whose standard futures fees we checked on its own fee FAQ on 3 November 2026.</p>
+
+<h2>Where the rebate money comes from</h2>
+<p>Most large crypto exchanges run referral or affiliate programmes. When someone opens an account through a partner's link, the exchange pays that partner a commission out of the trading fees the new account generates. The exchange is happy to do this because the partner brought it a customer who would otherwise have signed up somewhere else.</p>
+<p>A rebate service is simply a partner that passes a large part of that commission back to the trader instead of keeping it. The money is not a bonus, a loan or a promotion with conditions attached to your trading. It is a slice of fees you have already paid, returned to you by the partner, who keeps the rest as its margin.</p>
+<p>That is also why the rebate is tied to the account. The referral is recorded when the account is opened through the link, so the partner can only share commission on accounts it referred. At {config['brand']} the rebate applies to new accounts opened through our links.</p>
+
+<h2>What a rebate covers, and what it does not</h2>
+<ul>
+  <li><b>It covers trading fees.</b> Maker and taker fees on the futures orders you fill, whether you are long or short, winning or losing.</li>
+  <li><b>It does not cover funding.</b> Funding on perpetuals moves between traders, not to the exchange, so there is no commission on it to share. Our <a href="how-funding-fees-work.html">funding fees guide</a> explains the difference in detail.</li>
+  <li><b>It does not lower the fee at the moment you trade.</b> You still pay the full rate on each fill. The saving arrives afterwards, when the rebate is paid.</li>
+  <li><b>It does not change your trading results.</b> A rebate trims costs. It cannot turn a losing strategy into a winning one, and it is no reason to trade more than you would anyway.</li>
+</ul>
+
+<h2>A month of trading, before and after the rebate</h2>
+<p>Bitget's trading fees FAQ lists standard USDT-margined futures at <b>{pct(MAKER)} maker and {pct(TAKER)} taker</b>, charged on the value of the order rather than your margin. Here is a trader who opens and closes a {k(pos4)} position {trips4} times in a month, compared in two styles: market orders on both sides, and a resting limit order to enter with a market order to exit.</p>
+<div class="gd-scroll"><table class="gd-tbl">
+  <thead><tr><th>Per month</th><th>Market in, market out</th><th>Limit in, market out</th></tr></thead>
+  <tbody>
+    <tr><td>Fee per round trip</td><td>{k(rt4_t)}</td><td>{k(rt4_m)}</td></tr>
+    <tr><td>Fees paid to Bitget ({trips4} round trips)</td><td>{k(mo4_t)}</td><td>{k(mo4_m)}</td></tr>
+    <tr><td>{config['brand']} rebate ({r4}%)</td><td>+{k(back4_t)}</td><td>+{k(back4_m)}</td></tr>
+    <tr class="tot"><td>Net trading cost</td><td>{k(mo4_t - back4_t)}</td><td>{k(mo4_m - back4_m)}</td></tr>
+  </tbody>
+</table></div>
+<p class="src">Source: <a href="{FAQ_URL}" target="_blank" rel="noopener">Bitget Trading Fees FAQ</a>, standard rates checked 3 Nov 2026. Funding and VIP discounts are left out. The figures are arithmetic on an example, not a forecast of anyone's trading.</p>
+<p>Two things stand out. First, the order type matters before any rebate does: entering with a limit order already saves {k(mo4_t - mo4_m)} a month here. Second, the rebate scales with whatever you pay. It is a percentage of the fees actually charged, so if you reach a cheaper VIP tier or use more maker orders, the rebate shrinks in dollars but your total cost still falls. The two kinds of saving stack rather than compete. Our guide to <a href="maker-vs-taker-fees.html">maker vs taker fees</a> covers the order-type side.</p>
+
+<h2>How rebate shares compare across exchanges</h2>
+<p>The share that comes back differs by exchange, because each exchange pays its partners differently. Through {config['brand']} it currently ranges from {lo4}% to {hi4}%:</p>
+<div class="gd-scroll"><table class="gd-tbl">
+  <thead><tr><th>Exchange</th><th>Rebate on futures fees</th></tr></thead>
+  <tbody>{rows4}</tbody>
+</table></div>
+<p>A bigger percentage is not automatically the better deal. What you actually pay is the exchange's fee multiplied by what is left after the rebate, so a venue with a higher base fee and a higher rebate can end up costing the same as a cheaper venue with a smaller one. Our <a href="../index.html#venues">exchange ranking</a> does that multiplication for every venue, and the <a href="../index.html#fees">fee calculator</a> lets you plug in your own size and number of trades. Liquidity, the markets listed and whether the exchange serves your country matter as much as the fee.</p>
+
+<h2>What to check before you trust a rebate service</h2>
+<ul>
+  <li><b>It should never ask for your password, 2FA codes or API keys.</b> A rebate only needs your account's UID, which is a public account number. Anyone asking for more access does not need it for a rebate.</li>
+  <li><b>The payout terms should be written down.</b> When you get paid, in which currency, and whether there is a minimum. Ours: every Monday, in USDT, with a 10 USDT minimum; smaller amounts roll over to the next week.</li>
+  <li><b>The rates should be published per exchange.</b> You should be able to see the percentage before you sign up, not after.</li>
+  <li><b>It should be clear what the partner earns.</b> A rebate service is paid by the exchange's referral commission. If that is not explained, ask.</li>
+  <li><b>The fee numbers should be sourced.</b> Base fees change. A good guide links to the exchange's own fee page and says when it was checked.</li>
+</ul>
+
+<h2>How to sign up and claim a rebate with {config['brand']}</h2>
+<ol class="gd-steps">
+  <li><div><b>Pick an exchange and open a new account through our link</b><p>The referral is attached by the link, so for Bitget there is no code to type. It only works for a new account.</p></div></li>
+  <li><div><b>Secure and verify the account</b><p>Turn on two-factor authentication and complete identity checks if the exchange asks for them where you live.</p></div></li>
+  <li><div><b>Copy your UID</b><p>It is the account number on your profile page in the exchange's app or website.</p></div></li>
+  <li><div><b>Send "exchange name + your UID" on Telegram</b><p>Message <a href="{tg_dm}" target="_blank" rel="noopener">@{config['telegram_dm']}</a>. We confirm within 24 hours. Never send a password, 2FA code or API key.</p></div></li>
+  <li><div><b>Get paid every Monday</b><p>Last week's rebate on your trading fees arrives in USDT.</p></div></li>
+</ol>
+<p style="margin-top:20px">Each exchange has its own page with the referral link and its specific steps, for example our <a href="../exchanges/bitget.html">Bitget referral page</a>. For the full Bitget fee picture, read <a href="bitget-futures-fees.html">Bitget futures fees explained</a>.</p>
+
+<div class="gd-risk">
+  <h2>Before you trade</h2>
+  <p>Leveraged futures can lose you more than you expect, very quickly, and can wipe out your whole margin. A rebate lowers your trading costs; it does not reduce that risk. Start with low leverage and only trade money you can afford to lose.</p>
+  <p style="margin-top:12px">Each exchange decides which countries it serves, so check its terms for where you live. This site is not for residents of the Republic of Korea or the United States, or of any place where the exchange is not allowed to serve you. Nothing here is investment advice, and {config['brand']} earns a referral commission, part of which it shares with you as the rebate.</p>
+</div>
+"""
+    faqs4 = [
+        ("What is a futures trading fee rebate?",
+         f"It is a share of the trading fees you pay that is returned to you after you trade. You open an exchange account through a rebate partner's referral link, pay the normal fee on every order, and the partner sends back an agreed percentage. Through {config['brand']} that is {lo4}% to {hi4}% depending on the exchange, paid in USDT every Monday."),
+        ("Is a fee rebate safe? Do I have to share my account?",
+         "A rebate only needs your account UID, which is a public account number. You keep full control of the account, and a genuine rebate service never asks for your password, 2FA codes or API keys. The usual risks of leveraged trading still apply in full."),
+        ("Does a rebate change the fee I pay on each trade?",
+         f"No. The exchange charges its normal rate on every fill. The rebate is paid afterwards, so your effective cost falls. On Bitget's standard {pct(TAKER)} taker rate, a {r4}% rebate means you effectively pay {pct(net(TAKER, r4))}. Funding payments are not covered."),
+    ]
+    out.append(dict(
+        slug="how-fee-rebates-work",
+        venue=rx,
+        title=f"How Crypto Futures Fee Rebates Work (Dollar Example) | {config['brand']}",
+        h1="How futures fee rebates work, <em>and who pays for them.</em>",
+        crumb="How fee rebates work",
+        desc=(f"How crypto futures fee rebates work: where the money comes from, what they cover, a month of trades "
+              f"before and after a {r4}% rebate, and what to check before you trust a rebate service."),
+        lede=("A rebate is part of your trading fee, paid back to you after you trade. Here is where that money comes from, "
+              "what it does and does not cover, and what it adds up to in a normal month."),
+        published="2026-11-12", modified="2026-11-12", checked="3 Nov 2026",
+        keyword="trading fee rebate",
+        body=body4, faqs=faqs4, signup=signup4,
+        side_big=pct(net(TAKER, r4)), side_label=f"Bitget taker you effectively pay after the {r4}% rebate (standard {pct(TAKER)})",
     ))
 
     return out
