@@ -125,11 +125,11 @@ STRIP_CSS = """<style>
 
 
 def promo_strip(domain, place):
-    """Slim strip that opens AlphaX sign-up directly with referral code 7lxP6X (Sejun 2026-11-05: every AlphaX link goes straight to sign-up)."""
+    """Slim strip that opens AlphaX sign-up directly; the referral rides on the link and no code is shown (FEEDBACK 2026-10-29; Sejun 2026-11-05: every AlphaX link goes straight to sign-up)."""
     return (STRIP_CSS + f'<a class="px-strip" href="{REF}" target="_blank" rel="sponsored nofollow noopener" data-place="{place}">'
             '<div class="wrap"><i>AlphaX<s> special</s></i>'
             '<span><b>0%</b> maker/taker · up to <b>15,000+ USDT</b> in welcome vouchers</span>'
-            '<u>Sign up<s> · code 7lxP6X</s></u></div></a>')
+            '<u>Sign up<s> →</s></u></div></a>')
 
 
 def build_promo(head, header, footer, esc, common_js, config, fab, tg_dm, fx_js=""):

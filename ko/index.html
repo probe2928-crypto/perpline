@@ -327,6 +327,7 @@ footer{border-top:1px solid var(--ink);padding-block:64px 80px}
 .fab-btn{font:inherit;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;padding:14px 20px;border:1px solid var(--ink);background:var(--ink);color:var(--paper);cursor:pointer;display:inline-flex;align-items:center;gap:10px}
 .fab-btn svg{flex:none}
 @media (max-width:700px){.fab-btn{padding:0;width:50px;height:50px;border-radius:50%;justify-content:center}.fab-btn .fab-t{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}}
+.fab.compact .fab-btn{padding:0;width:50px;height:50px;border-radius:50%;justify-content:center}.fab.compact .fab-btn .fab-t{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .fab-panel{width:min(330px,calc(100vw - 36px));background:var(--paper);border:1px solid var(--ink);padding:22px;display:flex;flex-direction:column;gap:2px}
 .fab-panel h3{font-size:24px;margin-bottom:10px}
 .fab-panel .opt{font:inherit;text-align:left;display:flex;flex-direction:column;gap:2px;padding:14px 0;border:0;border-top:1px solid var(--hair);background:none;color:var(--ink);text-decoration:none;cursor:pointer}
@@ -812,6 +813,8 @@ const LEVELS = [
 /* ---- stage carousel ---- */
 (function(){
   const st=$("stage"); if(!st) return;
+  /* while the hero is on screen the support button shrinks to an icon so it never covers the slide arrows */
+  const fb=document.querySelector(".fab"); if(fb&&"IntersectionObserver" in window){ new IntersectionObserver(e=>fb.classList.toggle("compact",e[0].intersectionRatio>0.3),{threshold:[0,0.3,0.6,1]}).observe(st); }
   const tr=$("stageTrack"), slides=[...tr.children], dots=[...st.querySelectorAll(".stage-dots button")];
   const UI=["auto","light","light","auto"]; let i=0, timer=null, paused=FX.reduce, hover=false;
   function go(n){

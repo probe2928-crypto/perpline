@@ -446,6 +446,7 @@ footer{border-top:1px solid var(--ink);padding-block:64px 80px}
 .fab-btn{font:inherit;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;padding:14px 20px;border:1px solid var(--ink);background:var(--ink);color:var(--paper);cursor:pointer;display:inline-flex;align-items:center;gap:10px}
 .fab-btn svg{flex:none}
 @media (max-width:700px){.fab-btn{padding:0;width:50px;height:50px;border-radius:50%;justify-content:center}.fab-btn .fab-t{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}}
+.fab.compact .fab-btn{padding:0;width:50px;height:50px;border-radius:50%;justify-content:center}.fab.compact .fab-btn .fab-t{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .fab-panel{width:min(330px,calc(100vw - 36px));background:var(--paper);border:1px solid var(--ink);padding:22px;display:flex;flex-direction:column;gap:2px}
 .fab-panel h3{font-size:24px;margin-bottom:10px}
 .fab-panel .opt{font:inherit;text-align:left;display:flex;flex-direction:column;gap:2px;padding:14px 0;border:0;border-top:1px solid var(--hair);background:none;color:var(--ink);text-decoration:none;cursor:pointer}
@@ -976,10 +977,10 @@ def build_index():
     </div>
   </div>
 
-  <!--ax--><a class="ax-band" href="https://www.alphax.com/partner/7lxP6X" target="_blank" rel="sponsored nofollow noopener" aria-label="Sign up on AlphaX: 0% maker and 0% taker fees, referral code 7lxP6X">
+  <!--ax--><a class="ax-band" href="https://www.alphax.com/partner/7lxP6X" target="_blank" rel="sponsored nofollow noopener" aria-label="Sign up on AlphaX: 0% maker and 0% taker fees, referral applied through this link">
     <span class="label">Spotlight</span>
     <b><em>0%</em> maker · <em>0%</em> taker</b>
-    <span class="ax-band-t">Sign up on AlphaX · code 7lxP6X →</span>
+    <span class="ax-band-t">Sign up on AlphaX →</span>
   </a>
   <style>.ax-band{{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 28px;padding:22px clamp(20px,5vw,72px);background:var(--ink);color:var(--paper);text-decoration:none;border-top:1px solid var(--ink)}}
 .ax-band .label{{color:var(--paper);opacity:.7}}.ax-band b{{font-family:var(--display);font-weight:400;font-size:clamp(28px,3.4vw,44px);line-height:1}}
@@ -1170,6 +1171,8 @@ CAROUSEL_JS_SRC = r"""
 /* ---- stage carousel ---- */
 (function(){
   const st=$("stage"); if(!st) return;
+  /* while the hero is on screen the support button shrinks to an icon so it never covers the slide arrows */
+  const fb=document.querySelector(".fab"); if(fb&&"IntersectionObserver" in window){ new IntersectionObserver(e=>fb.classList.toggle("compact",e[0].intersectionRatio>0.3),{threshold:[0,0.3,0.6,1]}).observe(st); }
   const tr=$("stageTrack"), slides=[...tr.children], dots=[...st.querySelectorAll(".stage-dots button")];
   const UI=["auto","light","light","auto"]; let i=0, timer=null, paused=FX.reduce, hover=false;
   function go(n){
@@ -1621,7 +1624,7 @@ def growth_kit():
       "function send(name,props){if(!live)return;try{if(typeof window.gtag==='function')window.gtag('event',name,Object.assign({transport_type:'beacon'},props||{}));}catch(e){}try{if(typeof window.va==='function'){window.va('event',name,props||{});return;}"
       "var p=JSON.stringify({site:SITE,type:'event',url:location.href,path:location.pathname,ref:document.referrer||null,w:innerWidth,ts:Date.now(),"
       "id:(window.crypto&&crypto.randomUUID)?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2),name:name,props:props||{}});"
-      "navigator.sendBeacon&&navigator.sendBeacon('https://savri.io/api/collect',p);if(/^pl_(signup_click|claim_click)$/.test(name)){var vp='/_evt/'+name.slice(3)+'/'+((props&&props.venue)||'x');navigator.sendBeacon&&navigator.sendBeacon('https://savri.io/api/collect',JSON.stringify({site:SITE,type:'pageview',url:location.origin+vp,path:vp,ref:location.href,w:innerWidth,ts:Date.now(),id:Date.now().toString(36)+Math.random().toString(36).slice(2)}));}}catch(e){}}"
+      "navigator.sendBeacon&&navigator.sendBeacon('https://savri.io/api/collect',p);if(/^pl_(signup_click|claim_click|venue_click)$/.test(name)){var vp='/_evt/'+name.slice(3)+'/'+((props&&props.venue)||'x');navigator.sendBeacon&&navigator.sendBeacon('https://savri.io/api/collect',JSON.stringify({site:SITE,type:'pageview',url:location.origin+vp,path:vp,ref:location.href,w:innerWidth,ts:Date.now(),id:Date.now().toString(36)+Math.random().toString(36).slice(2)}));}}catch(e){}}"
       "function slugOf(href){for(var s in V){for(var i=0;i<V[s].h.length;i++){if(href.indexOf(V[s].h[i])===0)return s;}}if(href.indexOf('alphax.com/')>-1)return 'alphax';return 'other';}"
       "function placeOf(a){var p=a.closest('[data-place]');if(p)return p.getAttribute('data-place');var s=a.closest('section[id],article,li,div[id]');return s?(s.id||s.className.split(' ')[0]||'page'):'page';}"
       "var bar=document.getElementById('gBar'),K='pl_pending';"
@@ -1633,6 +1636,7 @@ def growth_kit():
       "if(/(^|\\s)sponsored(\\s|$)/.test(a.getAttribute('rel')||'')){var s=slugOf(href),pl=placeOf(a);"
       "send('pl_signup_click',{venue:s,place:pl});send('pl_signup_'+s,{place:pl});if(/^\\/(perpline\\/)?(index\\.html)?$/.test(location.pathname))send('pl_signup_home',{venue:s,place:pl});"
       "try{localStorage.setItem(K,JSON.stringify({s:s,t:Date.now()}));}catch(e){}setTimeout(function(){show(s);},400);return;}"
+      "var mx=href.match(/\\/exchanges\\/([a-z0-9-]+)\\.html/);if(mx&&href.indexOf(location.origin)===0){send('pl_venue_click',{venue:mx[1],place:placeOf(a)});return;}"
       "if(href.indexOf('t.me/'+TG)>-1){var j=pending();send('pl_claim_click',{venue:j?j.s:'none',place:placeOf(a)});"
       "if(a.id==='gGo'){try{localStorage.removeItem(K);}catch(e){}}}},true);"
       "var j=pending();if(j)show(j.s);"
@@ -1712,7 +1716,7 @@ def build():
             '<script async src="https://www.googletagmanager.com/gtag/js?id=G-8YQ1BGBDR7"></script>'
             '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-8YQ1BGBDR7",{send_page_view:false});</script></head>'
             '<body style="font:16px system-ui;padding:40px;background:#FBF8F3;color:#121212">'
-            '<p>Opening AlphaX sign-up · referral code 7lxP6X…</p><p><a href="https://www.alphax.com/partner/7lxP6X">Continue</a></p>'
+            '<p>Opening AlphaX sign-up…</p><p><a href="https://www.alphax.com/partner/7lxP6X">Continue</a></p>'
             '<script>(function(){var U="https://www.alphax.com/partner/7lxP6X";try{if(!navigator.webdriver){var p=JSON.stringify({site:"site_mvvy2a4d_govfksp",type:"event",url:location.href,path:location.pathname,ref:document.referrer||null,w:innerWidth,ts:Date.now(),'
             'id:(window.crypto&&crypto.randomUUID)?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2),name:"pl_signup_alphax",props:{place:"' + src + '",venue:"alphax"}});'
             'navigator.sendBeacon&&navigator.sendBeacon("https://savri.io/api/collect",p);var vp="/_evt/signup_click/alphax";navigator.sendBeacon&&navigator.sendBeacon("https://savri.io/api/collect",JSON.stringify({site:"site_mvvy2a4d_govfksp",type:"pageview",url:location.origin+vp,path:vp,ref:location.href,w:innerWidth,ts:Date.now(),id:Date.now().toString(36)+Math.random().toString(36).slice(2)}));}}catch(e){}var gone=false;function go(){if(!gone){gone=true;location.replace(U)}}try{gtag("event","pl_signup_alphax",{source:"' + src + '",venue:"alphax",transport_type:"beacon",event_callback:go});}catch(e){}setTimeout(go,900);})();</script></body></html>',
