@@ -205,35 +205,36 @@ EXACT.update({
 
 # market note (update when the note changes)
 NOTE = {
-    "Snapshot · Nov 10, 2026": "스냅샷 · 2026년 11월 10일", "Nov 10, 2026": "2026년 11월 10일",
-    "IV · Le marché · Wednesday, Nov 11, 2026": "IV · 시황 · 2026년 11월 11일 (수)",
-    "Hot CPI drags Bitcoin toward $73K and its 200-day average.": "뜨거운 CPI에 비트코인이 7만 3,000달러, 200일 이동평균선 부근까지 밀렸어요.",
-    "A hotter-than-expected inflation report sent Bitcoin lower on Tuesday. October CPI rose 0.4% against forecasts of 0.3%, and core CPI rose 0.3% against 0.2%. Bitcoin traded near $73,360, down about 1.6% on the day after opening around $74,260. US stocks fell too, with the Nasdaq down 1.51%, and the 10-year Treasury yield moved above 5%.":
-        "예상보다 뜨거운 물가 지표가 나오면서 화요일에 비트코인이 내렸어요. 10월 CPI는 전월 대비 0.4% 올라 예상치 0.3%를 웃돌았고, 근원 CPI는 0.3% 올라 예상치 0.2%보다 높았어요. 비트코인은 7만 4,260달러 근처에서 출발해 하루 약 1.6% 하락한 7만 3,360달러 부근에서 거래됐어요. 미국 증시도 함께 내려 나스닥은 1.51% 떨어졌고, 미국 10년물 국채 금리는 5%를 넘었어요.",
-    "Leveraged longs took the damage. CoinGlass logged about $716M of liquidations in 24 hours, $589M of it long positions. Spot Bitcoin ETFs are still seeing money leave: $1.28B went out over Nov 2–6, and another $201M on Nov 9, the third straight day of outflows.":
-        "피해는 레버리지 롱 쪽이 입었어요. CoinGlass에 따르면 24시간 동안 약 7억 1,600만 달러가 청산됐고, 그중 5억 8,900만 달러가 롱 포지션이었어요. 현물 비트코인 ETF에서는 계속 자금이 빠지고 있어요. 11월 2–6일에 12억 8,000만 달러가 나갔고, 11월 9일에도 2억 100만 달러가 더 빠져 사흘 연속 순유출이었어요.",
-    "Traders are watching the 200-day moving average near $73,200. Wintermute says a daily close below it opens the way to $68K, while a close above $80K with renewed ETF inflows would be needed to turn its view constructive. The Fed's next decision is Dec 9. Leverage cuts both ways, so size positions so one wick can't liquidate you.":
-        "트레이더들은 7만 3,200달러 부근의 200일 이동평균선을 지켜보고 있어요. Wintermute는 일봉 종가가 이 선 아래로 내려가면 6만 8,000달러까지 길이 열리고, 반대로 8만 달러 위 마감과 ETF 자금 재유입이 함께 나와야 시각이 긍정적으로 바뀐다고 봐요. 연준의 다음 결정은 12월 9일이에요. 레버리지는 양쪽으로 작동하니, 꼬리 한 번에 청산되지 않도록 포지션 크기를 정하세요.",
-    "BTC price, Nov 10": "BTC 가격, 11/10",
-    "Oct CPI, month over month": "10월 CPI (전월 대비)", "+0.4% (forecast 0.3%)": "+0.4% (예상 0.3%)",
-    "Core CPI, month over month": "근원 CPI (전월 대비)", "+0.3% (forecast 0.2%)": "+0.3% (예상 0.2%)",
-    "All-crypto liquidations, 24h": "전체 코인 청산 (24시간)", "Share that were longs": "그중 롱 비중",
-    "Spot ETF net flow, Nov 9": "현물 ETF 순유입, 11/9", "Spot ETF net flow, Nov 2–6": "현물 ETF 순유입, 11/2–6",
+    "Snapshot · Nov 12, 2026": "스냅샷 · 2026년 11월 12일", "Nov 12, 2026": "2026년 11월 12일",
+    "IV · Le marché · Friday, Nov 13, 2026": "IV · 시황 · 2026년 11월 13일 (금)",
+    "Bitcoin slips under its 200-day average as ETF outflows hit a fifth day.": "ETF 순유출이 닷새째 이어지며 비트코인이 200일 이동평균선 아래로 내려왔어요.",
+    "Bitcoin lost the $73K area on Thursday. It traded near $71,650, down about 3.9% over 24 hours, in a range of $71,238 to $74,695. Ether fell a similar 4.2% to about $2,004, and the Crypto Fear and Greed index read 28, in the Fear zone. Tuesday's hotter-than-expected US CPI is still weighing on sentiment.":
+        "비트코인이 목요일에 7만 3,000달러 부근을 내줬어요. 24시간 동안 약 3.9% 내린 7만 1,650달러 근처에서 거래됐고, 범위는 7만 1,238달러에서 7만 4,695달러였어요. 이더리움도 비슷하게 4.2% 내려 약 2,004달러가 됐고, 크립토 공포·탐욕 지수는 28로 '공포' 구간이었어요. 화요일에 나온 예상보다 뜨거운 미국 CPI가 아직 투자 심리를 누르고 있어요.",
+    "Leveraged longs took the damage again. CoinGlass logged about $725M of liquidations across crypto in 24 hours, $637M of it long positions, roughly 88% of the total. Spot Bitcoin ETFs recorded a fifth straight day of outflows: $299.8M on Wednesday, about $1.44B over five sessions, with BlackRock's IBIT making up most of it.":
+        "이번에도 피해는 레버리지 롱 쪽이 입었어요. CoinGlass에 따르면 24시간 동안 코인 시장 전체에서 약 7억 2,500만 달러가 청산됐고, 그중 6억 3,700만 달러가 롱 포지션으로 전체의 약 88%였어요. 현물 비트코인 ETF는 닷새 연속 순유출을 기록했어요. 수요일에 2억 9,980만 달러가 빠졌고 5거래일 합계는 약 14억 4,000만 달러이며, 블랙록 IBIT가 대부분을 차지했어요.",
+    "The 200-day moving average near $73,200 has flipped from support to the first level to reclaim. Wintermute earlier flagged $68K as the next area if selling continues. The Fed's next decision is Dec 9. Leverage cuts both ways, so size positions so one wick can't liquidate you.":
+        "7만 3,200달러 부근의 200일 이동평균선은 지지선에서 가장 먼저 되찾아야 할 가격대로 바뀌었어요. Wintermute는 앞서 매도가 이어지면 다음 가격대로 6만 8,000달러를 꼽았어요. 연준의 다음 결정은 12월 9일이에요. 레버리지는 양쪽으로 작동하니, 꼬리 한 번에 청산되지 않도록 포지션 크기를 정하세요.",
+    "BTC price, Nov 12": "BTC 가격, 11/12", "~$71,650": "약 7만 1,650달러",
+    "24h range": "24시간 범위", "$71.2K – $74.7K": "7만 1,200 – 7만 4,700달러",
+    "Fear and Greed index": "공포·탐욕 지수", "28 (Fear)": "28 (공포)",
+    "All-crypto liquidations, 24h": "전체 코인 청산 (24시간)", "$725M": "7억 2,500만 달러",
+    "Share that were longs": "그중 롱 비중",
+    "Spot ETF net flow, Nov 11": "현물 ETF 순유입, 11/11", "Spot ETF net flow, 5 sessions": "현물 ETF 순유입, 5거래일",
     "Fed decision": "연준 결정", "Wed, Dec 9": "12/9 (수)",
-    "If it holds": "지켜낸다면", "Close above $73.2K": "7만 3,200달러 위 마감",
-    "Holding the 200-day average eases short-term pressure. The": "200일 이동평균선을 지키면 단기 압력이 누그러져요.",
+    "If it recovers": "되찾는다면", "Back above $73.2K": "7만 3,200달러 위로 복귀",
+    "Reclaiming the 200-day average would ease short-term pressure. The": "200일 이동평균선을 되찾으면 단기 압력이 누그러져요.",
     "$75.5K": "7만 5,500달러", "area, the 50-week average, is the next level to watch.": "부근, 곧 50주 이동평균선이 다음으로 볼 가격대예요.",
-    "$73.2K – $75.5K": "7만 3,200 – 7만 5,500달러",
-    "Between the 200-day and 50-week averages, where it has traded since Sunday. Expect": "200일선과 50주선 사이이고, 일요일 이후 머물러 온 구간이에요. CPI와 ETF 자금 흐름을 소화하는 동안",
-    "low conviction": "방향성 부족", "while the market digests CPI and ETF flows.": "이 예상돼요.",
-    "Close below $73.2K": "7만 3,200달러 아래 마감",
-    "Wintermute flags": "Wintermute는 다음 가격대로", "$68K": "6만 8,000달러",
+    "If it chops": "횡보한다면", "$71.2K – $73.2K": "7만 1,200 – 7만 3,200달러",
+    "Between Thursday's 24-hour low and the 200-day average. Expect": "목요일 24시간 저점과 200일선 사이예요. CPI와 ETF 순유출을 소화하는 동안",
+    "low conviction": "방향성 부족", "while the market digests CPI and ETF outflows.": "이 예상돼요.",
+    "If it loses": "무너진다면", "Close below $71.2K": "7만 1,200달러 아래 마감",
+    "Wintermute earlier flagged": "Wintermute는 앞서 다음 가격대로", "$68K": "6만 8,000달러",
     "as the next area, and more": "를 꼽았고, 추가", "long liquidations": "롱 청산",
     "are possible. Watch whether ETF outflows continue.": "도 가능해요. ETF 유출이 이어지는지 보세요.",
-    "Market commentary for information only. Not investment advice. Data: price per The Block and Fortune (Nov 10, 2026); CPI per FXStreet and The Block; CoinGlass liquidation figures via FXStreet; spot ETF flows per Farside Investors via crypto.news (Nov 2–6) and KuCoin News (Nov 9); moving-average levels per Wintermute and Bitget analysts.":
-        "정보 제공용 시황이며 투자 조언이 아니에요. 데이터: 가격은 The Block·Fortune (2026년 11월 10일), CPI는 FXStreet·The Block, 청산은 CoinGlass 수치를 FXStreet가 인용, 현물 ETF 흐름은 Farside Investors(crypto.news 인용, 11/2–6)와 KuCoin News(11/9), 이동평균선 수준은 Wintermute·Bitget 애널리스트 기준.",
-    "50-week avg · resistance": "50주선 · 저항", 
-    "200-day avg · support": "200일선 · 지지", "Lower support zone (top)": "하단 지지 구간 (상단)",
+    "Market commentary for information only. Not investment advice. Data: price and 24h range per CoinGecko via Cryptonro (Nov 12, 2026, 17:20 GMT); liquidations per CoinGlass and spot ETF flows per Farside Investors and SoSoValue, via The Crypto Times (Nov 12, 2026); Fear and Greed index per Alternative.me; CPI and moving-average levels per earlier desk note (FXStreet, The Block, Wintermute, Bitget analysts).":
+        "정보 제공용 시황이며 투자 조언이 아니에요. 데이터: 가격과 24시간 범위는 CoinGecko 수치를 Cryptonro가 인용(2026년 11월 12일 17:20 GMT), 청산은 CoinGlass, 현물 ETF 흐름은 Farside Investors·SoSoValue를 The Crypto Times가 인용(2026년 11월 12일), 공포·탐욕 지수는 Alternative.me, CPI와 이동평균선 수준은 앞선 시황 노트(FXStreet·The Block·Wintermute·Bitget 애널리스트) 기준.",
+    "50-week avg · resistance": "50주선 · 저항",
+    "200-day avg · resistance": "200일선 · 저항", "Nov 12 low · support": "11/12 저점 · 지지", "Wintermute flagged area": "Wintermute가 꼽은 가격대",
 }
 EXACT.update({"Fees checked Oct 2026 · Rebate paid every Monday in USDT · No password or API keys needed.": "수수료 확인 2026년 10월 · 페이백은 매주 월요일 USDT로 지급 · 비밀번호·API 키 불필요"})
 EXACT.update(NOTE)
@@ -309,7 +310,7 @@ JS = [
 ]
 for k, v in NOTE.items():
     JS.append((f'label:"{k}"', f'label:"{v}"'))
-JS.append(('when:"Nov 10, 2026"', 'when:"2026년 11월 10일"'))
+JS.append(('when:"Nov 12, 2026"', 'when:"2026년 11월 12일"'))
 
 
 def lookup(t):

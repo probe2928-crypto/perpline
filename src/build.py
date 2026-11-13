@@ -485,7 +485,7 @@ def header(prefix):
     <div class="right">
       <a class="hide-sm" href="{TG_GROUP}" target="_blank" rel="noopener">Community</a>
       <a class="langsw" id="langSw" href="#" hidden>한국어</a>
-      <span class="btc">BTC <b id="pillPrice" class="num">$73,363</b></span>
+      <span class="btc">BTC <b id="pillPrice" class="num">$71,652</b></span>
       <span class="auth-slot" data-auth-slot hidden></span>
       <button type="button" class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="menuPanel">Menu</button>
     </div>
@@ -948,7 +948,7 @@ def build_index():
         <div class="slide-in wrap">
           <span class="label">Le marché</span>
           <h2>Bitcoin, read<br><em>three times a week.</em></h2>
-          <p class="lede">BTC <b class="num" id="stageBtc">$73,363</b> · desk notes every Monday, Wednesday and Friday.</p>
+          <p class="lede">BTC <b class="num" id="stageBtc">$71,652</b> · desk notes every Monday, Wednesday and Friday.</p>
           <div class="cta"><a class="btn" href="#note">Read the note</a></div>
         </div>
       </article>
@@ -1057,13 +1057,13 @@ def build_index():
     <div class="wrap">
       <div class="market">
         <div>
-          <span class="label">BTC / USD · <span id="feedLabel">Snapshot · Nov 10, 2026</span></span>
-          <div class="price" style="margin-top:14px"><small>$</small><span id="priceVal">73,363</span></div>
+          <span class="label">BTC / USD · <span id="feedLabel">Snapshot · Nov 12, 2026</span></span>
+          <div class="price" style="margin-top:14px"><small>$</small><span id="priceVal">71,652</span></div>
           <div class="stats">
             <div class="stat"><span class="label">24h</span><b class="chg" id="chg">—</b></div>
             <div class="stat"><span class="label">24h low</span><b id="lo">—</b></div>
             <div class="stat"><span class="label">24h high</span><b id="hi">—</b></div>
-            <div class="stat"><span class="label">Updated</span><b id="upd">Nov 10, 2026</b></div>
+            <div class="stat"><span class="label">Updated</span><b id="upd">Nov 12, 2026</b></div>
           </div>
         </div>
         <div class="ladder" aria-label="Key price levels">
@@ -1072,31 +1072,31 @@ def build_index():
         </div>
       </div>
       <div class="chap-head">
-        <div><span class="label">IV · Le marché · Wednesday, Nov 11, 2026</span><h2 id="noteH">Hot CPI drags Bitcoin toward $73K and its 200-day average.</h2></div>
+        <div><span class="label">IV · Le marché · Friday, Nov 13, 2026</span><h2 id="noteH">Bitcoin slips under its 200-day average as ETF outflows hit a fifth day.</h2></div>
       </div>
       <div class="note-grid">
         <div class="prose">
-          <p>A hotter-than-expected inflation report sent Bitcoin lower on Tuesday. October CPI rose 0.4% against forecasts of 0.3%, and core CPI rose 0.3% against 0.2%. Bitcoin traded near $73,360, down about 1.6% on the day after opening around $74,260. US stocks fell too, with the Nasdaq down 1.51%, and the 10-year Treasury yield moved above 5%.</p>
-          <p>Leveraged longs took the damage. CoinGlass logged about $716M of liquidations in 24 hours, $589M of it long positions. Spot Bitcoin ETFs are still seeing money leave: $1.28B went out over Nov 2–6, and another $201M on Nov 9, the third straight day of outflows.</p>
-          <p>Traders are watching the 200-day moving average near $73,200. Wintermute says a daily close below it opens the way to $68K, while a close above $80K with renewed ETF inflows would be needed to turn its view constructive. The Fed's next decision is Dec 9. Leverage cuts both ways, so size positions so one wick can't liquidate you.</p>
+          <p>Bitcoin lost the $73K area on Thursday. It traded near $71,650, down about 3.9% over 24 hours, in a range of $71,238 to $74,695. Ether fell a similar 4.2% to about $2,004, and the Crypto Fear and Greed index read 28, in the Fear zone. Tuesday's hotter-than-expected US CPI is still weighing on sentiment.</p>
+          <p>Leveraged longs took the damage again. CoinGlass logged about $725M of liquidations across crypto in 24 hours, $637M of it long positions, roughly 88% of the total. Spot Bitcoin ETFs recorded a fifth straight day of outflows: $299.8M on Wednesday, about $1.44B over five sessions, with BlackRock's IBIT making up most of it.</p>
+          <p>The 200-day moving average near $73,200 has flipped from support to the first level to reclaim. Wintermute earlier flagged $68K as the next area if selling continues. The Fed's next decision is Dec 9. Leverage cuts both ways, so size positions so one wick can't liquidate you.</p>
         </div>
         <div class="facts" aria-label="Key numbers">
-          <div class="fact"><span>BTC price, Nov 10</span><span>~$73,360</span></div>
-          <div class="fact"><span>Oct CPI, month over month</span><span>+0.4% (forecast 0.3%)</span></div>
-          <div class="fact"><span>Core CPI, month over month</span><span>+0.3% (forecast 0.2%)</span></div>
-          <div class="fact"><span>All-crypto liquidations, 24h</span><span>$716M</span></div>
-          <div class="fact"><span>Share that were longs</span><span class="neg">≈ 82%</span></div>
-          <div class="fact"><span>Spot ETF net flow, Nov 9</span><span class="neg">−$201M</span></div>
-          <div class="fact"><span>Spot ETF net flow, Nov 2–6</span><span class="neg">−$1.28B</span></div>
+          <div class="fact"><span>BTC price, Nov 12</span><span>~$71,650</span></div>
+          <div class="fact"><span>24h range</span><span>$71.2K – $74.7K</span></div>
+          <div class="fact"><span>Fear and Greed index</span><span>28 (Fear)</span></div>
+          <div class="fact"><span>All-crypto liquidations, 24h</span><span>$725M</span></div>
+          <div class="fact"><span>Share that were longs</span><span class="neg">≈ 88%</span></div>
+          <div class="fact"><span>Spot ETF net flow, Nov 11</span><span class="neg">−$299.8M</span></div>
+          <div class="fact"><span>Spot ETF net flow, 5 sessions</span><span class="neg">−$1.44B</span></div>
           <div class="fact"><span>Fed decision</span><span>Wed, Dec 9</span></div>
         </div>
       </div>
       <div class="scen">
-        <article><span class="label" style="color:var(--up)">If it holds</span><h3>Close above $73.2K</h3><p>Holding the 200-day average eases short-term pressure. The <strong>$75.5K</strong> area, the 50-week average, is the next level to watch.</p></article>
-        <article><span class="label">If it chops</span><h3>$73.2K – $75.5K</h3><p>Between the 200-day and 50-week averages, where it has traded since Sunday. Expect <strong>low conviction</strong> while the market digests CPI and ETF flows.</p></article>
-        <article><span class="label" style="color:var(--down)">If it loses</span><h3>Close below $73.2K</h3><p>Wintermute flags <strong>$68K</strong> as the next area, and more <strong>long liquidations</strong> are possible. Watch whether ETF outflows continue.</p></article>
+        <article><span class="label" style="color:var(--up)">If it recovers</span><h3>Back above $73.2K</h3><p>Reclaiming the 200-day average would ease short-term pressure. The <strong>$75.5K</strong> area, the 50-week average, is the next level to watch.</p></article>
+        <article><span class="label">If it chops</span><h3>$71.2K – $73.2K</h3><p>Between Thursday's 24-hour low and the 200-day average. Expect <strong>low conviction</strong> while the market digests CPI and ETF outflows.</p></article>
+        <article><span class="label" style="color:var(--down)">If it loses</span><h3>Close below $71.2K</h3><p>Wintermute earlier flagged <strong>$68K</strong> as the next area, and more <strong>long liquidations</strong> are possible. Watch whether ETF outflows continue.</p></article>
       </div>
-      <p class="fine" style="margin-top:28px">Market commentary for information only. Not investment advice. Data: price per The Block and Fortune (Nov 10, 2026); CPI per FXStreet and The Block; CoinGlass liquidation figures via FXStreet; spot ETF flows per Farside Investors via crypto.news (Nov 2–6) and KuCoin News (Nov 9); moving-average levels per Wintermute and Bitget analysts.</p>
+      <p class="fine" style="margin-top:28px">Market commentary for information only. Not investment advice. Data: price and 24h range per CoinGecko via Cryptonro (Nov 12, 2026, 17:20 GMT); liquidations per CoinGlass and spot ETF flows per Farside Investors and SoSoValue, via The Crypto Times (Nov 12, 2026); Fear and Greed index per Alternative.me; CPI and moving-average levels per earlier desk note (FXStreet, The Block, Wintermute, Bitget analysts).</p>
     </div>
   </section>
 
@@ -1155,11 +1155,12 @@ window.LANG="en"; window.LANG_ALT="ko/index.html";
 {FX_JS}
 const CONTACT = {{ telegram:"{CONFIG['telegram_dm']}", formEndpoint:"{CONFIG['form_endpoint']}" }};
 const VENUES = {js_venues};
-const SNAP = {{ price:73363, lo:null, hi:null, chg:null, when:"Nov 10, 2026" }};
+const SNAP = {{ price:71652, lo:71238, hi:74695, chg:-3.94, when:"Nov 12, 2026" }};
 const LEVELS = [
   {{ p:75500, label:"50-week avg · resistance", kind:"r" }},
-  {{ p:73200, label:"200-day avg · support", kind:"s" }},
-  {{ p:71252, label:"Lower support zone (top)", kind:"s" }}
+  {{ p:73200, label:"200-day avg · resistance", kind:"r" }},
+  {{ p:71238, label:"Nov 12 low · support", kind:"s" }},
+  {{ p:68000, label:"Wintermute flagged area", kind:"s" }}
 ];
 """
     page += CAROUSEL_JS_SRC + INDEX_JS
