@@ -1,90 +1,94 @@
 {
  "alphax.html": [
-  "7ae93967d29b2909",
-  "2026-11-13"
+  "d8c4ebd0221f0823",
+  "2026-11-14"
  ],
  "exchanges/biconomy.html": [
-  "7abefd00122637c3",
-  "2026-11-13"
+  "974e7fd642545fae",
+  "2026-11-14"
  ],
  "exchanges/bingx.html": [
-  "79368c1c202dcec7",
-  "2026-11-13"
+  "2bd93e97433e2891",
+  "2026-11-14"
  ],
  "exchanges/bitget.html": [
-  "9e1a31d7bbb93e95",
-  "2026-11-13"
+  "71261e87acf47fa9",
+  "2026-11-14"
  ],
  "exchanges/bitunix.html": [
-  "b88d4c135b09fc68",
-  "2026-11-13"
+  "1893aae26186b336",
+  "2026-11-14"
  ],
  "exchanges/blofin.html": [
-  "475e58cf9f45ca64",
-  "2026-11-13"
+  "eafa2200b9987c1d",
+  "2026-11-14"
  ],
  "exchanges/btcc.html": [
-  "45c42542ffe7b58f",
-  "2026-11-13"
+  "666baba55c849f06",
+  "2026-11-14"
  ],
  "exchanges/crypfine.html": [
-  "db40325ca5433d96",
-  "2026-11-13"
+  "b94ca76af48203ec",
+  "2026-11-14"
  ],
  "exchanges/deepcoin.html": [
-  "0d206a7a9ac109ec",
-  "2026-11-13"
+  "41e23243dadcf425",
+  "2026-11-14"
  ],
  "exchanges/gate.html": [
-  "d2e18a67ca2d5cda",
-  "2026-11-13"
+  "5c20eb7cb99e9a6d",
+  "2026-11-14"
  ],
  "exchanges/okx.html": [
-  "de5f125776f7da82",
-  "2026-11-13"
+  "3e26f666684f0e95",
+  "2026-11-14"
  ],
  "exchanges/orangex.html": [
-  "2977ab5f8c1268d9",
-  "2026-11-13"
+  "d8042b8918cda939",
+  "2026-11-14"
  ],
  "guides/bitget-futures-fees.html": [
-  "fff89f9173801776",
-  "2026-11-13"
+  "ea4ec9e0c888704a",
+  "2026-11-14"
+ ],
+ "guides/futures-break-even-price.html": [
+  "2be664604d5b0307",
+  "2026-11-14"
  ],
  "guides/how-fee-rebates-work.html": [
-  "1992c4ba40212118",
-  "2026-11-13"
+  "06a41dbef0cd3703",
+  "2026-11-14"
  ],
  "guides/how-funding-fees-work.html": [
-  "e02768c3ab771bf0",
-  "2026-11-13"
+  "66f8ccfd7dd45966",
+  "2026-11-14"
  ],
  "guides/maker-vs-taker-fees.html": [
-  "d08932db45810308",
-  "2026-11-13"
+  "712189b4e0fa8d38",
+  "2026-11-14"
  ],
  "index.html": [
-  "1f5dea0244ac6b1d",
-  "2026-11-13"
+  "1016b67fd91932e1",
+  "2026-11-14"
  ],
  "privacy.html": [
-  "071b00558acb411e",
-  "2026-11-13"
+  "373d27164f5793c4",
+  "2026-11-14"
  ],
  "projects.html": [
-  "72a2ba266830ff81",
-  "2026-11-13"
+  "d8f2c95c7d794588",
+  "2026-11-14"
  ],
  "promos/alphax.html": [
-  "67e81f37783bd517",
-  "2026-11-13"
+  "23028355ebf32c75",
+  "2026-11-14"
  ],
  "returns.html": [
-  "ebf60694804b3d82",
-  "2026-11-13"
+  "d9e64a91c2f5ce31",
+  "2026-11-14"
  ],
  "terms.html": [
-  "919cedeb35eb23db",
-  "2026-11-13"
+  "5e7f4446a69640a3",
+  "2026-11-14"
  ]
 }

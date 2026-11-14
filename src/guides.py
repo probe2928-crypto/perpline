@@ -4,7 +4,7 @@ no Korea/US targeting, no return promises or price calls. Referral links and reb
 import json
 
 # footer links (slug, anchor text) — keep in sync with _guides()
-LINKS = [("bitget-futures-fees", "Bitget futures fees explained"), ("maker-vs-taker-fees", "Maker vs taker fees in futures"), ("how-funding-fees-work", "How funding fees work"), ("how-fee-rebates-work", "How futures fee rebates work")]
+LINKS = [("bitget-futures-fees", "Bitget futures fees explained"), ("maker-vs-taker-fees", "Maker vs taker fees in futures"), ("how-funding-fees-work", "How funding fees work"), ("how-fee-rebates-work", "How futures fee rebates work"), ("futures-break-even-price", "Futures break-even price after fees")]
 
 CSS = """
 .gd-hero{padding-block:clamp(48px,7vw,96px) clamp(28px,4vw,48px);border-bottom:1px solid var(--hair)}
@@ -473,6 +473,123 @@ def _guides(V, pct, net, link, config, tg_dm):
         keyword="trading fee rebate",
         body=body4, faqs=faqs4, signup=signup4,
         side_big=pct(net(TAKER, r4)), side_label=f"Bitget taker you effectively pay after the {r4}% rebate (standard {pct(TAKER)})",
+    ))
+
+    # ---- Break-even price after fees (Bitget standard rates for the worked numbers) -------------------
+    # Fee numbers: Bitget standard futures 0.02% maker / 0.06% taker from Bitget's Trading Fees FAQ, checked
+    # 2026-11-03 (same check as above). "fee = order value x fee rate" from Bitget's fee calculation guide and
+    # BloFin's help centre (read 2026-11-05). Funding every 8 hours from the same Bitget FAQ. Everything else is
+    # arithmetic. The $70,000 entry is an illustrative round number, not a price call.
+    bx = V["bitget"]
+    assert (bx["maker"], bx["taker"]) == (MAKER, TAKER), "Bitget fee in VENUES no longer matches the verified guide numbers"
+    r5 = bx["rebate"]
+    signup5 = link(bx, "guide-break-even")
+    entry, size5 = 70000, 10000
+    def be_long(fi, fo): return entry * (1 + fi / 100) / (1 - fo / 100)
+    def be_short(fi, fo): return entry * (1 - fi / 100) / (1 + fo / 100)
+    def mv(x): return abs(x - entry) / entry * 100
+    def p2(x): return f"${x:,.2f}"
+    def pm(x): return f"{x:.3f}".rstrip("0").rstrip(".") + "%"
+    eT, eM = net(TAKER, r5), net(MAKER, r5)
+    cases = [("Market in, market out", TAKER, TAKER, eT, eT),
+             ("Limit in, market out", MAKER, TAKER, eM, eT),
+             ("Limit in, limit out", MAKER, MAKER, eM, eM)]
+    rows5 = "".join(
+        f"<tr><td>{nm}</td><td>{p2(be_long(a, b_))}</td><td>{pm(mv(be_long(a, b_)))}</td><td>{pm(mv(be_long(c, d_)))}</td></tr>"
+        for nm, a, b_, c, d_ in cases)
+    bl_tt, bs_tt = be_long(TAKER, TAKER), be_short(TAKER, TAKER)
+    rt5 = size5 * TAKER / 100 * 2
+    levs = [5, 10, 20, 50]
+    rows5b = "".join(f"<tr><td>{L}x</td><td>${size5 / L:,.0f}</td><td>{p2(rt5)}</td><td>{rt5 / (size5 / L) * 100:.1f}%</td></tr>" for L in levs)
+    fund_ill = 0.01
+    body5 = f"""
+<h2>The short version</h2>
+<p>Your break-even price is the exit price at which a futures trade ends at exactly zero after fees. It is never your entry price. You pay a fee to open and another to close, so the market has to move in your favour by at least the cost of both before the trade starts to make money.</p>
+<p>On Bitget's standard futures rates ({pct(MAKER)} maker, {pct(TAKER)} taker, checked on Bitget's own fee FAQ on 3 November 2026), a long opened and closed with market orders needs the price to rise about <b>{pm(mv(bl_tt))}</b> just to cover fees. That sounds tiny. For a scalper aiming at a few tenths of a percent, it can be a third of the target or more. This guide shows the formula, works it through in dollars, and shows how order type, leverage, funding and a fee rebate each move the number.</p>
+<p class="src">Fee rates: <a href="{FAQ_URL}" target="_blank" rel="noopener">Bitget Trading Fees FAQ</a>, checked 3 Nov 2026. Your logged-in fee page always takes precedence over any guide.</p>
+
+<h2>The formula, without the jargon</h2>
+<p>Futures fees are charged on the value of the order, not on your margin. Bitget's <a href="https://www.bitget.com/academy/Fee-Structure-and-Fee-Calculations-on-Bitget" target="_blank" rel="noopener">fee calculation guide</a> puts it as order value times fee rate, and <a href="{BLOFIN_FEE_URL}" target="_blank" rel="noopener">BloFin's help centre</a> writes the same thing as notional value times fee rate. The closing fee is charged on the value at the exit price, which is why the break-even price is slightly more than entry plus two fees.</p>
+<p>For a long position, with an opening fee rate <i>f<sub>open</sub></i> and a closing fee rate <i>f<sub>close</sub></i>:</p>
+<p><b>Break-even = entry × (1 + f<sub>open</sub>) ÷ (1 − f<sub>close</sub>)</b></p>
+<p>For a short, the signs flip: <b>entry × (1 − f<sub>open</sub>) ÷ (1 + f<sub>close</sub>)</b>. A quick mental shortcut is that the price has to move by roughly the two fee rates added together. With market orders on Bitget that is {pct(TAKER)} + {pct(TAKER)}, or about 0.12%.</p>
+
+<h2>A worked example in dollars</h2>
+<p>Take an illustrative entry price of {p2(entry)} for BTC and a {d(size5)} position. This is a round number for the arithmetic, not a view on where the price is heading.</p>
+<ul>
+  <li><b>Long, market in and market out:</b> break-even is {p2(bl_tt)}, a move of {p2(bl_tt - entry)} above entry.</li>
+  <li><b>Short, market in and market out:</b> break-even is {p2(bs_tt)}, a move of {p2(entry - bs_tt)} below entry.</li>
+</ul>
+<p>In fee terms, that position costs about {d(size5 * TAKER / 100)} to open and a little more than that to close, around {p2(rt5)} in total. Every dollar of price movement before break-even is just paying the exchange.</p>
+
+<h2>How order type changes your break-even</h2>
+<p>Because the formula uses the fee rate on each leg, the cheapest way to lower your break-even is to pay the maker rate on one or both sides. The table shows a long from {p2(entry)} on Bitget's standard rates, then the same trade with {config['brand']}'s {r5}% rebate counted in.</p>
+<div class="gd-scroll"><table class="gd-tbl">
+  <thead><tr><th>Order habit (long)</th><th>Break-even price</th><th>Move needed</th><th>Move needed after {r5}% rebate</th></tr></thead>
+  <tbody>{rows5}</tbody>
+</table></div>
+<p class="src">Bitget standard futures rates {pct(MAKER)} / {pct(TAKER)}, checked 3 Nov 2026. Funding and VIP discounts not included. Arithmetic only, not a forecast.</p>
+<p>The rebate column is an effective figure. On the day you trade, Bitget charges its normal fee and your exchange screen shows the normal numbers. The rebate comes back afterwards, in USDT every Monday, so over a month your real break-even sits at the lower figure. For a trader who closes a lot of positions at small gains, that difference adds up.</p>
+<p>A limit order only gets the maker rate if it rests on the book. A buy limit placed above the best ask fills at once and is charged as a taker. Our <a href="maker-vs-taker-fees.html">maker vs taker guide</a> covers this in more detail.</p>
+
+<h2>Leverage does not move the price, but it moves the pain</h2>
+<p>Leverage does not change the fee rate or the percentage move you need to break even. It changes how large that cost is compared with the margin you put up. Here is the same {d(size5)} market-in, market-out round trip at different leverage settings.</p>
+<div class="gd-scroll"><table class="gd-tbl">
+  <thead><tr><th>Leverage</th><th>Margin posted</th><th>Round-trip fees</th><th>Fees as % of margin</th></tr></thead>
+  <tbody>{rows5b}</tbody>
+</table></div>
+<p>At 50x, fees alone take a noticeable bite out of your margin on every round trip, before the market has done anything. High leverage also puts your liquidation price much closer to entry, and each exchange sets its own margin rules for that. Fees are one more reason to treat high leverage with care, not a reason to use it.</p>
+
+<h2>Funding moves it too, if you hold</h2>
+<p>Perpetual futures carry funding payments between longs and shorts. Bitget's fee FAQ says funding is exchanged every 8 hours, and the payment is position value times the funding rate. If you hold through a funding time while your side is paying, your break-even moves against you by about that rate. As an illustration only, a funding rate of {pm(fund_ill)} on the {d(size5)} position would cost {p2(size5 * fund_ill / 100)} per settlement. When your side is receiving, it moves in your favour.</p>
+<p>Funding goes from trader to trader, not to the exchange, so no rebate covers it. Our guide on <a href="how-funding-fees-work.html">how funding fees work</a> explains how to read the rate and countdown before you open.</p>
+
+<h2>Four ways to bring your break-even closer</h2>
+<ul>
+  <li><b>Enter with a limit or post-only order</b> when the trade is not urgent. On Bitget's standard rates that cuts the opening leg from {pct(TAKER)} to {pct(MAKER)}.</li>
+  <li><b>Set take-profits as limit orders.</b> A resting take-profit is usually filled as a maker. Keep stop-losses as they are: protection matters more than the fee.</li>
+  <li><b>Trade fewer, more deliberate positions.</b> Each round trip resets the break-even hurdle. Many small scalps pay it many times.</li>
+  <li><b>Get part of every fee back.</b> A rebate lowers the effective rate on every leg you cannot avoid paying as a taker. Through {config['brand']}, {r5}% of Bitget futures fees comes back, which brings the taker rate you effectively pay to {pct(eT)}. Compare all venues in our <a href="../index.html#venues">exchange ranking</a> or put your own numbers into the <a href="../index.html#fees">fee calculator</a>.</li>
+</ul>
+
+<h2>How to sign up and claim the {r5}% rebate on Bitget</h2>
+<ol class="gd-steps">
+  <li><div><b>Open a new Bitget account through our link</b><p>Use the sign-up button on this page. The referral is attached by the link, so there is no code to type. It works for new accounts only.</p></div></li>
+  <li><div><b>Secure and verify the account</b><p>Turn on two-factor authentication and complete identity checks if Bitget asks for them where you live.</p></div></li>
+  <li><div><b>Copy your UID</b><p>It is the account number on your profile in the Bitget app or website.</p></div></li>
+  <li><div><b>Send "Bitget + your UID" on Telegram</b><p>Message <a href="{tg_dm}" target="_blank" rel="noopener">@{config['telegram_dm']}</a>. We confirm within 24 hours. Never send a password, 2FA code or API key.</p></div></li>
+  <li><div><b>Get paid every Monday</b><p>Last week's rebate on your trading fees arrives in USDT.</p></div></li>
+</ol>
+<p style="margin-top:20px">The full Bitget picture is in <a href="bitget-futures-fees.html">Bitget futures fees explained</a>, and the account steps are on our <a href="../exchanges/bitget.html">Bitget referral page</a>.</p>
+
+<div class="gd-risk">
+  <h2>Before you trade</h2>
+  <p>Leveraged futures can lose you more than you expect, very quickly, and can wipe out your whole margin. Knowing your break-even price does not make a trade safe, and a rebate lowers costs without lowering that risk. Use low leverage and only trade money you can afford to lose.</p>
+  <p style="margin-top:12px">Each exchange decides which countries it serves, so check its terms for where you live. This site is not for residents of the Republic of Korea or the United States, or of any place where the exchange is not allowed to serve you. Nothing here is investment advice, and {config['brand']} earns a referral commission, part of which it shares with you as the rebate.</p>
+</div>
+"""
+    faqs5 = [
+        ("How do I calculate the break-even price on a futures trade?",
+         "For a long, break-even = entry × (1 + opening fee rate) ÷ (1 − closing fee rate). For a short, it is entry × (1 − opening fee rate) ÷ (1 + closing fee rate). As a shortcut, the price has to move by roughly the two fee rates added together before the trade covers its fees."),
+        ("Does leverage change my break-even price?",
+         "No. Fees are charged on the position's value, so the percentage move you need is the same at 2x or 50x. What leverage changes is how large those fees are compared with your margin, and how close your liquidation price is to entry."),
+        ("Does a fee rebate lower my break-even price?",
+         f"Not on the exchange screen, because the exchange still charges its normal fee when you trade. It lowers your effective break-even over time, because part of each fee comes back later. With a {r5}% rebate on Bitget's standard {pct(TAKER)} taker rate, you effectively pay {pct(eT)} per leg. Funding payments are not covered."),
+    ]
+    out.append(dict(
+        slug="futures-break-even-price",
+        venue=bx,
+        title=f"Futures Break-Even Price After Fees: Formula & Examples | {config['brand']}",
+        h1="Your futures break-even price, <em>after fees.</em>",
+        crumb="Futures break-even price",
+        desc=(f"How to calculate the break-even price on crypto futures after maker and taker fees, with dollar examples, "
+              f"leverage, funding, and how a {r5}% rebate lowers the move you need."),
+        lede=("Fees mean a trade has to move before it makes a cent. Here is the formula, a worked example in dollars, "
+              "and what order type, leverage, funding and a rebate do to the number."),
+        published="2026-11-14", modified="2026-11-14", checked="3 Nov 2026",
+        keyword="futures break even price",
+        body=body5, faqs=faqs5, signup=signup5,
+        side_big=pm(mv(be_long(eT, eT))), side_label=f"Bitget market-in, market-out break-even move after the {r5}% rebate (standard {pm(mv(bl_tt))})",
     ))
 
     return out
