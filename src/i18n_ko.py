@@ -205,36 +205,36 @@ EXACT.update({
 
 # market note (update when the note changes)
 NOTE = {
-    "Snapshot · Nov 12, 2026": "스냅샷 · 2026년 11월 12일", "Nov 12, 2026": "2026년 11월 12일",
-    "IV · Le marché · Friday, Nov 13, 2026": "IV · 시황 · 2026년 11월 13일 (금)",
-    "Bitcoin slips under its 200-day average as ETF outflows hit a fifth day.": "ETF 순유출이 닷새째 이어지며 비트코인이 200일 이동평균선 아래로 내려왔어요.",
-    "Bitcoin lost the $73K area on Thursday. It traded near $71,650, down about 3.9% over 24 hours, in a range of $71,238 to $74,695. Ether fell a similar 4.2% to about $2,004, and the Crypto Fear and Greed index read 28, in the Fear zone. Tuesday's hotter-than-expected US CPI is still weighing on sentiment.":
-        "비트코인이 목요일에 7만 3,000달러 부근을 내줬어요. 24시간 동안 약 3.9% 내린 7만 1,650달러 근처에서 거래됐고, 범위는 7만 1,238달러에서 7만 4,695달러였어요. 이더리움도 비슷하게 4.2% 내려 약 2,004달러가 됐고, 크립토 공포·탐욕 지수는 28로 '공포' 구간이었어요. 화요일에 나온 예상보다 뜨거운 미국 CPI가 아직 투자 심리를 누르고 있어요.",
-    "Leveraged longs took the damage again. CoinGlass logged about $725M of liquidations across crypto in 24 hours, $637M of it long positions, roughly 88% of the total. Spot Bitcoin ETFs recorded a fifth straight day of outflows: $299.8M on Wednesday, about $1.44B over five sessions, with BlackRock's IBIT making up most of it.":
-        "이번에도 피해는 레버리지 롱 쪽이 입었어요. CoinGlass에 따르면 24시간 동안 코인 시장 전체에서 약 7억 2,500만 달러가 청산됐고, 그중 6억 3,700만 달러가 롱 포지션으로 전체의 약 88%였어요. 현물 비트코인 ETF는 닷새 연속 순유출을 기록했어요. 수요일에 2억 9,980만 달러가 빠졌고 5거래일 합계는 약 14억 4,000만 달러이며, 블랙록 IBIT가 대부분을 차지했어요.",
-    "The 200-day moving average near $73,200 has flipped from support to the first level to reclaim. Wintermute earlier flagged $68K as the next area if selling continues. The Fed's next decision is Dec 9. Leverage cuts both ways, so size positions so one wick can't liquidate you.":
-        "7만 3,200달러 부근의 200일 이동평균선은 지지선에서 가장 먼저 되찾아야 할 가격대로 바뀌었어요. Wintermute는 앞서 매도가 이어지면 다음 가격대로 6만 8,000달러를 꼽았어요. 연준의 다음 결정은 12월 9일이에요. 레버리지는 양쪽으로 작동하니, 꼬리 한 번에 청산되지 않도록 포지션 크기를 정하세요.",
-    "BTC price, Nov 12": "BTC 가격, 11/12", "~$71,650": "약 7만 1,650달러",
-    "24h range": "24시간 범위", "$71.2K – $74.7K": "7만 1,200 – 7만 4,700달러",
-    "Fear and Greed index": "공포·탐욕 지수", "28 (Fear)": "28 (공포)",
-    "All-crypto liquidations, 24h": "전체 코인 청산 (24시간)", "$725M": "7억 2,500만 달러",
-    "Share that were longs": "그중 롱 비중",
-    "Spot ETF net flow, Nov 11": "현물 ETF 순유입, 11/11", "Spot ETF net flow, 5 sessions": "현물 ETF 순유입, 5거래일",
+    "Snapshot · Nov 16, 2026": "스냅샷 · 2026년 11월 16일", "Nov 16, 2026": "2026년 11월 16일",
+    "IV · Le marché · Monday, Nov 16, 2026": "IV · 시황 · 2026년 11월 16일 (월)",
+    "Bitcoin hits a four-month low near $62K as a weekend flush clears about $2B of longs.": "주말 대규모 청산으로 롱 포지션 약 20억 달러가 정리되며 비트코인이 6만 2,000달러 부근, 4개월 만의 저점을 찍었어요.",
+    "Bitcoin fell to $61,946 on Coinbase at 01:45 UTC on Sunday, its lowest since mid-July, then bounced back above $65,000 within about 75 minutes. It traded near $64,000 early Monday, down about 4.8% over 24 hours. Ether is near $1,780, and the Crypto Fear and Greed index read 10, deep in Extreme Fear.":
+        "비트코인은 일요일 UTC 01:45에 코인베이스에서 6만 1,946달러까지 내려 7월 중순 이후 최저가를 찍었고, 약 75분 만에 6만 5,000달러 위로 되돌아왔어요. 월요일 이른 시간에는 24시간 동안 약 4.8% 내린 6만 4,000달러 근처에서 거래됐어요. 이더리움은 1,780달러 부근이고, 크립토 공포·탐욕 지수는 10으로 '극단적 공포' 깊숙이 들어왔어요.",
+    "The flush was almost all longs. CoinGlass-based counts put crypto liquidations at roughly $2.0B to $2.1B over the 24 hours to Sunday morning, more than 90% of it long positions, with about $750M in Bitcoin alone. It followed about $1.6B on Nov 13. Spot Bitcoin ETFs logged a seventh straight outflow day on Friday: $185.4M, about $1.91B over seven sessions. Monday's flows are the next print.":
+        "청산은 거의 전부 롱 쪽이었어요. CoinGlass 기준 집계로 일요일 아침까지 24시간 동안 코인 시장 청산이 약 20억~21억 달러였고, 90% 넘게 롱 포지션이었으며, 비트코인에서만 약 7억 5,000만 달러였어요. 11월 13일에도 약 16억 달러가 청산됐어요. 현물 비트코인 ETF는 금요일에 7일 연속 순유출을 기록했어요. 1억 8,540만 달러가 빠졌고, 7거래일 합계는 약 19억 1,000만 달러예요. 월요일 자금 흐름이 다음 확인 지점이에요.",
+    "Macro is not helping. October CPI rose 0.4% against 0.3% expected, and FedWatch priced about an 88% chance of a quarter-point hike in December. This week brings Nvidia earnings on Tuesday, Fed minutes on Wednesday and a Senate Banking hearing on SEC nominees on Thursday. Glassnode had mapped a large pool of long liquidations between $59.5K and $62.6K, where Sunday's low landed. Leverage cuts both ways, so size positions so one wick can't liquidate you.":
+        "거시 환경도 도움이 되지 않아요. 10월 CPI는 예상 0.3%보다 높은 0.4% 올랐고, FedWatch는 12월 0.25%p 금리 인상 확률을 약 88%로 반영했어요. 이번 주에는 화요일 엔비디아 실적, 수요일 연준 의사록, 목요일 SEC 지명자에 대한 상원 은행위원회 청문회가 있어요. Glassnode는 5만 9,500~6만 2,600달러 사이에 롱 청산 물량이 크게 쌓여 있다고 짚었고, 일요일 저점이 바로 그 구간에서 나왔어요. 레버리지는 양쪽으로 작동하니, 꼬리 한 번에 청산되지 않도록 포지션 크기를 정하세요.",
+    "BTC price, Nov 16": "BTC 가격, 11/16", "~$64,000": "약 6만 4,000달러",
+    "Sunday low, Coinbase": "일요일 저점 (코인베이스)", "$61,946": "6만 1,946달러",
+    "Fear and Greed index": "공포·탐욕 지수", "10 (Extreme Fear)": "10 (극단적 공포)",
+    "All-crypto liquidations, 24h to Sunday": "전체 코인 청산 (일요일까지 24시간)", "≈ $2.0–2.1B": "약 20억~21억 달러",
+    "Share that were longs": "그중 롱 비중", "> 90%": "90% 초과",
+    "Spot ETF net flow, Nov 13": "현물 ETF 순유입, 11/13", "−$185.4M": "−1억 8,540만 달러",
+    "Spot ETF net flow, 7 sessions": "현물 ETF 순유입, 7거래일", "−$1.91B": "−19억 1,000만 달러",
     "Fed decision": "연준 결정", "Wed, Dec 9": "12/9 (수)",
-    "If it recovers": "되찾는다면", "Back above $73.2K": "7만 3,200달러 위로 복귀",
-    "Reclaiming the 200-day average would ease short-term pressure. The": "200일 이동평균선을 되찾으면 단기 압력이 누그러져요.",
-    "$75.5K": "7만 5,500달러", "area, the 50-week average, is the next level to watch.": "부근, 곧 50주 이동평균선이 다음으로 볼 가격대예요.",
-    "If it chops": "횡보한다면", "$71.2K – $73.2K": "7만 1,200 – 7만 3,200달러",
-    "Between Thursday's 24-hour low and the 200-day average. Expect": "목요일 24시간 저점과 200일선 사이예요. CPI와 ETF 순유출을 소화하는 동안",
-    "low conviction": "방향성 부족", "while the market digests CPI and ETF outflows.": "이 예상돼요.",
-    "If it loses": "무너진다면", "Close below $71.2K": "7만 1,200달러 아래 마감",
-    "Wintermute earlier flagged": "Wintermute는 앞서 다음 가격대로", "$68K": "6만 8,000달러",
-    "as the next area, and more": "를 꼽았고, 추가", "long liquidations": "롱 청산",
-    "are possible. Watch whether ETF outflows continue.": "도 가능해요. ETF 유출이 이어지는지 보세요.",
-    "Market commentary for information only. Not investment advice. Data: price and 24h range per CoinGecko via Cryptonro (Nov 12, 2026, 17:20 GMT); liquidations per CoinGlass and spot ETF flows per Farside Investors and SoSoValue, via The Crypto Times (Nov 12, 2026); Fear and Greed index per Alternative.me; CPI and moving-average levels per earlier desk note (FXStreet, The Block, Wintermute, Bitget analysts).":
-        "정보 제공용 시황이며 투자 조언이 아니에요. 데이터: 가격과 24시간 범위는 CoinGecko 수치를 Cryptonro가 인용(2026년 11월 12일 17:20 GMT), 청산은 CoinGlass, 현물 ETF 흐름은 Farside Investors·SoSoValue를 The Crypto Times가 인용(2026년 11월 12일), 공포·탐욕 지수는 Alternative.me, CPI와 이동평균선 수준은 앞선 시황 노트(FXStreet·The Block·Wintermute·Bitget 애널리스트) 기준.",
-    "50-week avg · resistance": "50주선 · 저항",
-    "200-day avg · resistance": "200일선 · 저항", "Nov 12 low · support": "11/12 저점 · 지지", "Wintermute flagged area": "Wintermute가 꼽은 가격대",
+    "If it recovers": "되찾는다면", "Back above $65.6K": "6만 5,600달러 위로 복귀",
+    "Sunday's rebound stalled near $65.6K. A reclaim would ease short-term pressure. The": "일요일 반등은 6만 5,600달러 부근에서 멈췄어요. 이를 되찾으면 단기 압력이 누그러져요.",
+    "$68K": "6만 8,000달러", "area, near the 200-week average, is the next level to watch.": "부근, 곧 200주 이동평균선 근처가 다음으로 볼 가격대예요.",
+    "If it chops": "횡보한다면", "$62K – $65.6K": "6만 2,000 – 6만 5,600달러",
+    "Between Sunday's low and the rebound high. Expect": "일요일 저점과 반등 고점 사이예요. ETF 자금 흐름, 엔비디아 실적, 연준 의사록을 기다리는 동안",
+    "low conviction": "방향성 부족", "while the market waits for ETF flows, Nvidia and the Fed minutes.": "이 예상돼요.",
+    "If it loses": "무너진다면", "Close below $62K": "6만 2,000달러 아래 마감",
+    "Under Sunday's low,": "일요일 저점 아래에서는", "$60K": "6만 달러", "comes back into focus and more": "가 다시 주목받고 추가",
+    "long liquidations": "롱 청산", "are possible. The year's low on Coinbase is $57.7K.": "도 가능해요. 올해 코인베이스 저점은 5만 7,700달러예요.",
+    "Market commentary for information only. Not investment advice. Data: price and 24h change per Why It Moved daily report (Nov 16, 2026, 00:36 UTC); Sunday low, rebound high and 24h range per Coinbase candles via Coindaro (Nov 15, 2026); liquidations per CoinGlass via The Defiant, Cryptoast and crypto.news; spot ETF flows per Farside Investors via crypto.news; Fear and Greed index per Why It Moved; CPI, FedWatch odds, Glassnode liquidation band and macro calendar per Coindaro; 200-week average per crypto.news.":
+        "정보 제공용 시황이며 투자 조언이 아니에요. 데이터: 가격과 24시간 변동률은 Why It Moved 일간 리포트(2026년 11월 16일 00:36 UTC), 일요일 저점·반등 고점·24시간 범위는 코인베이스 캔들을 Coindaro가 인용(2026년 11월 15일), 청산은 CoinGlass를 The Defiant·Cryptoast·crypto.news가 인용, 현물 ETF 흐름은 Farside Investors를 crypto.news가 인용, 공포·탐욕 지수는 Why It Moved, CPI·FedWatch 확률·Glassnode 청산 구간·거시 일정은 Coindaro, 200주 이동평균선은 crypto.news 기준.",
+    "200-week avg · resistance": "200주선 · 저항",
+    "Sunday rebound high · resistance": "일요일 반등 고점 · 저항", "Sunday low · support": "일요일 저점 · 지지", "Round-number support": "심리적 지지선 (6만 달러)",
 }
 EXACT.update({"Fees checked Oct 2026 · Rebate paid every Monday in USDT · No password or API keys needed.": "수수료 확인 2026년 10월 · 페이백은 매주 월요일 USDT로 지급 · 비밀번호·API 키 불필요"})
 EXACT.update(NOTE)
@@ -310,7 +310,7 @@ JS = [
 ]
 for k, v in NOTE.items():
     JS.append((f'label:"{k}"', f'label:"{v}"'))
-JS.append(('when:"Nov 12, 2026"', 'when:"2026년 11월 12일"'))
+JS.append(('when:"Nov 16, 2026"', 'when:"2026년 11월 16일"'))
 
 
 def lookup(t):
