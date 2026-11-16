@@ -63,7 +63,7 @@ document.addEventListener("click",function(e){{var b=e.target.closest&&e.target.
 {fab}
 <script>{js}</script>
 <script src="{CB}returns.js" defer></script>
-<script>window.HOME="index.html"; window.LANG="en"; window.LANG_ALT="ko/returns.html";
+<script>window.HOME="index.html"; window.LANG="en"; window.LANG_ALT="";
 {common_js}
 btcPill();</script>"""
     return page

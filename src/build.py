@@ -1151,7 +1151,7 @@ def build_index():
 {footer('')}
 {FAB}
 <script>
-window.LANG="en"; window.LANG_ALT="ko/index.html";
+window.LANG="en"; window.LANG_ALT="";
 {COMMON_JS}
 {FX_JS}
 const CONTACT = {{ telegram:"{CONFIG['telegram_dm']}", formEndpoint:"{CONFIG['form_endpoint']}" }};
@@ -1532,7 +1532,7 @@ def build_exchange(v, idx):
 {footer('../')}
 {FAB}
 <script>
-window.HOME="../index.html"; window.LANG="en"; window.LANG_ALT="../ko/exchanges/{v['slug']}.html";
+window.HOME="../index.html"; window.LANG="en"; window.LANG_ALT="";
 {COMMON_JS}
 {FX_JS}
 btcPill();
@@ -1679,13 +1679,17 @@ def build():
     idx = build_index()
     (OUT / "index.html").write_text(full_doc(idx), encoding="utf-8")
     (OUT / "ko" / "exchanges").mkdir(parents=True, exist_ok=True)
-    (OUT / "ko" / "index.html").write_text(ko_doc(full_doc(idx), "../", "../index.html", CONFIG["domain"] + "/"), encoding="utf-8")
+    # Sejun 2026-11-16: no Korean referral pages (FIU warning 6/24; we don't target Korea). ko/ only redirects to English.
+    def ko_redirect(path, to):
+        (OUT / path).write_text('<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex">'
+            f'<meta http-equiv="refresh" content="0;url={to}"><title>Perpline</title></head>'
+            f'<body><p><a href="{to}">Perpline</a></p></body></html>', encoding="utf-8")
+    ko_redirect("ko/index.html", "../index.html")
     (PREVIEW / "index.html").write_text(idx.replace("<!--BODY-->", ""), encoding="utf-8")  # artifact adds its own skeleton
     for i, v in enumerate(ranked(VENUES)):
         doc = full_doc(build_exchange(v, i))
         (OUT / "exchanges" / f"{v['slug']}.html").write_text(doc, encoding="utf-8")
-        (OUT / "ko" / "exchanges" / f"{v['slug']}.html").write_text(
-            ko_doc(doc, "../", f"../../exchanges/{v['slug']}.html", f"{CONFIG['domain']}/exchanges/{v['slug']}.html"), encoding="utf-8")
+        ko_redirect(f"ko/exchanges/{v['slug']}.html", f"../../exchanges/{v['slug']}.html")
         (PREVIEW / "exchanges" / f"{v['slug']}.html").write_text(doc, encoding="utf-8")
     from projects import build_projects
     pj = full_doc(build_projects(head, header, footer, esc, COMMON_JS, CONFIG, TG_DM, FAB))
@@ -1695,8 +1699,7 @@ def build():
     from alphax_page import build_alphax
     (OUT / "alphax.html").write_text(full_doc(build_alphax(head, header, footer, esc, COMMON_JS, CONFIG, FAB)), encoding="utf-8")
     (OUT / "returns.html").write_text(rt, encoding="utf-8")
-    (OUT / "ko" / "returns.html").write_text(ko_doc(full_doc(build_returns(head, header, footer, esc, COMMON_JS, CONFIG, FAB, lang="ko")),
-        "../", "../returns.html", CONFIG["domain"] + "/returns.html").replace('window.LANG_ALT="ko/returns.html"', 'window.LANG_ALT="../returns.html"'), encoding="utf-8")
+    ko_redirect("ko/returns.html", "../returns.html")
     from guides import build_guides
     guide_urls = []
     for root in (OUT, PREVIEW): (root / "guides").mkdir(parents=True, exist_ok=True)
