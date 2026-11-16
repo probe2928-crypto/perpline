@@ -662,6 +662,7 @@ def build_guides(head, header, footer, esc, common_js, config, fab, venues, pct,
       <div class="gd-card">
         <span class="label">Compare first</span>
         <a href="../index.html#venues">All 11 exchanges ranked by fee</a>
+        <a href="../tools/futures-fee-calculator.html">Fee calculator: your monthly cost</a>
         <a href="../exchanges/{v['slug']}.html">{esc(v['name'])} referral page</a>
       </div>
     </aside>

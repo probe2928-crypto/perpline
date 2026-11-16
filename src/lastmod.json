@@ -4,67 +4,67 @@
   "2026-11-16"
  ],
  "exchanges/biconomy.html": [
-  "91b14889b4b3ba64",
+  "81f63a3ccd81b59d",
   "2026-11-16"
  ],
  "exchanges/bingx.html": [
-  "c96bc892778306c2",
+  "0339a158b7260ff1",
   "2026-11-16"
  ],
  "exchanges/bitget.html": [
-  "7c8ef91efb123134",
+  "0c00b4f465fad70d",
   "2026-11-16"
  ],
  "exchanges/bitunix.html": [
-  "aa1b4c6a818af3d1",
+  "725490b34b7bf61c",
   "2026-11-16"
  ],
  "exchanges/blofin.html": [
-  "e4b3e35b9f95ec4c",
+  "aca6ed80adf90c75",
   "2026-11-16"
  ],
  "exchanges/btcc.html": [
-  "7de455280e6f57d3",
+  "86fec8b1ae5234a3",
   "2026-11-16"
  ],
  "exchanges/crypfine.html": [
-  "718f2eadcd093823",
+  "30a5066a0bebe4ad",
   "2026-11-16"
  ],
  "exchanges/deepcoin.html": [
-  "1a1155559c920b18",
+  "124fdc5b7ea80805",
   "2026-11-16"
  ],
  "exchanges/gate.html": [
-  "875416af9b876e6d",
+  "d01e707e17a4736d",
   "2026-11-16"
  ],
  "exchanges/okx.html": [
-  "6554d9c3dbf3dddc",
+  "0f488c174fa45f56",
   "2026-11-16"
  ],
  "exchanges/orangex.html": [
-  "469ef48eabbbe302",
+  "e094c95f5f565201",
   "2026-11-16"
  ],
  "guides/bitget-futures-fees.html": [
-  "4f0ed501dc599dd4",
+  "8ac50cb9f91c6137",
   "2026-11-16"
  ],
  "guides/futures-break-even-price.html": [
-  "88b6946c85c1352d",
+  "e152faca7800ecb6",
   "2026-11-16"
  ],
  "guides/how-fee-rebates-work.html": [
-  "fc504e827abe1af3",
+  "16b4bf07d597f28d",
   "2026-11-16"
  ],
  "guides/how-funding-fees-work.html": [
-  "0736953b13e0a9b0",
+  "4c1a72a8b7b2f2c3",
   "2026-11-16"
  ],
  "guides/maker-vs-taker-fees.html": [
-  "73752f6c78fab54a",
+  "e6e6f2d6c0b1008d",
   "2026-11-16"
  ],
  "index.html": [
@@ -89,6 +89,10 @@
  ],
  "terms.html": [
   "0bc21f224159aeb5",
+  "2026-11-16"
+ ],
+ "tools/futures-fee-calculator.html": [
+  "c46708a160adc120",
   "2026-11-16"
  ]
 }

@@ -1380,6 +1380,8 @@ def build_exchange(v, idx):
       </div></section>"""
 
     xcss = """
+/* 2026-11-16 회의(디자인): 로고 이미지가 막히면 onerror가 첫 글자만 넣는데 글자 스타일이 없어 빈 원으로 보였음 → 폴백 글자 */
+.xlogo{display:grid;place-items:center;font-family:var(--display);font-style:italic;font-size:46px;line-height:1;color:var(--ink)}
 .xhero{padding-block:clamp(64px,10vw,140px)}
 .xhero h1{font-size:clamp(64px,13vw,176px);line-height:.92;letter-spacing:-.02em;margin:18px 0 10px}
 .xhero .tag{font-family:var(--display);font-size:clamp(22px,2.6vw,32px);font-weight:400}
@@ -1733,6 +1735,12 @@ def build():
             'id:(window.crypto&&crypto.randomUUID)?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2),name:"pl_signup_alphax",props:{place:"' + src + '",venue:"alphax"}});'
             'navigator.sendBeacon&&navigator.sendBeacon("https://savri.io/api/collect",p);var vp="/_evt/signup_click/alphax";navigator.sendBeacon&&navigator.sendBeacon("https://savri.io/api/collect",JSON.stringify({site:"site_mvvy2a4d_govfksp",type:"pageview",url:location.origin+vp,path:vp,ref:location.href,w:innerWidth,ts:Date.now(),id:Date.now().toString(36)+Math.random().toString(36).slice(2)}));}}catch(e){}var gone=false;function go(){if(!gone){gone=true;location.replace(U)}}try{gtag("event","pl_signup_alphax",{source:"' + src + '",venue:"alphax",transport_type:"beacon",event_callback:go});}catch(e){}setTimeout(go,900);})();</script></body></html>',
             encoding="utf-8")
+    # 2026-11-16 전략 회의: 검색용 독립 도구 페이지(홈·start 미변경)
+    from tool_calc import build_tool_calc
+    (OUT / "tools").mkdir(exist_ok=True)
+    _tc, _tc_url = build_tool_calc(head, header, footer, esc, COMMON_JS, CONFIG, FAB, VENUES, ranked, net, pct, link, TG_DM)
+    (OUT / "tools" / "futures-fee-calculator.html").write_text(full_doc(_tc), encoding="utf-8")
+    guide_urls.append(_tc_url)
     from event_page import build_event
     (OUT / "event").mkdir(exist_ok=True)
     ev = full_doc(build_event(head, header, footer, esc, COMMON_JS, CONFIG, TG_DM, FAB))
