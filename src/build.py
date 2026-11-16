@@ -1621,6 +1621,7 @@ def growth_kit():
       "<script>(function(){"
       f"var V={data},TG='{tg}',SITE='site_mvvy2a4d_govfksp';"
       "var live=/(^|\\.)perpline\\.tech$|^probe2928-crypto\\.github\\.io$/.test(location.hostname)&&!navigator.webdriver;"
+      "if(live){try{var pv=JSON.stringify({site:SITE,type:'pageview',url:location.href,path:'/pl'+location.pathname,ref:document.referrer||null,w:innerWidth,ts:Date.now(),id:Date.now().toString(36)+Math.random().toString(36).slice(2)});navigator.sendBeacon&&navigator.sendBeacon('https://savri.io/api/collect',pv);}catch(e){}}"
       "function send(name,props){if(!live)return;try{if(typeof window.gtag==='function')window.gtag('event',name,Object.assign({transport_type:'beacon'},props||{}));}catch(e){}try{if(typeof window.va==='function'){window.va('event',name,props||{});return;}"
       "var p=JSON.stringify({site:SITE,type:'event',url:location.href,path:location.pathname,ref:document.referrer||null,w:innerWidth,ts:Date.now(),"
       "id:(window.crypto&&crypto.randomUUID)?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2),name:name,props:props||{}});"
