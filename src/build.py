@@ -1703,10 +1703,18 @@ def build():
     for slug, gp, gurl in build_guides(head, header, footer, esc, COMMON_JS, CONFIG, FAB, VENUES, pct, net, link, TG_DM):
         (OUT / "guides" / f"{slug}.html").write_text(full_doc(gp), encoding="utf-8")
         guide_urls.append(gurl)
-    from promo_alphax import build_promo
+    # Sejun 2026-11-16 "페이지 2개 중복 정리": alphax.html (EN/中文) is the one AlphaX page.
+    # promos/alphax.html stays only as a redirect, because Telegram posts and Telega moderation still link to it.
     (OUT / "promos").mkdir(exist_ok=True)
-    promo_page, promo_url = build_promo(head, header, footer, esc, COMMON_JS, CONFIG, FAB, TG_DM, FX_JS)
-    (OUT / "promos" / "alphax.html").write_text(full_doc(promo_page), encoding="utf-8")
+    _ax = CONFIG["domain"] + "/alphax.html"
+    (OUT / "promos" / "alphax.html").write_text(
+        '<!doctype html><html lang="en"><head><meta charset="utf-8"><title>AlphaX special · Perpline</title>'
+        f'<link rel="canonical" href="{_ax}"><meta name="robots" content="noindex,follow">'
+        '<meta name="viewport" content="width=device-width,initial-scale=1">'
+        '<meta http-equiv="refresh" content="0;url=../alphax.html">'
+        '<script>location.replace("../alphax.html"+location.search+location.hash)</script></head>'
+        '<body style="font:16px system-ui;padding:40px;background:#FBF8F3;color:#121212">'
+        '<p>This page moved. <a href="../alphax.html">Open the AlphaX special</a></p></body></html>', encoding="utf-8")
     # Paid-test tracking links (Sejun 2026-11-05): /go/ax-<source>.html counts the click in Savri, then opens AlphaX sign-up at once.
     (OUT / "go").mkdir(exist_ok=True)
     for src in ["tg1", "tg2", "tg3", "tg4", "x1", "x2", "bm", "meta", "cb"]:
@@ -1773,7 +1781,7 @@ def build():
         d = prev[1] if prev and prev[0] == h else today
         lm[rel] = [h, d]
         return d
-    urls = [CONFIG["domain"] + "/", CONFIG["domain"] + "/returns.html", CONFIG["domain"] + "/projects.html", CONFIG["domain"] + "/alphax.html", CONFIG["domain"] + "/privacy.html", CONFIG["domain"] + "/terms.html"] + [f"{CONFIG['domain']}/exchanges/{v['slug']}.html" for v in ranked(VENUES)] + guide_urls + [promo_url]
+    urls = [CONFIG["domain"] + "/", CONFIG["domain"] + "/returns.html", CONFIG["domain"] + "/projects.html", CONFIG["domain"] + "/alphax.html", CONFIG["domain"] + "/privacy.html", CONFIG["domain"] + "/terms.html"] + [f"{CONFIG['domain']}/exchanges/{v['slug']}.html" for v in ranked(VENUES)] + guide_urls
     (OUT / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
         "".join(f"  <url><loc>{u}</loc><lastmod>{lastmod_for(u)}</lastmod></url>\n" for u in urls) + "</urlset>\n", encoding="utf-8")
     lm_path.write_text(json.dumps(lm, indent=1, sort_keys=True) + "\n", encoding="utf-8")
