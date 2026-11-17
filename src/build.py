@@ -1335,6 +1335,8 @@ def build_exchange(v, idx):
           if v['taker'] is not None else f"We could not verify {name}'s current published futures fee. Check the fee page on the exchange after signing up.")),
         (f"Can I add a {name} referral code to an existing account?",
          f"Usually not. Exchanges link a referral when the account is created, so the rebate requires a new {name} account opened through our link."),
+        ("Is the rebate extra income or a fee refund?",
+         f"It is a refund of part of the trading fees you pay, not extra income. A rebate lowers your cost per trade; it does not reduce trading losses and it is not a profit. Leveraged trading can lose all of your margin."),
         ("Do you need my password or API key?",
          "No. We only need the exchange name and your account UID. Never share your password, 2FA codes or API keys with anyone."),
         (f"Is {name} available in my country?",
