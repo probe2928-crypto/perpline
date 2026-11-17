@@ -4,7 +4,7 @@ no Korea/US targeting, no return promises or price calls. Referral links and reb
 import json
 
 # footer links (slug, anchor text) — keep in sync with _guides()
-LINKS = [("bitget-futures-fees", "Bitget futures fees explained"), ("maker-vs-taker-fees", "Maker vs taker fees in futures"), ("how-funding-fees-work", "How funding fees work"), ("how-fee-rebates-work", "How futures fee rebates work"), ("futures-break-even-price", "Futures break-even price after fees")]
+LINKS = [("bitget-futures-fees", "Bitget futures fees explained"), ("maker-vs-taker-fees", "Maker vs taker fees in futures"), ("how-funding-fees-work", "How funding fees work"), ("how-fee-rebates-work", "How futures fee rebates work"), ("futures-break-even-price", "Futures break-even price after fees"), ("crypto-scalping-fees", "Crypto scalping fees per trade")]
 
 CSS = """
 .gd-hero{padding-block:clamp(48px,7vw,96px) clamp(28px,4vw,48px);border-bottom:1px solid var(--hair)}
@@ -590,6 +590,117 @@ def _guides(V, pct, net, link, config, tg_dm):
         keyword="futures break even price",
         body=body5, faqs=faqs5, signup=signup5,
         side_big=pm(mv(be_long(eT, eT))), side_label=f"Bitget market-in, market-out break-even move after the {r5}% rebate (standard {pm(mv(bl_tt))})",
+    ))
+
+    # ---- Crypto scalping fees (fee drag on many small trades, Bitget standard rates for the worked numbers) ----
+    # Fee numbers: Bitget standard futures 0.02% maker / 0.06% taker from Bitget's Trading Fees FAQ, checked
+    # 2026-11-03 (same check as above). "fee = order value x fee rate" from Bitget's fee calculation guide and
+    # BloFin's help centre (read 2026-11-05). Funding every 8 hours from the same Bitget FAQ. Target moves,
+    # position size and trade counts are illustrative round numbers, not a strategy or a forecast.
+    sx = V["bitget"]
+    assert (sx["maker"], sx["taker"]) == (MAKER, TAKER), "Bitget fee in VENUES no longer matches the verified guide numbers"
+    r6 = sx["rebate"]
+    signup6 = link(sx, "guide-scalping")
+    def s6(x): return f"${x:,.0f}" if x == int(x) else f"${x:,.2f}"
+    def pp(x): return f"{x:.3f}".rstrip("0").rstrip(".") + "%"
+    habits6 = [("Market in, market out", TAKER + TAKER), ("Limit in, market out", MAKER + TAKER), ("Limit in, limit out", MAKER + MAKER)]
+    targets6 = [0.2, 0.3, 0.5, 1.0]
+    rows6a = "".join(
+        f"<tr><td>{pp(t)}</td>" + "".join(f"<td>{rt / t * 100:.0f}%</td>" for _, rt in habits6) + "</tr>"
+        for t in targets6)
+    size6, per_day6, days6 = 5000, 15, 20
+    trips6 = per_day6 * days6
+    vol6 = size6 * 2 * trips6
+    rows6b = "".join(
+        f"<tr><td>{name}</td><td>{s6(size6 * rt / 100)}</td><td>{s6(size6 * rt / 100 * trips6)}</td>"
+        f"<td>+{s6(size6 * rt / 100 * trips6 * r6 / 100)}</td><td>{s6(size6 * rt / 100 * trips6 * (1 - r6 / 100))}</td></tr>"
+        for name, rt in habits6)
+    rt_tt6 = TAKER * 2
+    rt_tt6_net = net(TAKER, r6) * 2
+    t_ex6 = 0.3
+    month_tt6 = size6 * rt_tt6 / 100 * trips6
+    body6 = f"""
+<h2>The short version</h2>
+<p>Scalping means taking many small trades and aiming for small price moves on each one. That style has one cost that grows faster than any other: trading fees. The fee rate per trade is the same whether you hold for thirty seconds or three days, so the more often you open and close, the more of your gross result goes to the exchange.</p>
+<p>This guide puts numbers on that. It shows how much of a small target move the fees take, what a month of scalping costs in dollars, how the order type you use changes the bill, and where a fee rebate fits. We use Bitget's standard USDT-margined futures rates ({pct(MAKER)} maker, {pct(TAKER)} taker), which we checked on Bitget's own fee FAQ on 3 November 2026. The arithmetic works the same way on any exchange in our <a href="../index.html#venues">fee ranking</a>.</p>
+<p class="src">Source: <a href="{FAQ_URL}" target="_blank" rel="noopener">Bitget Trading Fees FAQ</a>, checked 3 Nov 2026. Your logged-in fee rate always takes precedence over any guide.</p>
+
+<h2>Why fees hit scalpers harder</h2>
+<p>Futures fees are charged on the full value of each order. Bitget's <a href="https://www.bitget.com/academy/Fee-Structure-and-Fee-Calculations-on-Bitget" target="_blank" rel="noopener">fee calculation guide</a> puts it as order value times fee rate, and BloFin's help centre uses the same formula. You pay once to open and once to close, so the cost of a round trip is the two rates added together.</p>
+<p>On Bitget's standard rates, a round trip with market orders on both sides costs {pp(rt_tt6)} of the position value. That sounds tiny. But a scalper is not aiming for 10% moves. If your target on a trade is a {pp(t_ex6)} move in your favour, fees of {pp(rt_tt6)} take roughly <b>{rt_tt6 / t_ex6 * 100:.0f}% of that target</b> before anything else happens. A swing trader aiming for 5% barely notices the same fee. A scalper feels it on every trade.</p>
+<p>The table shows how much of a winning trade's target move goes to fees, for three order habits. The smaller the target, the bigger the share.</p>
+<div class="gd-scroll"><table class="gd-tbl">
+  <thead><tr><th>Target move</th><th>Market in, market out ({pp(habits6[0][1])})</th><th>Limit in, market out ({pp(habits6[1][1])})</th><th>Limit in, limit out ({pp(habits6[2][1])})</th></tr></thead>
+  <tbody>{rows6a}</tbody>
+</table></div>
+<p class="src">Share of the target move taken by round-trip fees at Bitget's standard {pct(MAKER)} / {pct(TAKER)} rates (checked 3 Nov 2026). Approximate, because the closing fee is charged on the closing value. Target moves are illustrative, not a strategy.</p>
+<p>Losing trades are worse still. A stopped-out scalp loses the price move and pays both fees on top. Fees never cancel out between winners and losers; every trade adds to them.</p>
+
+<h2>A month of scalping, in dollars</h2>
+<p>Take a trader who opens a {s6(size6)} position (margin times leverage) {per_day6} times a day and trades {days6} days a month. That is {trips6} round trips and about {s6(vol6)} of traded volume, counting both the open and the close. Here is what the fees come to with each habit, and what comes back through {config['brand']}'s {r6}% rebate on Bitget.</p>
+<div class="gd-scroll"><table class="gd-tbl">
+  <thead><tr><th>Habit</th><th>Per round trip</th><th>Fees for {trips6}</th><th>Rebate {r6}%</th><th>Net cost</th></tr></thead>
+  <tbody>{rows6b}</tbody>
+</table></div>
+<p class="src">Bitget standard futures rates {pct(MAKER)} / {pct(TAKER)}, from the <a href="{FAQ_URL}" target="_blank" rel="noopener">Bitget Trading Fees FAQ</a>, checked 3 Nov 2026. Funding and VIP discounts are not included. Arithmetic only, not a forecast of anyone's trading.</p>
+<p>Leverage does not change these numbers. Fees follow the position value, so a {s6(size6)} position costs the same whether you back it with $500 at 10x or $2,500 at 2x. What leverage changes is how big the fees look next to your margin. Our <a href="futures-break-even-price.html">break-even guide</a> works through that, and the <a href="../tools/futures-fee-calculator.html">fee calculator</a> lets you enter your own size and trade count.</p>
+
+<h2>The order type matters more than the exchange</h2>
+<p>At these rates, a taker fill costs three times a maker fill. For someone who trades {per_day6} times a day, moving entries from market orders to resting limit orders cuts the monthly bill by a third in the example above, before any rebate. A few habits help:</p>
+<ul>
+  <li><b>Use post-only orders for entries.</b> A post-only order is cancelled rather than filled as a taker, so you only ever pay the maker rate on it. A plain limit order priced through the market still fills as a taker.</li>
+  <li><b>Place take-profits in advance.</b> A take-profit resting on the book is usually filled as a maker.</li>
+  <li><b>Accept the taker rate on stops.</b> Stop-losses that trigger market orders are taker trades, and skipping a stop to save a fee is a bad trade. Plan for that cost rather than avoiding it.</li>
+  <li><b>Count your trades.</b> Many scalpers find that a handful of impulsive re-entries each day make up a large part of their fee bill. Fewer, better trades cost less.</li>
+</ul>
+<p>Our <a href="maker-vs-taker-fees.html">maker vs taker guide</a> explains how an order ends up on each side in more detail.</p>
+
+<h2>Funding usually matters less, but check it</h2>
+<p>Perpetual futures also carry funding payments. Bitget's FAQ says funding is exchanged between long and short holders every 8 hours, and it is charged only on positions that are open when funding is settled. A scalper who is flat at those times often pays little or none. If a trade runs over a funding time, though, the payment is worked out on the full position value, like the fee. Check the countdown on the contract page before you hold through it. The <a href="how-funding-fees-work.html">funding guide</a> has the details.</p>
+
+<h2>Where a fee rebate fits</h2>
+<p>A rebate does not change what the exchange charges when you trade. It returns part of the fee afterwards. Because it is a percentage of whatever you paid, it is worth most to the people who pay the most fees, and that is usually scalpers.</p>
+<p>Through {config['brand']}, {r6}% of the Bitget futures fees you pay comes back in USDT every Monday. That brings the taker rate you effectively pay from {pct(TAKER)} to <b>{pct(net(TAKER, r6))}</b>, and a market-in, market-out round trip from {pp(rt_tt6)} to {pp(rt_tt6_net)}. On the {pp(t_ex6)} target above, the fee share drops from about {rt_tt6 / t_ex6 * 100:.0f}% to about {rt_tt6_net / t_ex6 * 100:.0f}%. In the monthly example, the market-order habit returns {s6(month_tt6 * r6 / 100)} of the {s6(month_tt6)} paid.</p>
+<p>If you are choosing a venue for frequent trading, compare the taker rate left after the rebate, not the headline rate alone. Our <a href="../index.html#venues">exchange ranking</a> sorts all eleven venues that way. Fees are not the only thing that matters for scalping, so also look at how liquid the markets you trade are, and read each exchange's own fee schedule for VIP tiers.</p>
+
+<h2>How to sign up and claim the {r6}% rebate on Bitget</h2>
+<ol class="gd-steps">
+  <li><div><b>Open a new Bitget account through our link</b><p>The referral is attached by the sign-up button on this page, so there is no code to type. It works for new accounts only.</p></div></li>
+  <li><div><b>Secure and verify the account</b><p>Turn on two-factor authentication and complete identity checks if Bitget asks for them where you live.</p></div></li>
+  <li><div><b>Copy your UID</b><p>It is the account number shown on your profile in the Bitget app or website.</p></div></li>
+  <li><div><b>Send "Bitget + your UID" on Telegram</b><p>Message <a href="{tg_dm}" target="_blank" rel="noopener">@{config['telegram_dm']}</a>. We confirm within 24 hours. Never send a password, 2FA code or API key.</p></div></li>
+  <li><div><b>Get paid every Monday</b><p>Last week's rebate on your trading fees arrives in USDT. The minimum payout is 10 USDT; smaller amounts roll over.</p></div></li>
+</ol>
+<p style="margin-top:20px">The full fee picture for this exchange is in <a href="bitget-futures-fees.html">Bitget futures fees explained</a>, and the account steps are on our <a href="../exchanges/bitget.html">Bitget referral page</a>.</p>
+
+<div class="gd-risk">
+  <h2>Before you trade</h2>
+  <p>Scalping leveraged futures is fast and unforgiving. Losses can add up quickly and can wipe out your whole margin, and lower fees do not make a losing approach profitable. Use low leverage and only trade money you can afford to lose.</p>
+  <p style="margin-top:12px">Each exchange decides which countries it serves, so check its terms for where you live. This site is not for residents of the Republic of Korea or the United States, or of any place where the exchange is not allowed to serve you. Nothing here is investment advice, and {config['brand']} earns a referral commission, part of which it shares with you as the rebate.</p>
+</div>
+"""
+    faqs6 = [
+        ("How much do fees cost when scalping crypto futures?",
+         f"Each round trip costs the opening plus the closing fee rate on the position value. On Bitget's standard rates ({pct(MAKER)} maker, {pct(TAKER)} taker, checked 3 November 2026), that is {pp(rt_tt6)} with market orders both ways and {pp(MAKER * 2)} with limit orders both ways. On a {pp(t_ex6)} target move, market-order fees take roughly {rt_tt6 / t_ex6 * 100:.0f}% of the gain."),
+        ("How can scalpers lower their trading fees?",
+         f"Enter with post-only limit orders so you pay the maker rate, rest take-profits on the book, cut unnecessary trades, and open your account through a fee-rebate partner. Through {config['brand']}, {r6}% of Bitget futures fees comes back in USDT every Monday, which brings the effective taker rate to {pct(net(TAKER, r6))}."),
+        ("Does leverage increase my scalping fees?",
+         "Not the rate. Fees are charged on the position value, so the same position size costs the same at any leverage. Higher leverage lets you open a bigger position with the same margin, and the fee on that bigger position is larger compared with your margin."),
+    ]
+    out.append(dict(
+        slug="crypto-scalping-fees",
+        venue=sx,
+        title=f"Crypto Scalping Fees: What Futures Fees Cost Per Trade | {config['brand']}",
+        h1="Scalping crypto futures: <em>what the fees take.</em>",
+        crumb="Crypto scalping fees",
+        desc=(f"How trading fees eat into crypto futures scalping: share of each target move, a month of trades in dollars, "
+              f"maker vs taker habits, and how a {r6}% rebate cuts the bill."),
+        lede=("When each trade aims for a small move, fees decide a lot. Here is how much they take per trade and per month, "
+              "and what order type, funding and a rebate change."),
+        published="2026-11-17", modified="2026-11-17", checked="3 Nov 2026",
+        keyword="crypto scalping fees",
+        body=body6, faqs=faqs6, signup=signup6,
+        side_big=pct(net(TAKER, r6)), side_label=f"Bitget taker you effectively pay after the {r6}% rebate (standard {pct(TAKER)})",
     ))
 
     return out
