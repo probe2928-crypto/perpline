@@ -734,7 +734,8 @@ def build_guides(head, header, footer, esc, common_js, config, fab, venues, pct,
                 {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in g["faqs"]]},
             {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
                 {"@type": "ListItem", "position": 1, "name": config["brand"], "item": config["domain"] + "/"},
-                {"@type": "ListItem", "position": 2, "name": g["crumb"], "item": canonical}]},
+                {"@type": "ListItem", "position": 2, "name": "Guides", "item": f"{config['domain']}/guides/"},
+                {"@type": "ListItem", "position": 3, "name": g["crumb"], "item": canonical}]},
         ]
         ld_html = "".join(f'<script type="application/ld+json">{json.dumps(x)}</script>' for x in ld)
         v = g["venue"]
@@ -742,7 +743,7 @@ def build_guides(head, header, footer, esc, common_js, config, fab, venues, pct,
         hd = hd.replace(f"{config['domain']}/assets/og.png", f"{config['domain']}/assets/og/{g['slug']}.png")
         page = hd + f"""<style>{CSS}</style><!--BODY-->{header('../')}
 <main>
-  <div class="wrap"><nav class="crumbs" aria-label="Breadcrumb" style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);padding-block:18px"><a href="../index.html" style="text-decoration:none">{config['brand']}</a> / Guides / {esc(g['crumb'])}</nav></div>
+  <div class="wrap"><nav class="crumbs" aria-label="Breadcrumb" style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);padding-block:18px"><a href="../index.html" style="text-decoration:none">{config['brand']}</a> / <a href="./" style="text-decoration:none">Guides</a> / {esc(g['crumb'])}</nav></div>
   <section class="gd-hero"><div class="wrap">
     <span class="label">Guide · Fees</span>
     <h1>{g['h1']}</h1>
@@ -786,3 +787,67 @@ def build_guides(head, header, footer, esc, common_js, config, fab, venues, pct,
 btcPill();</script>"""
         pages.append((g["slug"], page, canonical))
     return pages
+
+
+HUB_CSS = """
+.gh-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--ink);counter-reset:g}
+.gh-list li{counter-increment:g;border-bottom:1px solid var(--hair)}
+.gh-list a{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:6px 18px;align-items:baseline;padding-block:26px;text-decoration:none;color:inherit}
+.gh-list a::before{content:counter(g,upper-roman);font-family:var(--display);font-style:italic;font-size:24px;color:var(--tone);line-height:1.2}
+.gh-list h2{font-size:clamp(24px,3vw,34px);line-height:1.12;margin:0;grid-column:2}
+.gh-list p{grid-column:2;margin:6px 0 0;font-size:16px;font-weight:300;line-height:1.6;color:var(--muted);max-width:62ch}
+.gh-list .when{grid-column:3;grid-row:1;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.gh-list a:hover h2{text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:1px}
+@media (max-width:640px){.gh-list a{grid-template-columns:40px minmax(0,1fr)}.gh-list .when{grid-column:2;grid-row:auto;margin-top:8px}}
+.gh-tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px 40px;margin-top:56px}
+"""
+
+
+def build_hub(head, header, footer, esc, common_js, config, fab, venues, pct, net, link, tg_dm):
+    """guides/index.html — one crawlable index of every guide (newest first) + the calculator. 2026-11-18 strategy meeting."""
+    V = {v["slug"]: v for v in venues}
+    gs = sorted(_guides(V, pct, net, link, config, tg_dm), key=lambda g: g["published"], reverse=True)
+    canonical = f"{config['domain']}/guides/"
+    title = f"Crypto Futures Fee Guides: Maker/Taker, Funding, Rebates | {config['brand']}"
+    desc = ("Plain-English guides to what crypto futures trading really costs: maker vs taker fees, funding, "
+            "break-even price, scalping costs and how fee rebates work, with dollar examples.")
+    import datetime as _dt
+    def _d(iso):
+        d = _dt.date.fromisoformat(iso); return f"{d.day} {d.strftime('%b')} {d.year}"
+    ld = [
+        {"@context": "https://schema.org", "@type": "CollectionPage", "name": "Crypto futures fee guides", "description": desc, "url": canonical,
+         "mainEntity": {"@type": "ItemList", "itemListElement": [
+             {"@type": "ListItem", "position": i + 1, "url": f"{config['domain']}/guides/{g['slug']}.html", "name": g["h1"].replace("<em>", "").replace("</em>", "")}
+             for i, g in enumerate(gs)]}},
+        {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": config["brand"], "item": config["domain"] + "/"},
+            {"@type": "ListItem", "position": 2, "name": "Guides", "item": canonical}]},
+    ]
+    ld_html = "".join(f'<script type="application/ld+json">{json.dumps(x)}</script>' for x in ld)
+    items = "".join(
+        f'<li><a href="{g["slug"]}.html"><h2>{esc(g["h1"].replace("<em>", "").replace("</em>", ""))}</h2>'
+        f'<span class="when">{_d(g["published"])}</span><p>{esc(g["desc"])}</p></a></li>' for g in gs)
+    hd = head(title, desc, canonical, ld_html).replace(f"{config['domain']}/assets/og.png", f"{config['domain']}/assets/og/guides.png")
+    page = hd + f"""<style>{CSS}{HUB_CSS}</style><!--BODY-->{header('../')}
+<main>
+  <div class="wrap"><nav class="crumbs" aria-label="Breadcrumb" style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);padding-block:18px"><a href="../index.html" style="text-decoration:none">{config['brand']}</a> / Guides</nav></div>
+  <section class="gd-hero"><div class="wrap">
+    <span class="label">Guides · {len(gs)} so far</span>
+    <h1>What futures trading <em>really</em> costs.</h1>
+    <p class="lede">Fees are the one cost of trading you can see before you place the order. These guides work through it in dollars: maker or taker, funding, where you break even, and what a rebate gives back. Every fee number is checked on the exchange's own page, with the date in the text.</p>
+  </div></section>
+  <div class="wrap" style="padding-block:clamp(40px,6vw,80px)">
+    <ol class="gh-list">{items}</ol>
+    <div class="gh-tools">
+      <div class="gd-card"><span class="label">Tool</span><a href="../tools/futures-fee-calculator.html">Futures fee calculator: your monthly cost on 9 exchanges, before and after rebate</a></div>
+      <div class="gd-card"><span class="label">Compare</span><a href="../index.html#venues">All exchanges ranked by fee after rebate</a></div>
+    </div>
+    <p class="fine" style="margin-top:40px;color:var(--muted)">Education only, not financial advice. Not for residents of Korea or the US.</p>
+  </div>
+</main>
+{footer('../')}
+{fab}
+<script>window.HOME="../index.html"; window.LANG="en";
+{common_js}
+btcPill();</script>"""
+    return page, canonical

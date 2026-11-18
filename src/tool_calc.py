@@ -66,7 +66,7 @@ def build_tool_calc(head, header, footer, esc, common_js, config, fab, venues, r
     body = f"""<!--BODY-->{header('../')}
 <main>
   <section class="tc-hero"><div class="wrap">
-    <span class="label">Outil · Fee calculator</span>
+    <span class="label">Tool · Fee calculator</span>
     <h1>What your futures trading <em>really costs.</em></h1>
     <p class="lede">Type your position size and how often you trade. The bars show the monthly fee on {len(known)} exchanges at standard rates, before and after a {config['brand']} rebate. Rates checked {esc(config['fees_checked'])}; your live account rate applies.</p>
   </div></section>
@@ -85,14 +85,14 @@ def build_tool_calc(head, header, footer, esc, common_js, config, fab, venues, r
   </div></section>
 
   <section class="tc-sec" aria-labelledby="cheapH"><div class="wrap">
-    <span class="label">Le classement</span>
+    <span class="label">The ranking</span>
     <h2 id="cheapH">Lowest taker fee after rebate</h2>
     <ol class="tc-list" data-place="tool-calc-list">{rows}</ol>
     <p class="fine" style="margin-top:16px">Standard (non-VIP) USDT-margined perpetual rates, checked {esc(config['fees_checked'])}. “You pay” is the taker rate minus the rebate share. Sign-up links are referral links; no password or API key is ever needed.</p>
   </div></section>
 
   <section class="tc-sec tc-how" aria-labelledby="howH"><div class="wrap">
-    <span class="label">La méthode</span>
+    <span class="label">The method</span>
     <h2 id="howH">How the numbers are worked out</h2>
     <p>Monthly fee = position size × fee rate × 2 × round trips. The “× 2” is there because you pay once to open and once to close. With the rebate switched on, the fee is multiplied by (1 − rebate share).</p>
     <p>Example at standard rates: a 10,000 USDT position, closed and reopened 20 times a month with market orders, on an exchange charging 0.05% taker is 10,000 × 0.0005 × 2 × 20 = 200 USDT in fees. A 40% rebate returns 80 of that.</p>
@@ -132,4 +132,6 @@ $("otTaker").addEventListener("click",()=>{{mode="taker";$("otTaker").setAttribu
 $("otMaker").addEventListener("click",()=>{{mode="maker";$("otMaker").setAttribute("aria-pressed","true");$("otTaker").setAttribute("aria-pressed","false");calc();}});
 calc();
 btcPill();</script>"""
-    return head(title, desc, canonical, extra + css) + body, canonical
+    # 2026-11-18 회의(디자인): 전용 OG 카드 + 고정 지원 버튼을 원형으로 접어 막대 오른쪽 금액을 가리지 않게
+    hd = head(title, desc, canonical, extra + css).replace(f"{config['domain']}/assets/og.png", f"{config['domain']}/assets/og/futures-fee-calculator.png")
+    return hd + body.replace('<div class="fab">', '<div class="fab compact">', 1), canonical

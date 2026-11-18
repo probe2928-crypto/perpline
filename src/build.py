@@ -1296,6 +1296,7 @@ def build_exchange(v, idx):
     tone = TONES[idx % len(TONES)]
     _rg = sorted(_GUIDE_LINKS, key=lambda g: 0 if g[0].startswith(v["slug"] + "-") else 1)
     rguide_html = "".join(f'<li><a href="{CONFIG["domain"]}/guides/{gs}.html"><b>{esc(gt)}</b><span>Read guide</span></a></li>' for gs, gt in _rg)
+    rguide_html += f'<li><a href="{CONFIG["domain"]}/tools/futures-fee-calculator.html"><b>Futures fee calculator</b><span>Open tool</span></a></li>'  # 2026-11-18 회의: 상세 11쪽 → 계산기 내부 링크
     variant = idx % 3  # 0: tone block, 1: centered type, 2: split
     rk = ranked(VENUES)
     known = [x for x in rk if x["taker"] is not None]
@@ -1710,6 +1711,11 @@ def build():
     for slug, gp, gurl in build_guides(head, header, footer, esc, COMMON_JS, CONFIG, FAB, VENUES, pct, net, link, TG_DM):
         (OUT / "guides" / f"{slug}.html").write_text(full_doc(gp), encoding="utf-8")
         guide_urls.append(gurl)
+    # 2026-11-18 전략 회의: 가이드 허브(guides/index.html) — 크롤용 색인 + CollectionPage
+    from guides import build_hub
+    _hub, _hub_url = build_hub(head, header, footer, esc, COMMON_JS, CONFIG, FAB, VENUES, pct, net, link, TG_DM)
+    (OUT / "guides" / "index.html").write_text(full_doc(_hub), encoding="utf-8")
+    guide_urls.insert(0, _hub_url)
     # Sejun 2026-11-16 "페이지 2개 중복 정리": alphax.html (EN/中文) is the one AlphaX page.
     # promos/alphax.html stays only as a redirect, because Telegram posts and Telega moderation still link to it.
     (OUT / "promos").mkdir(exist_ok=True)
@@ -1787,6 +1793,7 @@ def build():
         return hashlib.sha1(t.encode("utf-8")).hexdigest()[:16]
     def lastmod_for(u):
         rel = u[len(CONFIG["domain"]):].lstrip("/") or "index.html"
+        if rel.endswith("/"): rel += "index.html"
         f = OUT / rel
         if not f.exists(): return today
         h = _norm(f.read_text(encoding="utf-8"))

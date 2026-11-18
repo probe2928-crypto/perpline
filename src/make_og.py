@@ -56,6 +56,10 @@ def main():
     jobs = [("og.png", page("Fee rebates", "Your trading fees,<br><em>returned.</em>", 112))]
     for g in _guides({v["slug"]: v for v in V}, build.pct, build.net, build.link, build.CONFIG, build.TG_DM):
         jobs.append((f"og/{g['slug']}.png", page("Guide", g["h1"].replace("<em>", "<br><em>", 1), 84)))
+    jobs.append(("og/futures-fee-calculator.png", page("Tool", "Futures fee<br><em>calculator.</em>", 104)))
+    jobs.append(("og/guides.png", page("Guides", "What futures trading<br><em>really costs.</em>", 92)))
+    only = sys.argv[1:]  # 예: python3 src/make_og.py og/guides.png — 지정한 파일만 다시 그림
+    if only: jobs = [j for j in jobs if j[0] in only]
     (ROOT / "assets" / "og").mkdir(parents=True, exist_ok=True)
     with sync_playwright() as p:
         b = p.chromium.launch()
