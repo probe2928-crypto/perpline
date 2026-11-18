@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Fee audit (draft) · Perpline</title>
+<style>
+:root{--paper:#FBF4EC;--ink:#121212;--muted:#655D55;--hair:#E4D5C4;--tone:#1F2FA0}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:300 17px/1.6 Jost,system-ui,sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+.label{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:500}
+h1{font:400 clamp(40px,7vw,76px)/1 'DM Serif Display',Georgia,serif;margin:14px 0 18px;max-width:16ch}h1 em{color:var(--tone)}
+header{padding:56px 0 32px;border-bottom:1px solid var(--hair)}
+.drop{margin:32px 0;border:1px dashed var(--ink);padding:28px;display:grid;gap:14px}
+.drop input[type=file]{font:inherit;max-width:100%;min-width:0}.drop{min-width:0}table{table-layout:fixed}td,th{overflow-wrap:anywhere}
+.row{display:flex;flex-wrap:wrap;gap:14px 28px;align-items:end}
+.row label{display:flex;flex-direction:column;gap:4px}.row input[type=number]{font:inherit;font-size:20px;width:110px;border:0;border-bottom:1px solid var(--ink);background:none}
+.out{border-top:1px solid var(--ink);margin-top:24px}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;padding:24px 0;border-bottom:1px solid var(--hair)}
+.kpi b{display:block;font:400 40px/1 'DM Serif Display',Georgia,serif;color:var(--tone);margin-top:8px}
+table{width:100%;border-collapse:collapse;margin-top:16px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:10px 8px 10px 0;border-bottom:1px solid var(--hair);font-size:15px}th{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:500}
+td:last-child,th:last-child{text-align:right}
+.fine{font-size:13.5px;color:var(--muted)}.err{color:#9a1c1c}
+</style></head><body>
+<header><div class="wrap"><span class="label">Draft · Fee audit · not published</span>
+<h1>What did your fees <em>actually</em> cost?</h1>
+<p>Export your futures trade history as CSV from your exchange and drop it here. The file is read in your browser only; nothing is uploaded. We add up the fee column and show what a rebate would have returned.</p></div></header>
+<main class="wrap">
+<div class="drop"><label class="label" for="f">Trade history CSV</label><input id="f" type="file" accept=".csv,text/csv">
+<div class="row"><label><span class="label">Rebate share %</span><input id="r" type="number" min="0" max="100" step="1" value="40"></label>
+<span class="fine">Use the rebate shown for your exchange on Perpline.</span></div>
+<p class="fine" id="msg">Columns we look for: any header containing "fee" or "commission" (amount), and optionally "asset"/"coin"/"currency" next to it.</p></div>
+<section class="out" id="out" hidden>
+<div class="kpi"><div><span class="label">Rows read</span><b id="nRows">–</b></div><div><span class="label">Fees paid</span><b id="tot">–</b></div><div><span class="label">Back at <span id="rr"></span>%</span><b id="back">–</b></div></div>
+<table><thead><tr><th>Fee asset</th><th>Trades</th><th>Fees paid</th><th>Rebate</th></tr></thead><tbody id="tb"></tbody></table>
+<p class="fine" style="margin-top:14px">Fees are summed as absolute values from the file. Funding payments are not trading fees and are left out when they have their own column. Education only, not financial advice.</p>
+</section>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+function parseCSV(t){const rows=[];let row=[],f="",q=false;for(let i=0;i<t.length;i++){const c=t[i];
+ if(q){if(c=='"'){if(t[i+1]=='"'){f+='"';i++}else q=false}else f+=c}
+ else if(c=='"')q=true;else if(c==','){row.push(f);f=""}else if(c=='\n'||c=='\r'){if(c=='\r'&&t[i+1]=='\n')i++;row.push(f);f="";if(row.some(x=>x.trim()!==""))rows.push(row);row=[]}else f+=c}
+ row.push(f);if(row.some(x=>x.trim()!==""))rows.push(row);return rows}
+function num(s){if(s==null)return NaN;const m=String(s).replace(/[, ]/g,"").match(/-?\d+(\.\d+)?(e-?\d+)?/i);return m?Math.abs(parseFloat(m[0])):NaN}
+function unit(s){const m=String(s||"").match(/[A-Z]{2,6}$/i);return m?m[0].toUpperCase():""}
+let last=null;
+function render(){if(!last)return;const r=Math.min(100,Math.max(0,parseFloat($("r").value)||0));$("rr").textContent=r;
+ const by={};let n=0;for(const x of last){if(!(x.v>0))continue;n++;(by[x.a]=by[x.a]||{c:0,s:0});by[x.a].c++;by[x.a].s+=x.v}
+ const keys=Object.keys(by).sort((a,b)=>by[b].s-by[a].s);const fmt=v=>v.toLocaleString("en-US",{maximumFractionDigits:v<1?6:2});
+ $("tb").innerHTML=keys.map(k=>`<tr><td>${k||"(unlabelled)"}</td><td>${by[k].c}</td><td>${fmt(by[k].s)}</td><td>${fmt(by[k].s*r/100)}</td></tr>`).join("");
+ const main=keys[0];$("nRows").textContent=n;$("tot").textContent=main!==undefined?fmt(by[main].s)+" "+(main||""):"0";$("back").textContent=main!==undefined?fmt(by[main].s*r/100)+" "+(main||""):"0";$("out").hidden=false}
+$("r").addEventListener("input",render);
+$("f").addEventListener("change",async e=>{const file=e.target.files[0];if(!file)return;const rows=parseCSV(await file.text());
+ if(rows.length<2){$("msg").className="fine err";$("msg").textContent="The file has no data rows.";return}
+ const h=rows[0].map(x=>x.trim().toLowerCase());
+ const fi=h.findIndex(x=>/(fee|commission)/.test(x)&&!/(funding|rate|asset|coin|currency|unit)/.test(x));
+ const ai=h.findIndex(x=>/(fee|commission).*(asset|coin|currency|unit)|^(fee ?asset|fee ?coin)$/.test(x));
+ if(fi<0){$("msg").className="fine err";$("msg").textContent="No fee column found. Headers: "+rows[0].join(", ");$("out").hidden=true;return}
+ last=rows.slice(1).map(r=>({v:num(r[fi]),a:ai>=0?String(r[ai]||"").trim().toUpperCase():unit(r[fi])}));
+ $("msg").className="fine";$("msg").textContent=`Fee column: "${rows[0][fi]}"${ai>=0?`, asset column: "${rows[0][ai]}"`:""}.`;render()});
+</script></body></html>
