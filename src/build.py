@@ -1354,6 +1354,14 @@ def build_exchange(v, idx):
     others_html = "".join(f"""<a class="other" href="{x['slug']}.html"><span class="on">{esc(x['name'])}</span><span class="label">{x['rebate']}% rebate · taker {pct(x['taker']) if x['taker'] is not None else 'n/a'}</span></a>""" for x in others)
     signup = esc(link(v, v["slug"]))
 
+    # 2026-11-19 그로스 E7: 히어로 CTA 바로 아래 달러 예시 1줄(start.html E1과 같은 방식, 요율은 VENUES에서 자동)
+    if v["taker"] is not None:
+        _xf = 100_000 * v["taker"] / 100
+        _xb = _xf * r / 100
+        hero_note = (f'<p class="xnote" data-place="xhero-example">Example: $100,000 traded in a month on {esc(name)} is ${_xf:,.0f} in taker fees, '
+                     f'so <b>${_xb:,.0f} comes back to you</b>. No password or API key needed.</p>')
+    else:
+        hero_note = '<p class="xnote" data-place="xhero-example">Rebate paid every Monday in USDT. No password or API key needed.</p>'
     if variant == 0:
         hero = f"""<section class="xhero v0"><canvas class="fx" data-fx="silk" data-col="tone-ink" aria-hidden="true"></canvas>
       <div class="wrap">
@@ -1361,6 +1369,7 @@ def build_exchange(v, idx):
         {logo(v,'../','xlogo')}<h1>{esc(name)}</h1>
         <p class="tag">Referral code &amp; <em>{r}% fee rebate</em></p>
         <div class="cta"><a class="btn inv" href="{signup}" target="_blank" rel="sponsored nofollow noopener">Sign up to {esc(name)}</a><a class="btn inv line" href="#claim">Claim the rebate</a></div>
+        {hero_note}
       </div>
     </section>"""
     elif variant == 1:
@@ -1370,6 +1379,7 @@ def build_exchange(v, idx):
         <span class="bar-tone" aria-hidden="true"></span>
         <p class="tag">Referral code &amp; <em>{r}% of your fees, returned</em></p>
         <div class="cta"><a class="btn tone" href="{signup}" target="_blank" rel="sponsored nofollow noopener">Sign up to {esc(name)}</a><a class="btn line" href="#claim">Claim the rebate</a></div>
+        {hero_note}
       </div></section>"""
     else:
         hero = f"""<section class="xhero v2"><canvas class="fx" data-fx="silk" aria-hidden="true"></canvas><div class="wrap split">
@@ -1378,6 +1388,7 @@ def build_exchange(v, idx):
           {logo(v,'../','xlogo')}<h1>{esc(name)}</h1>
           <p class="tag">Referral code &amp; <em>fee rebate</em></p>
           <div class="cta"><a class="btn" href="{signup}" target="_blank" rel="sponsored nofollow noopener">Sign up to {esc(name)}</a><a class="btn line" href="#claim">Claim the rebate</a></div>
+          {hero_note}
         </div>
         <div class="bigpct" aria-hidden="true"><span>{r}</span><i>%</i></div>
       </div></section>"""
@@ -1390,6 +1401,9 @@ def build_exchange(v, idx):
 .xhero .tag{font-family:var(--display);font-size:clamp(22px,2.6vw,32px);font-weight:400}
 .xhero .tag em{font-style:italic}
 .xhero .cta{margin-top:34px}
+.xhero .xnote{margin:18px 0 0;font-size:14px;line-height:1.5;max-width:38em;opacity:.88}
+.xhero .xnote b{font-weight:500}
+.xhero.v1 .xnote{margin-inline:auto}
 .xhero.v0{background:var(--tone);color:var(--tone-ink)}
 .xhero.v0 .label{color:var(--tone-ink)}
 .btn.inv{background:var(--tone-ink);border-color:var(--tone-ink);color:var(--tone)}
