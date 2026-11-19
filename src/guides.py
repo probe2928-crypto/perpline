@@ -4,7 +4,7 @@ no Korea/US targeting, no return promises or price calls. Referral links and reb
 import json
 
 # footer links (slug, anchor text) — keep in sync with _guides()
-LINKS = [("bitget-futures-fees", "Bitget futures fees explained"), ("maker-vs-taker-fees", "Maker vs taker fees in futures"), ("how-funding-fees-work", "How funding fees work"), ("how-fee-rebates-work", "How futures fee rebates work"), ("futures-break-even-price", "Futures break-even price after fees"), ("crypto-scalping-fees", "Crypto scalping fees per trade")]
+LINKS = [("bitget-futures-fees", "Bitget futures fees explained"), ("maker-vs-taker-fees", "Maker vs taker fees in futures"), ("how-funding-fees-work", "How funding fees work"), ("how-fee-rebates-work", "How futures fee rebates work"), ("futures-break-even-price", "Futures break-even price after fees"), ("crypto-scalping-fees", "Crypto scalping fees per trade"), ("bitget-uid", "How to find your Bitget UID")]
 
 CSS = """
 .gd-hero{padding-block:clamp(48px,7vw,96px) clamp(28px,4vw,48px);border-bottom:1px solid var(--hair)}
@@ -701,6 +701,107 @@ def _guides(V, pct, net, link, config, tg_dm):
         keyword="crypto scalping fees",
         body=body6, faqs=faqs6, signup=signup6,
         side_big=pct(net(TAKER, r6)), side_label=f"Bitget taker you effectively pay after the {r6}% rebate (standard {pct(TAKER)})",
+    ))
+
+    # ---- Bitget UID: find it and use it to claim a rebate (2026-11-19, 서이오) -------------------------
+    # UID steps verified 2026-11-19 on Bitget's own support article "How to Check Your Bitget Account UID"
+    # (dated 2026-01-30). Fee numbers: Bitget standard futures 0.02% / 0.06%, verified 2026-11-03 (see above).
+    ux = V["bitget"]
+    assert (ux["maker"], ux["taker"]) == (MAKER, TAKER), "Bitget fee in VENUES no longer matches the verified guide numbers"
+    r7 = ux["rebate"]
+    UID_URL = "https://www.bitget.com/support/articles/12560603808647"
+    signup7 = link(ux, "guide-bitget-uid")
+    def s7(x): return f"${x:,.0f}" if x == int(x) else f"${x:,.2f}"
+    size7, trips7 = 5000, 30
+    rt7_t, rt7_m = size7 * TAKER / 100 * 2, size7 * (MAKER + TAKER) / 100
+    rows7 = "".join(
+        f"<tr><td>{name}</td><td>{s7(rt)}</td><td>{s7(rt * trips7)}</td><td>+{s7(rt * trips7 * r7 / 100)}</td><td>{s7(rt * trips7 * (1 - r7 / 100))}</td></tr>"
+        for name, rt in [("Market in, market out", rt7_t), ("Limit in, market out", rt7_m)])
+    body7 = f"""
+<h2>The short version</h2>
+<p>Your Bitget UID is the user identification number Bitget creates for your account when you sign up. On the website it appears when you hover over the profile icon in the top-right corner. In the app, tap the profile icon at the top left of the Home page, then <b>Profile</b>. In both places you can tap or click the number to copy it.</p>
+<p>That is the whole answer if you are in a hurry. The rest of this guide covers why a fee-rebate service asks for your UID, what you should and should not send with it, and what the rebate is worth in dollars on Bitget's standard futures fees, so you can decide whether claiming one is worth five minutes.</p>
+<p class="src">Source: <a href="{UID_URL}" target="_blank" rel="noopener">How to Check Your Bitget Account UID</a> (Bitget Support Center, dated 30 Jan 2026), checked 19 Nov 2026. Bitget redesigns its menus from time to time; if a button has moved, the support article is the place to check.</p>
+
+<h2>What a UID is, and what it is not</h2>
+<p>Bitget describes the UID as a user identification number that is generated automatically at sign-up. Each account has exactly one, and its support team uses it to identify the account for customer support and other account-related services.</p>
+<p>It is not your email address or your phone number, and you cannot pick it. Bitget's support article is clear that the UID cannot be changed. If you open a second account, that account gets a different UID. This matters for rebates: a rebate is tied to the specific account that was opened through a referral link, so the UID you send has to be that account's UID.</p>
+
+<h2>How to find your Bitget UID on the website</h2>
+<ol class="gd-steps">
+  <li><div><b>Log in to Bitget in your browser</b><p>Use the account you want the rebate on.</p></div></li>
+  <li><div><b>Hover over the profile icon</b><p>It sits in the top-right corner. Bitget calls it "My Profile". Your UID appears in the menu that opens.</p></div></li>
+  <li><div><b>Click to copy it</b><p>Clicking the number copies it. You can also open your Dashboard (the profile page of your account) and copy the UID from there.</p></div></li>
+</ol>
+
+<h2>How to find your Bitget UID in the app</h2>
+<ol class="gd-steps">
+  <li><div><b>Open the Bitget app and log in</b><p>Make sure you are on the right account if you have more than one.</p></div></li>
+  <li><div><b>Tap the profile icon</b><p>On the Home page, it is in the top-left corner.</p></div></li>
+  <li><div><b>Tap "Profile"</b><p>Your UID is shown on the screen. Tap it to copy.</p></div></li>
+</ol>
+<p style="margin-top:20px">Paste it somewhere and check it before you send it. A single wrong digit points to someone else's account, and a rebate cannot be matched to your trades until the number is right.</p>
+
+<h2>Why a rebate service asks for your UID</h2>
+<p>When you open a Bitget account through a referral link, Bitget records that account under the referrer and pays the referrer a commission on the trading fees the account generates. A fee-rebate service passes part of that commission back to you. The UID is how the two sides are matched: it lets us find your account in the referral records and work out how much of your fees to return. Our guide to <a href="how-fee-rebates-work.html">how fee rebates work</a> goes through where the money comes from in more detail.</p>
+<p>That also explains the one rule that catches people out. The referral is attached when the account is created. An account you opened earlier without our link is not in our referral records, so sending its UID will not start a rebate. The rebate on this page is for a <b>new</b> Bitget account opened through the sign-up button here.</p>
+
+<h2>What to send, and what never to send</h2>
+<p>A UID identifies an account. On its own it does not let anyone log in, trade or withdraw. Those actions need your password, your two-factor codes or an API key. Sending a UID to claim a rebate is normal, but keep the rest to yourself:</p>
+<ul>
+  <li><b>Send:</b> the exchange name and your UID, for example "Bitget 1234567890" (with your own number).</li>
+  <li><b>Never send:</b> your password, 2FA or email verification codes, API keys, seed phrases, or screenshots that show any of these.</li>
+  <li><b>Be wary of:</b> anyone who contacts you first and asks for your UID plus anything else. We only reply to messages you start, and we never ask for login details.</li>
+</ul>
+
+<h2>What the rebate is worth on Bitget</h2>
+<p>On a standard Bitget account, USDT-margined perpetual futures cost {pct(MAKER)} for maker orders and {pct(TAKER)} for taker orders. Those are the rates in Bitget's own <a href="{FAQ_URL}" target="_blank" rel="noopener">trading fees FAQ</a>, which we checked on 3 November 2026. The fee is charged on the full position value, once to open and once to close.</p>
+<p>Here is a trader who opens a {s7(size7)} position (margin times leverage) {trips7} times in a month, with two common order habits, and what comes back through {config['brand']}'s {r7}% rebate on Bitget.</p>
+<div class="gd-scroll"><table class="gd-tbl">
+  <thead><tr><th>Habit</th><th>Per round trip</th><th>Fees for {trips7}</th><th>Rebate {r7}%</th><th>Net cost</th></tr></thead>
+  <tbody>{rows7}</tbody>
+</table></div>
+<p class="src">Bitget standard futures rates {pct(MAKER)} / {pct(TAKER)}, from the <a href="{FAQ_URL}" target="_blank" rel="noopener">Bitget Trading Fees FAQ</a>, checked 3 Nov 2026. Funding and VIP discounts are not included. The table is arithmetic, not a forecast of anyone's trading. Your logged-in fee rate always takes precedence.</p>
+<p>Put simply, the {r7}% rebate brings the taker rate you effectively pay from {pct(TAKER)} to <b>{pct(net(TAKER, r7))}</b>, and the maker rate from {pct(MAKER)} to {pct(net(MAKER, r7))}. You still pay Bitget's normal fee when you trade; the rebate comes back afterwards. Funding payments go between traders rather than to the exchange, so they are not rebated. For the full fee picture, read <a href="bitget-futures-fees.html">Bitget futures fees explained</a>, or enter your own numbers in the <a href="../tools/futures-fee-calculator.html">fee calculator</a>.</p>
+
+<h2>How to sign up and claim the {r7}% rebate on Bitget</h2>
+<ol class="gd-steps">
+  <li><div><b>Open a new Bitget account through our link</b><p>Use the sign-up button on this page. The referral is attached by the link, so there is no code to type. It only works for a new account.</p></div></li>
+  <li><div><b>Secure and verify the account</b><p>Turn on two-factor authentication and complete identity checks if Bitget asks for them where you live.</p></div></li>
+  <li><div><b>Copy your UID</b><p>Website: hover over the profile icon at the top right. App: profile icon at the top left, then Profile.</p></div></li>
+  <li><div><b>Send "Bitget + your UID" on Telegram</b><p>Message <a href="{tg_dm}" target="_blank" rel="noopener">@{config['telegram_dm']}</a>. We confirm within 24 hours. Never send a password, 2FA code or API key.</p></div></li>
+  <li><div><b>Get paid every Monday</b><p>Last week's rebate on your trading fees arrives in USDT. The minimum payout is 10 USDT; smaller amounts roll over to the next week.</p></div></li>
+</ol>
+<p style="margin-top:20px">Trading somewhere else? Every exchange we list has its own page with the same steps. Start from the <a href="../index.html#venues">exchange ranking</a>, which sorts all eleven venues by the taker fee left after the rebate, or go straight to our <a href="../exchanges/bitget.html">Bitget referral page</a>.</p>
+
+<div class="gd-risk">
+  <h2>Before you trade</h2>
+  <p>Leveraged futures can lose you more than you expect, quickly, and can wipe out your whole margin. A fee rebate lowers your costs; it does not make a losing strategy profitable. Start with low leverage and only trade money you can afford to lose.</p>
+  <p style="margin-top:12px">Bitget decides which countries it serves, so check its terms for where you live. This site is not for residents of the Republic of Korea or the United States, or of any place where the exchange is not allowed to serve you. Nothing here is investment advice, and {config['brand']} earns a referral commission, part of which it shares with you as the rebate.</p>
+</div>
+"""
+    faqs7 = [
+        ("Where do I find my Bitget UID?",
+         "On the Bitget website, log in and hover over the profile icon in the top-right corner; the UID appears and you can click to copy it, or copy it from your Dashboard. In the app, tap the profile icon at the top left of the Home page, then Profile. These steps are from Bitget's support article, checked 19 November 2026."),
+        ("Is it safe to share my Bitget UID?",
+         "A UID identifies your account, and on its own it does not let anyone log in, trade or withdraw. Sharing it to claim a rebate or get support is normal. Never share your password, 2FA or email codes, API keys or seed phrase with anyone, including a rebate service."),
+        ("Can I get a rebate on a Bitget account I already have?",
+         f"Not through {config['brand']}. The referral is attached when an account is created, so the rebate works only for a new Bitget account opened through our link. On that account, {r7}% of the futures fees you pay comes back in USDT every Monday."),
+    ]
+    out.append(dict(
+        slug="bitget-uid",
+        venue=ux,
+        title=f"How to Find Your Bitget UID (App & Web) and Claim a {r7}% Rebate | {config['brand']}",
+        h1="Your Bitget UID: <em>where to find it, and what it gets you.</em>",
+        crumb="Find your Bitget UID",
+        desc=(f"Find your Bitget UID in the app or on the website in three taps, what is safe to share, "
+              f"and how sending it gets {r7}% of your futures fees back each week."),
+        lede=("Website: hover over the profile icon, top right. App: profile icon, top left, then Profile. "
+              f"Here is what a UID is for, what never to send with it, and what claiming a {r7}% rebate is worth."),
+        published="2026-11-19", modified="2026-11-19", checked="3 Nov 2026",
+        keyword="bitget uid",
+        body=body7, faqs=faqs7, signup=signup7,
+        side_big=pct(net(TAKER, r7)), side_label=f"Bitget taker you effectively pay after the {r7}% rebate (standard {pct(TAKER)})",
     ))
 
     return out
