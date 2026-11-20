@@ -4,7 +4,7 @@ no Korea/US targeting, no return promises or price calls. Referral links and reb
 import json
 
 # footer links (slug, anchor text) — keep in sync with _guides()
-LINKS = [("bitget-futures-fees", "Bitget futures fees explained"), ("maker-vs-taker-fees", "Maker vs taker fees in futures"), ("how-funding-fees-work", "How funding fees work"), ("how-fee-rebates-work", "How futures fee rebates work"), ("futures-break-even-price", "Futures break-even price after fees"), ("crypto-scalping-fees", "Crypto scalping fees per trade"), ("bitget-uid", "How to find your Bitget UID")]
+LINKS = [("bitget-futures-fees", "Bitget futures fees explained"), ("maker-vs-taker-fees", "Maker vs taker fees in futures"), ("how-funding-fees-work", "How funding fees work"), ("how-fee-rebates-work", "How futures fee rebates work"), ("futures-break-even-price", "Futures break-even price after fees"), ("crypto-scalping-fees", "Crypto scalping fees per trade"), ("bitget-uid", "How to find your Bitget UID"), ("okx-futures-fees", "OKX futures fees explained")]
 
 CSS = """
 .gd-hero{padding-block:clamp(48px,7vw,96px) clamp(28px,4vw,48px);border-bottom:1px solid var(--hair)}
@@ -802,6 +802,115 @@ def _guides(V, pct, net, link, config, tg_dm):
         keyword="bitget uid",
         body=body7, faqs=faqs7, signup=signup7,
         side_big=pct(net(TAKER, r7)), side_label=f"Bitget taker you effectively pay after the {r7}% rebate (standard {pct(TAKER)})",
+    ))
+
+    # ---- OKX futures fees (2026-11-20, 서이오) ---------------------------------------------------------
+    # Verified 2026-11-20 on OKX's own help centre:
+    #  - "How are futures trading fees calculated on OKX?" (updated 2026-08-26): "If the fee level is lv1, then the taker
+    #    fee rate is 0.05%, and the maker fee rate is 0.02%", formula contract value x contracts x price x rate.
+    #  - "Trading Fee Rules FAQ" (OKX Singapore, updated 2026-09-09): Regular/VIP levels by asset amount or 30-day volume,
+    #    formula and worked example (100 BTCUSDT contracts x 0.01 BTC x 20,000 = taker 10 USDT / maker 4 USDT),
+    #    liquidation charged at the current taker rate, expiry settlement 0.01%.
+    #  - "Perpetual funding fee mechanism" (updated 2026-10-28): every 8 hours (00:00, 08:00, 16:00 UTC) by default,
+    #    can switch to 1/2/4 hours; OKX charges no service fee on funding.
+    #  - "How do I find my user ID (UID)?" (updated 2026-08-25): web and app steps.
+    o = V["okx"]
+    O_MAKER, O_TAKER = 0.02, 0.05
+    assert (o["maker"], o["taker"]) == (O_MAKER, O_TAKER), "OKX fee in VENUES no longer matches the verified guide numbers"
+    r8 = o["rebate"]
+    OKX_CALC = "https://www.okx.com/en-us/help/how-to-calculate-the-contract-transaction-fee"
+    OKX_RULES = "https://www.okx.com/en-sg/help/trading-fee-rules-faq"
+    OKX_FUND = "https://www.okx.com/en-us/help/iv-introduction-to-perpetual-swap-funding-fee"
+    OKX_UID = "https://www.okx.com/en-ae/help/how-do-i-find-my-user-id-uid"
+    signup8 = link(o, "guide-okx-fees")
+    def s8(x): return f"${x:,.0f}" if x == int(x) else f"${x:,.2f}"
+    pos8, n8 = 10000, 20
+    rt8_t = pos8 * O_TAKER / 100 * 2
+    rt8_m = pos8 * (O_MAKER + O_TAKER) / 100
+    rt8_mm = pos8 * O_MAKER / 100 * 2
+    rows8 = "".join(
+        f"<tr><td>{name}</td><td>${rt:,.2f}</td><td>${rt * n8:,.2f}</td><td>+${rt * n8 * r8 / 100:,.2f}</td><td>${rt * n8 * (1 - r8 / 100):,.2f}</td></tr>"
+        for name, rt in [("Market in, market out", rt8_t), ("Limit in, market out", rt8_m), ("Limit in, limit out", rt8_mm)])
+    ex_notional = 100 * 0.01 * 20000
+    body8 = f"""
+<h2>The short version</h2>
+<p>At OKX's entry fee level (Lv1, the "Regular" tier most accounts start on), perpetual and expiry futures cost <b>{pct(O_MAKER)} for maker orders and {pct(O_TAKER)} for taker orders</b>. That is the rate OKX's own help centre uses when it explains how futures fees are calculated, which we checked on 20 November 2026. Higher VIP levels pay less.</p>
+<p>The fee is charged on the full value of the position, not on your margin, and you pay it twice: once to open and once to close. On a {s8(pos8)} position that is {s8(pos8 * O_TAKER / 100)} per side as a taker. This guide turns those percentages into a monthly dollar figure, separates trading fees from funding, and shows what a {r8}% rebate through {config['brand']} does to the rate you end up paying.</p>
+<p class="src">Sources: <a href="{OKX_CALC}" target="_blank" rel="noopener">How are futures trading fees calculated on OKX?</a> (OKX help centre, updated 26 Aug 2026) and <a href="{OKX_RULES}" target="_blank" rel="noopener">Trading Fee Rules FAQ</a> (updated 9 Sep 2026), both checked 20 Nov 2026. OKX runs regional entities with their own terms, so the rate on your logged-in fee page is the one that applies to you.</p>
+
+<h2>How OKX sets your fee level</h2>
+<p>OKX splits accounts into two groups: Regular and VIP. According to its trading fee rules, VIP levels are based on your asset balance or your trading volume over the past 30 days, and you get whichever of the two gives the better rate. The volume that counts covers spot, perpetual and expiry futures, options and spreads together.</p>
+<p>For most people this is academic. VIP thresholds are set for large accounts, and if you trade a few thousand dollars at a time you are on the Regular tier and will stay there. That makes the entry rate the number to plan around, and it is why order type and rebates matter more to an ordinary trader than chasing a VIP level.</p>
+
+<h2>Maker or taker on OKX</h2>
+<p>A <b>taker</b> order fills straight away against orders already on the book: every market order, and any limit order priced to fill at once. A <b>maker</b> order rests on the book first and fills later when someone trades against it. On OKX the taker rate is two and a half times the maker rate ({pct(O_TAKER)} against {pct(O_MAKER)}).</p>
+<p>Two details catch people out. Stop-losses that trigger as market orders are taker fills. And if a position is forcibly liquidated, OKX's fee rules say the liquidation is charged at the taker rate of your current tier, on top of the loss itself. Our <a href="maker-vs-taker-fees.html">maker vs taker guide</a> goes through the difference in more depth.</p>
+
+<h2>How the fee is calculated</h2>
+<p>OKX's formula for USDT-margined perpetuals is: fee rate × number of contracts × contract size × fill price. Each contract stands for a fixed amount of the coin, so the part after the fee rate is simply the dollar value of what you traded.</p>
+<p>OKX's own worked example uses 100 BTCUSDT perpetual contracts, each worth 0.01 BTC, with bitcoin at 20,000 USDT. That is a position worth {s8(ex_notional)}. As a taker the fee is {s8(ex_notional)} × {pct(O_TAKER)} = <b>{s8(ex_notional * O_TAKER / 100)}</b>; as a maker it is {s8(ex_notional)} × {pct(O_MAKER)} = <b>{s8(ex_notional * O_MAKER / 100)}</b>. The fee is taken in USDT when the order fills.</p>
+<p>Leverage does not change the rate. It changes how large a position you can open with the same margin, and the fee follows the position. A {s8(1000)} margin at 10× opens a {s8(pos8)} position and pays fees on {s8(pos8)}, not on {s8(1000)}. If you want to see where that leaves your break-even, read <a href="futures-break-even-price.html">futures break-even price after fees</a>.</p>
+
+<h2>What a month on OKX costs, before and after the rebate</h2>
+<p>Here is a trader who opens and closes a {s8(pos8)} position {n8} times in a month, with three different order habits, and what comes back through {config['brand']}'s {r8}% rebate on OKX.</p>
+<div class="gd-scroll"><table class="gd-tbl">
+  <thead><tr><th>Habit</th><th>Per round trip</th><th>Fees for {n8}</th><th>Rebate {r8}%</th><th>Net cost</th></tr></thead>
+  <tbody>{rows8}</tbody>
+</table></div>
+<p class="src">OKX Lv1 futures rates {pct(O_MAKER)} maker / {pct(O_TAKER)} taker from the <a href="{OKX_CALC}" target="_blank" rel="noopener">OKX help centre</a>, checked 20 Nov 2026. Funding and VIP discounts are not included. The table is arithmetic, not a forecast of anyone's trading.</p>
+<p>The rebate brings the taker rate you effectively pay from {pct(O_TAKER)} to <b>{pct(net(O_TAKER, r8))}</b>, and the maker rate from {pct(O_MAKER)} to {pct(net(O_MAKER, r8))}. You still pay OKX's normal fee when you trade. The rebate is paid back to you afterwards by {config['brand']}, in USDT, every Monday. To try your own size and trade count, use the <a href="../tools/futures-fee-calculator.html">fee calculator</a>.</p>
+
+<h2>Funding is not a trading fee</h2>
+<p>Perpetual futures also carry funding, and it shows up on the same statement, so it is easy to lump in with fees. It is a different thing. OKX's funding page says funding is exchanged every 8 hours by default, at 00:00, 08:00 and 16:00 UTC, and that some contracts switch to every 1, 2 or 4 hours when the rate hits its cap or floor. When the rate is positive, longs pay shorts; when it is negative, shorts pay longs. The amount is position value × funding rate.</p>
+<p>OKX says it charges no service fee on funding, because the money goes from trader to trader. That is also why no rebate applies to it. If you hold positions across several funding times, check the current rate and countdown on the contract page before you open. Our <a href="how-funding-fees-work.html">funding fees guide</a> explains how the rate moves.</p>
+<p class="src">Source: <a href="{OKX_FUND}" target="_blank" rel="noopener">Perpetual funding fee mechanism</a> (OKX help centre, updated 28 Oct 2026), checked 20 Nov 2026. Expiry futures also carry a separate 0.01% settlement fee at expiry, per OKX's <a href="{OKX_RULES}" target="_blank" rel="noopener">fee rules</a>.</p>
+
+<h2>Three ways to pay less on OKX</h2>
+<ul>
+  <li><b>Enter with limit orders.</b> A resting limit entry moves that leg from {pct(O_TAKER)} to {pct(O_MAKER)}. Over twenty round trips on {s8(pos8)}, that alone is the gap between the first two rows of the table above.</li>
+  <li><b>Trade less often, in the same size.</b> Fees scale with the number of round trips. Ten well-chosen trades cost half as much as twenty rushed ones.</li>
+  <li><b>Get part of every fee back.</b> Open your OKX account through a fee-rebate partner and a share of the commission comes back to you. Through {config['brand']} it is {r8}% on OKX, paid weekly in USDT. Our guide to <a href="how-fee-rebates-work.html">how fee rebates work</a> explains where the money comes from.</li>
+</ul>
+
+<h2>How to sign up and claim the {r8}% rebate on OKX</h2>
+<ol class="gd-steps">
+  <li><div><b>Open a new OKX account through our link</b><p>Use the sign-up button on this page. The referral is attached by the link, so there is no code to type. It only works for a new account.</p></div></li>
+  <li><div><b>Secure and verify the account</b><p>Turn on two-factor authentication and complete identity verification if OKX asks for it where you live.</p></div></li>
+  <li><div><b>Copy your UID</b><p>Website: hover over the profile option to see your user ID, or open Profile &gt; Personal info and use the copy button. App: open the menu to reach the User Center; your UID is in the Profile section with a Copy option.</p></div></li>
+  <li><div><b>Send "OKX + your UID" on Telegram</b><p>Message <a href="{tg_dm}" target="_blank" rel="noopener">@{config['telegram_dm']}</a>. We confirm within 24 hours. Never send a password, 2FA code or API key.</p></div></li>
+  <li><div><b>Get paid every Monday</b><p>Last week's rebate on your trading fees arrives in USDT. The minimum payout is 10 USDT; smaller amounts roll over to the next week.</p></div></li>
+</ol>
+<p class="src">UID steps from <a href="{OKX_UID}" target="_blank" rel="noopener">How do I find my user ID (UID)?</a> (OKX help centre, updated 25 Aug 2026), checked 20 Nov 2026.</p>
+<p style="margin-top:20px">Comparing venues first? The <a href="../index.html#venues">exchange ranking</a> sorts every exchange we list by the taker fee left after the rebate. For the account itself, see our <a href="../exchanges/okx.html">OKX referral page</a>.</p>
+
+<div class="gd-risk">
+  <h2>Before you trade</h2>
+  <p>Leveraged futures can lose you more than you expect, quickly, and can wipe out your whole margin. A fee rebate lowers your costs; it does not make a losing strategy profitable. Start with low leverage and only trade money you can afford to lose.</p>
+  <p style="margin-top:12px">OKX decides which countries it serves and runs separate regional entities, so check its terms for where you live. This site is not for residents of the Republic of Korea or the United States, or of any place where the exchange is not allowed to serve you. Nothing here is investment advice, and {config['brand']} earns a referral commission, part of which it shares with you as the rebate.</p>
+</div>
+"""
+    faqs8 = [
+        ("What are OKX's futures trading fees?",
+         f"At OKX's entry fee level (Lv1), futures cost {pct(O_MAKER)} for maker orders and {pct(O_TAKER)} for taker orders, charged on the full position value when you open and again when you close. That is the rate in OKX's help centre, checked 20 November 2026. VIP levels pay less, and the rate on your logged-in fee page always applies."),
+        ("How do I get a discount on OKX futures fees?",
+         f"Use limit orders to pay the maker rate, reach a VIP level through assets or 30-day volume, or open a new account through a fee-rebate partner. Through {config['brand']}, {r8}% of the OKX futures fees you pay comes back in USDT every Monday, which brings the effective taker rate to {pct(net(O_TAKER, r8))}."),
+        ("Is the OKX funding fee part of the trading fee?",
+         "No. Funding is exchanged between long and short holders, every 8 hours by default (00:00, 08:00 and 16:00 UTC), and OKX says it takes no service fee on it. Because it does not go to the exchange, it is not covered by a fee rebate."),
+    ]
+    out.append(dict(
+        slug="okx-futures-fees",
+        venue=o,
+        title=f"OKX Futures Fees 2026: Maker, Taker, Funding & a {r8}% Rebate | {config['brand']}",
+        h1="OKX futures fees, <em>worked out in dollars.</em>",
+        crumb="OKX futures fees",
+        desc=(f"OKX futures fees are {pct(O_MAKER)} maker / {pct(O_TAKER)} taker at Lv1. What a month of trades costs, "
+              f"how funding differs, and how a {r8}% rebate cuts taker to {pct(net(O_TAKER, r8))}."),
+        lede=(f"The entry rate is {pct(O_MAKER)} maker and {pct(O_TAKER)} taker, charged on the whole position. "
+              f"Here is what that comes to in a normal month, where funding fits in, and how to get {r8}% of it back."),
+        published="2026-11-20", modified="2026-11-20", checked="20 Nov 2026",
+        keyword="okx futures fees",
+        body=body8, faqs=faqs8, signup=signup8,
+        side_big=pct(net(O_TAKER, r8)), side_label=f"OKX taker you effectively pay after the {r8}% rebate (Lv1 {pct(O_TAKER)})",
     ))
 
     return out
