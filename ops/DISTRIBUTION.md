@@ -9,8 +9,12 @@
 2026-11-19 | 텔레그램 CHAINBRIEF | (링크 미기록) | 확인 불가 | 계산기 공유, utm_campaign=sejun_share
 2026-11-19 | (전환수 회차) | 없음 | - | 내장 브라우저 도구 미연결로 게시 못 함 → 아래 대기 글
 
-2026-11-20 10:13 | X @chainbrief_hq (Typefully 예약 12032521) | 예약 | - | 대기2 break-even 스레드 3
+2026-11-20 10:13 | X @chainbrief_hq (Typefully 12032521) | x.com/chainbrief_hq/status/2123585367014314078 | 확인 불가 | 대기2 break-even 스레드 게시됨
+2026-11-20 17:00 | X @chainbrief_hq (Typefully 예약 12054633) | 예약 | - | 스레드 C Bitget 수수료(실무이사)
 2026-11-21 10:13 | X @chainbrief_hq (Typefully 예약 12032523) | 예약 | - | 대기3 funding 스레드 3
+2026-11-22 10:13 | X @chainbrief_hq (Typefully 예약 12054929) | 예약 | - | 스레드 D OKX 손절·청산 수수료 4 (가이드 okx-futures-fees)
+2026-11-23 10:13 | X @chainbrief_hq (Typefully 예약 12054930) | 예약 | - | 스레드 E 스캘핑 수수료 비중 4 (가이드 crypto-scalping-fees)
+2026-11-20 | 텔레그램·레딧 | 없음 | - | 내장 브라우저 도구 미연결 → 못 올림. 대기 1·대기 3을 텔레그램용으로 계속 보관
 
 ## 대기 글 (브라우저 연결되면 채널당 하루 1건씩 게시)
 공통: 광고 문구·수익 약속·가격 예측 금지. 마지막 줄에만 링크. utm_source는 게시 채널명으로 교체.
@@ -29,7 +33,7 @@ Fees don't care whether the trade won. If you trade often, order type is a real 
 Not available in South Korea or the US. Leveraged trading can lose all your margin.
 How the two fee types work: https://perpline.tech/guides/maker-vs-taker-fees.html?utm_source=x
 
-### 대기 2 (→ Typefully 예약 11/20) — X / 레딧(허용 시)용 (가이드: futures-break-even-price)
+### 대기 2 (→ 11/20 게시 완료) — X / 레딧(허용 시)용 (가이드: futures-break-even-price)
 Quick math on why a trade can be "right" and still lose money.
 
 $1,000 margin at 10x = $10,000 position. With an example 0.05% taker fee each side, round-trip fees are $10, which is 1% of your margin. Price has to move about 0.10% in your favor just to get back to zero.
