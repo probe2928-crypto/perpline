@@ -1316,18 +1316,23 @@ def build_exchange(v, idx):
                 else f"{cheaper_after} of the other {len(rest)} venues")
         rank_line = (f"{name}'s headline taker fee ranks No. {pos} of {len(known)} venues with a verified fee. "
                      f"After the {r}% rebate, the {pct(n_t)} you actually pay is below the headline taker fee of {tail}.")
-    code_html = (f"""<div class="kv"><span class="label">Referral code</span>
+    code_html = (f"""<div class="kv"><span class="label">Referral / invitation code</span>
           <span class="code"><b id="code">{esc(v['code'])}</b><button type="button" class="btn line sm" id="copyCode">Copy</button></span></div>"""
         if v["code"] else
         """<div class="kv"><span class="label">Referral code</span><span class="code"><b style="font-size:20px">Applied automatically</b></span><span class="fine">Use our sign-up link and the referral is attached for you.</span></div>""")
     title = f"{name} Referral Code 2026: {r}% Fee Rebate | {CONFIG['brand']}"
     desc = (f"{name} referral code" + (f" {v['code']}" if v['code'] else "") +
-            f": sign up through {CONFIG['brand']} and get {r}% of your {name} futures trading fees back in USDT every week. Fees, sign-up steps and FAQ.")
+            f" (also called the invitation code): sign up through {CONFIG['brand']} and get {r}% of your {name} futures fees back in USDT every week. Fees, steps and FAQ.")
     canonical = f"{CONFIG['domain']}/exchanges/{v['slug']}.html"
     faqs = [
         (f"What is the {name} referral code?",
          (f"Our {name} referral code is {v['code']}. " if v['code'] else f"Our {name} referral is applied through our sign-up link, so there is no code to type. ") +
          f"Register through our link, then send your UID to @{CONFIG['telegram_dm']} on Telegram to activate the {r}% fee rebate."),
+        (f"Is the {name} referral code the same as an invitation code or promo code?",
+         (f"Yes. {name} may label the sign-up field as referral code, invitation code or invite code; they all mean the same thing. Enter {v['code']} there, or open our link and it is filled in for you. "
+          if v['code'] else
+          f"Yes. {name} may call it a referral, invitation or invite code; with our link it is attached automatically, so there is nothing to type. ") +
+         f"We do not run separate promo or bonus codes. Any welcome bonus is set by {name} itself; our part is the {r}% weekly fee rebate."),
         (f"How much rebate do I get on {name}?",
          f"{CONFIG['brand']} returns {r}% of the futures trading fees you pay on {name}, paid weekly in USDT." +
          (f" On the standard taker fee of {pct(v['taker'])}, that brings your effective rate to {pct(n_t)}." if n_t is not None else "")),
