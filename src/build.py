@@ -229,8 +229,10 @@ section.chapter:nth-of-type(6n){background:var(--t6)}
 
 /* venue list */
 .vlist{list-style:none;margin:0;padding:0;border-top:1px solid var(--ink)}
-.vrow{display:grid;grid-template-columns:56px minmax(0,1.5fr) 80px 80px 96px 110px auto;gap:18px;align-items:center;padding-block:24px;border-bottom:1px solid var(--hair)}
+.vrow{display:grid;grid-template-columns:56px minmax(0,1.5fr) 80px 80px 96px 110px 132px;gap:18px;align-items:center;padding-block:24px;border-bottom:1px solid var(--hair)}
+.vrow .btn{justify-self:end}
 .vrow-ax{background:color-mix(in srgb,var(--tone) 8%,transparent);border-left:3px solid var(--tone);padding-left:12px}.vrow-ax .vno{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--tone)}.vrow-ax .vreb{color:var(--tone)}
+@media (min-width:901px){.vrow .vfees{display:contents}}/* maker·taker·you-pay each take their own column so values line up under the header */
 .vhead{padding-block:0 12px;border-bottom:0}
 .vhead span{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
 .vno{font-family:var(--display);font-style:italic;font-size:18px;color:var(--muted)}
