@@ -107,6 +107,18 @@ def _guides(V, pct, net, link, config, tg_dm):
 <p class="src">Standard rates {pct(MAKER)} / {pct(TAKER)} from Bitget's FAQ, checked 3 Nov 2026. Funding payments and any VIP discount are not included. The example is arithmetic, not a forecast of your trading.</p>
 <p>Put another way, the {r}% rebate brings the taker rate you effectively pay from {pct(TAKER)} to <b>{pct(eff_t)}</b>, and the maker rate from {pct(MAKER)} to {pct(eff_m)}. You still pay Bitget's normal fee at the moment you trade. The rebate is paid back to you afterwards by {config['brand']}, in USDT, every Monday.</p>
 
+<h2>Bitget spot fees vs futures fees</h2>
+<p>If you searched for "Bitget trading fees", you may have seen two different numbers. They belong to two different products. Bitget's own fee FAQ lists a standard <b>spot</b> fee of 0.1% for both makers and takers, and a standard <b>futures</b> fee of {pct(MAKER)} maker and {pct(TAKER)} taker.</p>
+<div class="tbl"><table>
+  <thead><tr><th></th><th>Maker</th><th>Taker</th></tr></thead>
+  <tbody>
+    <tr><td>Spot (standard)</td><td>0.1%</td><td>0.1%</td></tr>
+    <tr><td>USDT-M futures (standard)</td><td>{pct(MAKER)}</td><td>{pct(TAKER)}</td></tr>
+  </tbody>
+</table></div>
+<p class="src">From Bitget's trading fees FAQ (<a href="{FAQ_URL}" rel="nofollow noopener" target="_blank">bitget.com</a>), checked 23 Nov 2026. VIP levels can lower both, and any BGB discount is listed on Bitget's live fee schedule. The rate shown in your account applies.</p>
+<p>The futures percentage looks smaller, but it is charged on the full position value, leverage included. A 10x position on $1,000 of margin pays fees on $10,000. That is why the monthly table above matters more than the headline rate. The {config['brand']} rebate covers futures trading fees only; it does not apply to spot trades.</p>
+
 <h2>Funding is a separate cost</h2>
 <p>Perpetual futures also carry funding payments, and they are easy to confuse with trading fees. Bitget's FAQ says funding is exchanged between long and short holders every 8 hours, and its fee breakdown gives the formula as position value times the funding rate. Depending on which side of the market you are on, you either pay or receive it.</p>
 <p>Funding goes from trader to trader, not to the exchange, so no rebate applies to it. If you hold positions for days, check the current funding rate and the countdown on the contract page before you open. For a short-term trader, the trading fee is often the bigger and more predictable line on the bill.</p>
@@ -147,14 +159,14 @@ def _guides(V, pct, net, link, config, tg_dm):
     out.append(dict(
         slug="bitget-futures-fees",
         venue=b,
-        title=f"Bitget Futures Fees 2026: Maker, Taker & a {r}% Rebate | {config['brand']}",
+        title=f"Bitget Trading Fees 2026: Futures, Spot & a {r}% Rebate | {config['brand']}",
         h1="Bitget futures fees, <em>explained in dollars.</em>",
         crumb="Bitget futures fees",
-        desc=(f"Bitget futures fees are {pct(MAKER)} maker / {pct(TAKER)} taker. What a month of trades really costs, "
-              f"how funding differs, and how a {r}% rebate cuts taker to {pct(eff_t)}."),
+        desc=(f"Bitget fees: futures {pct(MAKER)} maker / {pct(TAKER)} taker, spot 0.1%. What a month of trades really costs, "
+              f"how funding differs, and how a {r}% rebate cuts futures taker to {pct(eff_t)}."),
         lede=(f"The standard rate is {pct(MAKER)} maker and {pct(TAKER)} taker. Here is what that adds up to in a normal month, "
               f"where funding fits in, and how to get {r}% of it back."),
-        published="2026-11-03", modified="2026-11-03", checked="3 Nov 2026",
+        published="2026-11-03", modified="2026-11-23", checked="23 Nov 2026",
         keyword="bitget futures fees",
         body=body, faqs=faqs, signup=signup,
         side_big=pct(eff_t), side_label=f"Taker you effectively pay after the {r}% rebate (standard {pct(TAKER)})",
