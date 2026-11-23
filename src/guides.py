@@ -4,7 +4,7 @@ no Korea/US targeting, no return promises or price calls. Referral links and reb
 import json
 
 # footer links (slug, anchor text) — keep in sync with _guides()
-LINKS = [("bitget-futures-fees", "Bitget futures fees explained"), ("maker-vs-taker-fees", "Maker vs taker fees in futures"), ("how-funding-fees-work", "How funding fees work"), ("how-fee-rebates-work", "How futures fee rebates work"), ("futures-break-even-price", "Futures break-even price after fees"), ("crypto-scalping-fees", "Crypto scalping fees per trade"), ("bitget-uid", "How to find your Bitget UID"), ("okx-futures-fees", "OKX futures fees explained")]
+LINKS = [("bitget-futures-fees", "Bitget futures fees explained"), ("maker-vs-taker-fees", "Maker vs taker fees in futures"), ("how-funding-fees-work", "How funding fees work"), ("how-fee-rebates-work", "How futures fee rebates work"), ("futures-break-even-price", "Futures break-even price after fees"), ("crypto-scalping-fees", "Crypto scalping fees per trade"), ("bitget-uid", "How to find your Bitget UID"), ("okx-futures-fees", "OKX futures fees explained"), ("okx-vs-bitget-futures-fees", "OKX vs Bitget futures fees")]
 
 CSS = """
 .gd-hero{padding-block:clamp(48px,7vw,96px) clamp(28px,4vw,48px);border-bottom:1px solid var(--hair)}
@@ -911,6 +911,117 @@ def _guides(V, pct, net, link, config, tg_dm):
         keyword="okx futures fees",
         body=body8, faqs=faqs8, signup=signup8,
         side_big=pct(net(O_TAKER, r8)), side_label=f"OKX taker you effectively pay after the {r8}% rebate (Lv1 {pct(O_TAKER)})",
+    ))
+
+    # ---- OKX vs Bitget futures fees (2026-11-23, 서이오) ------------------------------------------------
+    # No new fee numbers: reuses only the rates already verified on the exchanges' own pages —
+    #  OKX Lv1 0.02%/0.05%, VIP by assets or 30-day volume, liquidation at taker rate, funding 8h default
+    #  (OKX help centre, checked 2026-11-20, see block above) and Bitget standard 0.02%/0.06%, VIP by volume/assets/BGB,
+    #  funding every 8 hours (Bitget Trading Fees FAQ, checked 2026-11-03, see first block).
+    #  Re-reading both pages on 2026-11-23 failed (fetch not approved in the scheduled run), so the text keeps the original check dates.
+    #  Bitget UID steps re-read 2026-11-23 on "How to Check Your Bitget Account UID" (page dated 2026-01-30).
+    bx, ox = V["bitget"], V["okx"]
+    assert (bx["maker"], bx["taker"]) == (MAKER, TAKER) and (ox["maker"], ox["taker"]) == (O_MAKER, O_TAKER)
+    rb9, ro9 = bx["rebate"], ox["rebate"]
+    sign_o9, sign_b9 = link(ox, "guide-okx-vs-bitget"), link(bx, "guide-okx-vs-bitget")
+    def s9(x): return f"${x:,.0f}" if x == int(x) else f"${x:,.2f}"
+    pos9, n9 = 10000, 20
+    habits9 = [("Market in, market out", O_TAKER * 2, TAKER * 2),
+               ("Limit in, market out", O_MAKER + O_TAKER, MAKER + TAKER),
+               ("Limit in, limit out", O_MAKER * 2, MAKER * 2)]
+    rows9 = "".join(
+        f"<tr><td>{h}</td><td>{s9(pos9 * o_ / 100 * n9)}</td><td>{s9(pos9 * o_ / 100 * n9 * (1 - ro9 / 100))}</td>"
+        f"<td>{s9(pos9 * b_ / 100 * n9)}</td><td>{s9(pos9 * b_ / 100 * n9 * (1 - rb9 / 100))}</td></tr>"
+        for h, o_, b_ in habits9)
+    gap9 = pos9 * (TAKER - O_TAKER) / 100 * 2 * n9
+    body9 = f"""
+<h2>The short version</h2>
+<p>On the entry fee tier, OKX and Bitget charge the same for maker orders on perpetual futures, <b>{pct(O_MAKER)}</b>. The difference is on the taker side: <b>{pct(O_TAKER)} on OKX against {pct(TAKER)} on Bitget</b>. If most of your fills are market orders, OKX is the cheaper of the two by one basis point per side. If you mostly work with resting limit orders, the two cost the same.</p>
+<p>That is a small gap on a single trade and a real one over a month. A trader who opens and closes a {s9(pos9)} position {n9} times with market orders pays {s9(gap9)} more on Bitget than on OKX, before any rebate. Below we put both exchanges side by side in dollars, cover what changes the rate (VIP levels, order type, liquidations), and show what a fee rebate through {config['brand']} leaves you paying on each.</p>
+<p class="src">Sources: OKX Lv1 rates from <a href="{OKX_CALC}" target="_blank" rel="noopener">How are futures trading fees calculated on OKX?</a> and the <a href="{OKX_RULES}" target="_blank" rel="noopener">OKX Trading Fee Rules FAQ</a>, checked 20 Nov 2026. Bitget standard rates from the <a href="{FAQ_URL}" target="_blank" rel="noopener">Bitget Trading Fees FAQ</a>, checked 3 Nov 2026. The rate on your own logged-in fee page always takes precedence.</p>
+
+<h2>Side by side: the rates that matter</h2>
+<div class="gd-scroll"><table class="gd-tbl">
+  <thead><tr><th>Entry tier, USDT perpetuals</th><th>OKX (Lv1)</th><th>Bitget (standard)</th></tr></thead>
+  <tbody>
+    <tr><td>Maker fee</td><td>{pct(O_MAKER)}</td><td>{pct(MAKER)}</td></tr>
+    <tr><td>Taker fee</td><td>{pct(O_TAKER)}</td><td>{pct(TAKER)}</td></tr>
+    <tr><td>Market round trip on {s9(pos9)}</td><td>{s9(pos9 * O_TAKER / 100 * 2)}</td><td>{s9(pos9 * TAKER / 100 * 2)}</td></tr>
+    <tr><td>How VIP levels are set</td><td>Assets or 30-day volume, whichever is better</td><td>Volume, assets or BGB holdings</td></tr>
+    <tr><td>Default funding interval</td><td>Every 8 hours</td><td>Every 8 hours</td></tr>
+    <tr><td>{config['brand']} rebate</td><td>{ro9}%</td><td>{rb9}%</td></tr>
+    <tr class="tot"><td>Taker you effectively pay</td><td>{pct(net(O_TAKER, ro9))}</td><td>{pct(net(TAKER, rb9))}</td></tr>
+  </tbody>
+</table></div>
+<p class="src">Fee rows from each exchange's own help centre (dates above). Rebate rows are {config['brand']}'s rates. The last row is the taker fee minus the rebate, not a rate either exchange quotes.</p>
+<p>Both exchanges charge the fee on the full value of the position, not on the margin you put up, and both charge it twice: once to open and once to close. Leverage does not change the rate. It changes how big a position the same margin can open, and the fee follows the position. A {s9(1000)} margin at 10× pays fees on {s9(pos9)}.</p>
+
+<h2>What a month costs on each, before and after the rebate</h2>
+<p>Same trader, same habits, two exchanges: {n9} round trips a month on a {s9(pos9)} position. The three rows are three ways of placing the orders.</p>
+<div class="gd-scroll"><table class="gd-tbl">
+  <thead><tr><th>Habit</th><th>OKX fees</th><th>OKX net ({ro9}%)</th><th>Bitget fees</th><th>Bitget net ({rb9}%)</th></tr></thead>
+  <tbody>{rows9}</tbody>
+</table></div>
+<p class="src">OKX Lv1 {pct(O_MAKER)} / {pct(O_TAKER)} (checked 20 Nov 2026), Bitget standard {pct(MAKER)} / {pct(TAKER)} (checked 3 Nov 2026). Funding and VIP discounts not included. The table is arithmetic, not a forecast of anyone's trading.</p>
+<p>Two things stand out. First, the order habit moves the bill far more than the choice of exchange: going from market-in-market-out to limit-in-limit-out cuts the monthly cost by more than half on either venue. Second, once both legs are limit orders the two exchanges cost exactly the same, because the maker rates match. The OKX advantage only exists on taker fills.</p>
+<p>To try your own size and trade count on both exchanges at once, use the <a href="../tools/futures-fee-calculator.html">futures fee calculator</a>.</p>
+
+<h2>What changes your rate on each exchange</h2>
+<p><b>VIP levels.</b> OKX's fee rules say VIP levels depend on your asset balance or your trading volume over the past 30 days, and you get whichever gives the better rate. Bitget says its rates fall as you move up VIP levels based on trading volume, assets or BGB holdings. Either way, the thresholds are aimed at large accounts. If you trade a few thousand dollars at a time, plan around the entry rates in the table, and read the current thresholds on each exchange's own fee page rather than on third-party lists.</p>
+<p><b>Order type.</b> A taker order fills straight away against the book: every market order, and a limit order priced to fill at once. A maker order rests on the book until someone trades against it. Stop-losses that trigger as market orders are taker fills on both exchanges, so even a patient trader pays the taker rate on some exits. Our <a href="maker-vs-taker-fees.html">maker vs taker guide</a> explains the difference in more depth.</p>
+<p><b>Liquidation.</b> OKX's fee rules say a forced liquidation is charged at the taker rate of your current tier, on top of the loss. That is one more reason to size positions so a single move cannot liquidate you.</p>
+
+<h2>Funding is not part of the comparison</h2>
+<p>Perpetual futures on both exchanges also carry funding, a payment between long and short holders that keeps the contract price close to the spot price. OKX exchanges funding every 8 hours by default, at 00:00, 08:00 and 16:00 UTC, and some contracts switch to every 1, 2 or 4 hours when the rate hits its cap or floor. Bitget's FAQ also gives 8 hours. When the rate is positive, longs pay shorts; when negative, shorts pay longs.</p>
+<p>Funding goes from trader to trader, so neither exchange keeps it and no rebate applies to it. The rate depends on the contract and the moment, not on which exchange's fee schedule is cheaper, so it does not belong in a fee comparison. Check the live rate and countdown on the contract page before you hold through a funding time. Our <a href="how-funding-fees-work.html">funding fees guide</a> explains how the rate moves.</p>
+<p class="src">Funding sources: <a href="{OKX_FUND}" target="_blank" rel="noopener">OKX perpetual funding fee mechanism</a> (checked 20 Nov 2026) and <a href="{BRK_URL}" target="_blank" rel="noopener">Understanding Bitget's Fees</a> (checked 3 Nov 2026).</p>
+
+<h2>Which one fits how you trade</h2>
+<ul>
+  <li><b>Mostly market orders, short holds.</b> OKX's lower taker rate is the one number that separates the two. After rebates the effective taker is {pct(net(O_TAKER, ro9))} on OKX and {pct(net(TAKER, rb9))} on Bitget.</li>
+  <li><b>Mostly limit orders.</b> Fees are a tie at {pct(O_MAKER)} per side, so choose on what else matters to you: the contracts you trade, the app, and which entity serves your country.</li>
+  <li><b>Already using one of them.</b> Switching exchanges to save one basis point is rarely worth the hassle. Moving more of your entries to limit orders saves more on either.</li>
+</ul>
+<p>None of this is a recommendation to trade. It is a comparison of what trading costs if you already do. For the full picture on each venue, see our <a href="okx-futures-fees.html">OKX futures fees guide</a> and <a href="bitget-futures-fees.html">Bitget futures fees guide</a>, or the <a href="../index.html#venues">ranking of all eleven exchanges</a> by the taker fee left after the rebate.</p>
+
+<h2>How to sign up and claim the rebate</h2>
+<ol class="gd-steps">
+  <li><div><b>Open a new account through our link</b><p><a href="{sign_o9}" target="_blank" rel="sponsored nofollow noopener">OKX ({ro9}% back)</a> or <a href="{sign_b9}" target="_blank" rel="sponsored nofollow noopener">Bitget ({rb9}% back)</a>. The referral is attached by the link, so there is no code to type. It only works for a new account.</p></div></li>
+  <li><div><b>Secure and verify the account</b><p>Turn on two-factor authentication and complete identity verification if the exchange asks for it where you live.</p></div></li>
+  <li><div><b>Copy your UID</b><p>OKX website: hover over the profile option, or open Profile &gt; Personal info and use the copy button. Bitget website: hover over the My Profile icon in the top-right corner and click to copy. In either app, open your profile from the home screen and the UID is shown with a copy option.</p></div></li>
+  <li><div><b>Send "exchange name + your UID" on Telegram</b><p>Message <a href="{tg_dm}" target="_blank" rel="noopener">@{config['telegram_dm']}</a>. We confirm within 24 hours. Never send a password, 2FA code or API key.</p></div></li>
+  <li><div><b>Get paid every Monday</b><p>Last week's rebate on your trading fees arrives in USDT. The minimum payout is 10 USDT; smaller amounts roll over to the next week.</p></div></li>
+</ol>
+<p class="src">UID steps from <a href="{OKX_UID}" target="_blank" rel="noopener">OKX: How do I find my user ID (UID)?</a> (checked 20 Nov 2026) and <a href="{UID_URL}" target="_blank" rel="noopener">Bitget: How to Check Your Bitget Account UID</a> (checked 23 Nov 2026). More on each account: <a href="../exchanges/okx.html">OKX referral page</a> · <a href="../exchanges/bitget.html">Bitget referral page</a>.</p>
+
+<div class="gd-risk">
+  <h2>Before you trade</h2>
+  <p>Leveraged futures can lose you more than you expect, quickly, and can wipe out your whole margin. A lower fee or a rebate reduces your costs; it does not make a losing strategy profitable. Start with low leverage and only trade money you can afford to lose.</p>
+  <p style="margin-top:12px">OKX and Bitget each decide which countries they serve, and OKX runs separate regional entities, so check the terms for where you live. This site is not for residents of the Republic of Korea or the United States, or of any place where the exchange is not allowed to serve you. Nothing here is investment advice, and {config['brand']} earns a referral commission, part of which it shares with you as the rebate.</p>
+</div>
+"""
+    faqs9 = [
+        ("Is OKX or Bitget cheaper for futures?",
+         f"On the entry tier, maker orders cost the same on both ({pct(O_MAKER)}). Taker orders cost {pct(O_TAKER)} on OKX and {pct(TAKER)} on Bitget, so OKX is cheaper if you mostly use market orders. Rates checked on each exchange's help centre (OKX 20 Nov 2026, Bitget 3 Nov 2026); your logged-in fee page always applies."),
+        ("What do I pay after a rebate on OKX and Bitget?",
+         f"Through {config['brand']}, {ro9}% of OKX futures fees and {rb9}% of Bitget futures fees come back in USDT every Monday. That brings the effective taker rate to {pct(net(O_TAKER, ro9))} on OKX and {pct(net(TAKER, rb9))} on Bitget. You still pay the normal fee when you trade; the rebate is paid afterwards."),
+        ("Does the funding fee differ between OKX and Bitget?",
+         "Funding is not a trading fee. On both exchanges it is exchanged between long and short holders, every 8 hours by default, and the exchange does not keep it. The rate depends on the contract and market conditions, so check it on the contract page. No rebate applies to funding."),
+    ]
+    out.append(dict(
+        slug="okx-vs-bitget-futures-fees",
+        venue=ox,
+        title=f"OKX vs Bitget Futures Fees 2026: Maker, Taker & Rebates Compared | {config['brand']}",
+        h1="OKX vs Bitget futures fees, <em>side by side.</em>",
+        crumb="OKX vs Bitget futures fees",
+        desc=(f"OKX vs Bitget futures fees: both {pct(O_MAKER)} maker, taker {pct(O_TAKER)} vs {pct(TAKER)}. Monthly cost in dollars "
+              f"for three order habits, and what a {ro9}% rebate leaves you paying."),
+        lede=(f"Maker fees are a tie. Taker fees are not: {pct(O_TAKER)} on OKX, {pct(TAKER)} on Bitget. "
+              f"Here is what that difference comes to in a month, and what each costs after a rebate."),
+        published="2026-11-23", modified="2026-11-23", checked="20 Nov 2026 (OKX) · 3 Nov 2026 (Bitget)",
+        keyword="okx vs bitget fees",
+        body=body9, faqs=faqs9, signup=sign_o9,
+        side_big=pct(net(O_TAKER, ro9)), side_label=f"OKX taker you effectively pay after the {ro9}% rebate (Bitget: {pct(net(TAKER, rb9))})",
     ))
 
     return out
