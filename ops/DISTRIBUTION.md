@@ -13,13 +13,15 @@
 2026-11-20 17:00 | X @chainbrief_hq (Typefully 예약 12054633) | 예약 | - | 스레드 C Bitget 수수료(실무이사)
 2026-11-21 10:13 | X @chainbrief_hq (Typefully 12032523) | x.com/chainbrief_hq/status/2123947755831992384 | 확인 불가 | 대기3 funding 스레드 게시됨
 2026-11-22 10:13 | X @chainbrief_hq (Typefully 12054929) | x.com/chainbrief_hq/status/2124310142732976600 | 확인 불가 | 스레드 D OKX 손절·청산 수수료 4 (가이드 okx-futures-fees)
-2026-11-23 10:13 | X @chainbrief_hq (Typefully 예약 12054930) | 예약 | - | 스레드 E 스캘핑 수수료 비중 4 (가이드 crypto-scalping-fees)
+2026-11-23 10:13 | X @chainbrief_hq (Typefully 12054930) | x.com/chainbrief_hq/status/2124672530409767092 | 확인 불가 | 스레드 E 스캘핑 수수료 비중 4 게시됨 (가이드 crypto-scalping-fees)
 2026-11-20 | 텔레그램·레딧 | 없음 | - | 내장 브라우저 도구 미연결 → 못 올림. 대기 1·대기 3을 텔레그램용으로 계속 보관
 2026-11-24 10:13 | X @chainbrief_hq (Typefully 예약 12078713) | 예약 | - | 스레드 F 리베이트 금액 계산 3 (가이드 how-fee-rebates-work)
 2026-11-25 10:13 | X @chainbrief_hq (Typefully 예약 12078714) | 예약 | - | 스레드 G 레버리지·증거금 대비 수수료 3 (가이드 bitget-futures-fees)
 2026-11-26 10:13 | X @chainbrief_hq (Typefully 예약 12078715) | 예약 | - | 스레드 H 펀딩비 부호·숏 3 (가이드 how-funding-fees-work)
 2026-11-21 | 텔레그램·레딧 | 없음 | - | 내장 브라우저 도구(Claude_Browser) 미연결 → 못 올림. 대기 1 계속 보관
 2026-11-22 | 텔레그램·레딧 | 없음 | - | 내장 브라우저 도구(Claude_Browser) 미연결 → 못 올림. X는 11/23~11/27 5일치 예약 유지(추가 예약 불필요)
+2026-11-28 10:13 | X @chainbrief_hq (Typefully 예약 12121037) | 예약 | - | 스레드 I OKX vs Bitget 월 비용 달러 비교 3 (가이드 okx-vs-bitget-futures-fees, 새 가이드)
+2026-11-23 | 텔레그램·레딧 | 없음 | - | 이번 세션에 Claude_Browser 도구 없음 → 못 올림. 대기 1 계속 보관. X는 11/24~11/28 예약 유지(3일 이상 확보)
 
 ## 대기 글 (브라우저 연결되면 채널당 하루 1건씩 게시)
 공통: 광고 문구·수익 약속·가격 예측 금지. 마지막 줄에만 링크. utm_source는 게시 채널명으로 교체.
