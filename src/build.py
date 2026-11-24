@@ -16,7 +16,11 @@ CONFIG = {
     "telegram_group_name": "Perpline Community",
     "track_base": "",                          # your Worker URL, e.g. https://perpline-api.xxx.workers.dev  (empty = direct links)
     "form_endpoint": "",                       # same Worker URL (CS form posts here). Empty = opens Telegram
-    "fees_checked": "Oct 2026",
+    "fees_checked": "Oct–Nov 2026",
+    # 2026-11-24 재확인: OKX 0.02/0.05(공식 11/20)·Bitget 0.02/0.06(공식 11/23)·Gate 0.02/0.05(gate.com 가이드 10/16 갱신)·
+    # BingX 0.02/0.05(공식 수수료표)·Bitunix 0.02/0.06(CryptoDaily 2026-06)·Deepcoin 0.04/0.06(CoinGecko) = 기존 값과 같음.
+    # 못 한 것: BTCC(FXEmpire 2026-05 0.025/0.045 vs BitDegree 2026-08 0.03/0.048 충돌, 공식 페이지 접속 불가)·
+    # OrangeX·BloFin(한국에서 공식 페이지 451 차단) → 기존 값 유지, 파트너 매니저 확인 필요.
     "bm_conversion_id": "6ae072e08c8ba13fe33ec70b",  # Bitmedia conversion "Exchange sign-up click" (empty = off)
     "bm_event": "signupclick",
     "edition": "Édition No. 01 · Octobre 2026",
