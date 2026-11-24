@@ -537,7 +537,7 @@ def footer(prefix):
       <h4 style="margin-top:22px">Risk &amp; disclosure</h4>
       <p>Leveraged derivatives carry a high risk of losing all of your margin. Nothing here is financial advice. Links are referral links; we earn a commission and share part of it with you as a fee rebate. Rebates are paid by {CONFIG['brand']}, not by the exchanges. © 2026 {CONFIG['brand']}.</p>
       <h4 style="margin-top:22px">Privacy</h4>
-      <p>We count visits with Google Analytics 4 (pages viewed, device type, approximate region). Advertising features and Google signals are off, and in the EEA, UK and Switzerland it runs without cookies. Opt out with your browser settings or the <a href="https://tools.google.com/dlpage/gaoptout" rel="noopener">Google Analytics opt-out add-on</a>. Sign-up links may also record a click for our ad network. <a href="{prefix}privacy.html">Privacy notice</a> · <a href="{prefix}terms.html">Terms</a></p>
+      <p>We count visits with Google Analytics 4 (pages viewed, device type, approximate region). Advertising features and Google signals are off, and in the EEA, UK and Switzerland it runs without cookies. Opt out with your browser settings or the <a href="https://tools.google.com/dlpage/gaoptout" rel="noopener">Google Analytics opt-out add-on</a>. Sign-up links may also record a click for our ad network. <a href="{prefix}privacy.html">Privacy notice</a> · <a href="{prefix}terms.html">Terms</a> · <a href="{prefix}partners.html">Partner program</a></p>
     </div>
   </div>
   <div class="wrap"><p class="seren-line" style="margin:40px 0 0;font:12px/1.6 'Tenor Sans',sans-serif;color:var(--muted)"><span style="letter-spacing:.2em">SEREN</span> <span style="color:#8C8478">/</span> PERPLINE</p></div>
@@ -1808,6 +1808,37 @@ def build():
     legal_page("terms.html", "Terms of use", "The rules for using Perpline and a Perpline account.", [
         ("What Perpline is", "Perpline lists crypto futures exchanges with referral links and pays part of the referral commission back to you as a fee rebate. Nothing here is financial advice. Perpline is not directed at residents of the Republic of Korea, the United States or any jurisdiction where the listed exchanges are not licensed to serve local users."),
     ], LEGAL_TERMS)
+    # partners.html — revenue-share program for trading communities and creators (Sejun 2026-11-24: 1·2·3 다 하자)
+    # Partner link = any Perpline URL + ?ref=<name>. growth_kit stores it 30 days, tags Savri events (src) and the Telegram claim text (Via: name).
+    PARTNER_SHARE = 50  # % of what Perpline keeps after the trader's rebate
+    p_apply = TG_DM + "?text=" + urllib.parse.quote("Hi Perpline, I'd like to join the partner program.\nChannel / group link: \nAudience size: \nMain countries: ")
+    p_steps = [
+        ("Get your link", f"Add <b>?ref=yourname</b> to any Perpline page. For example <code>perpline.tech/?ref=yourname</code> or the <a href=\"tools/futures-fee-calculator.html\">fee calculator</a> with <code>?ref=yourname</code>. We confirm your name on Telegram."),
+        ("Your traders get their rebate", "They open an exchange account through Perpline and claim 40–60% of their trading fees back, paid every Monday in USDT. Nothing changes in what they pay the exchange."),
+        (f"You get {PARTNER_SHARE}% of our share", f"Each month we pay you {PARTNER_SHARE}% of what Perpline keeps from the traders you referred, after their rebate, in USDT. It continues for as long as they trade."),
+    ]
+    p_faq = [
+        ("Who is this for?", "Telegram trading groups, YouTube and X creators, Discord servers and newsletters with an audience of futures traders outside the United States and Korea."),
+        ("How do you know who came from me?", "Visits through your link are remembered for 30 days, and the rebate claim your traders send us is tagged with your name. You get a monthly statement with sign-ups, claims and your payout."),
+        ("Is there an upfront fee or a posting quota?", "No. There is no fee, no minimum and no fixed posting schedule. Mention Perpline when it fits your content."),
+        ("What is not allowed?", "Promising profits, spamming groups you do not run, posting to people in the United States or Korea, or hiding that your link is a referral link. Breaking these ends the partnership."),
+        ("Which exchanges are included?", f"All {len(VENUES)} exchanges on our list, including OKX, Bitget, BingX, BloFin, Gate and Bitunix."),
+    ]
+    steps_html = "".join(f'<li><span class="pn">{i+1:02d}</span><h3>{esc(t)}</h3><p>{d}</p></li>' for i, (t, d) in enumerate(p_steps))
+    faq_html = "".join(f"<h2>{esc(q)}</h2><p>{esc(a)}</p>" for q, a in p_faq)
+    faq_ld = json.dumps({"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in p_faq]}, ensure_ascii=False)
+    pd = full_doc(head(f"Partner Program: {PARTNER_SHARE}% Revenue Share for Trading Communities | {CONFIG['brand']}",
+        f"Run a trading group or channel? Send futures traders to Perpline and earn {PARTNER_SHARE}% of our commission every month in USDT. No fee, no posting quota.",
+        f"{CONFIG['domain']}/partners.html", extra_ld=f'<script type="application/ld+json">{faq_ld}</script>') +
+        f"""<!--BODY-->{header('')}<main><section class="hero center" style="min-height:0;padding:56px 20px 8px"><span class="label">Partner program</span><h1>Bring traders. <em>Split the commission.</em></h1>
+<p class="lede">Your audience gets 40–60% of their futures fees back. You get {PARTNER_SHARE}% of what we keep, every month in USDT.</p>
+<div class="cta"><a class="btn" href="{esc(p_apply)}" target="_blank" rel="noopener">Apply on Telegram</a><a class="btn line" href="index.html">See the exchanges</a></div></section>
+<style>.psteps{{list-style:none;margin:48px auto 0;padding:0;display:grid;gap:28px;grid-template-columns:repeat(3,minmax(0,1fr));max-width:1040px}}.psteps li{{border-top:1px solid var(--ink);padding-top:16px}}.psteps .pn{{font:12px/1 'Tenor Sans',sans-serif;letter-spacing:.2em;color:var(--tone)}}.psteps h3{{margin:12px 0 8px;font-size:22px;line-height:1.2}}.psteps p{{margin:0;line-height:1.6}}.psteps code,.legal code{{font-size:.92em;background:rgba(0,0,0,.05);padding:1px 5px;white-space:nowrap}}@media (max-width:820px){{.psteps{{grid-template-columns:1fr}}}}.legal h2{{margin:40px 0 10px;font-size:clamp(22px,4vw,28px);line-height:1.2}}.legal p{{margin:0}}</style>
+<section class="wrap"><ol class="psteps">{steps_html}</ol></section>
+<section class="wrap legal" style="max-width:760px;padding:24px 20px 72px;line-height:1.7">{faq_html}
+<p style="margin-top:40px"><a class="btn" href="{esc(p_apply)}" target="_blank" rel="noopener">Apply on Telegram</a></p>
+<p class="fine" style="margin-top:20px">Payouts are made by {CONFIG['brand']} from the referral commission the exchanges pay us. Leveraged derivatives carry a high risk of loss; partners must not present Perpline as investment advice.</p></section></main>{FAB}{footer('')}<script>{COMMON_JS}btcPill();</script>""")
+    (OUT / "partners.html").write_text(pd, encoding="utf-8")
     today = datetime.date.today().isoformat()
     # lastmod: 매 빌드 '오늘'로 찍지 않고, 페이지 내용(빌드 날짜·시황 숫자 등 매일 바뀌는 줄 제외)이 바뀐 날만 올린다.
     # 기록은 src/lastmod.json(경로 → [내용 해시, 날짜]). 가이드는 guides.py의 modified와 비교해 더 늦은 날짜.
@@ -1829,7 +1860,7 @@ def build():
         d = prev[1] if prev and prev[0] == h else today
         lm[rel] = [h, d]
         return d
-    urls = [CONFIG["domain"] + "/", CONFIG["domain"] + "/returns.html", CONFIG["domain"] + "/projects.html", CONFIG["domain"] + "/alphax.html", CONFIG["domain"] + "/privacy.html", CONFIG["domain"] + "/terms.html"] + [f"{CONFIG['domain']}/exchanges/{v['slug']}.html" for v in ranked(VENUES)] + guide_urls
+    urls = [CONFIG["domain"] + "/", CONFIG["domain"] + "/returns.html", CONFIG["domain"] + "/projects.html", CONFIG["domain"] + "/alphax.html", CONFIG["domain"] + "/privacy.html", CONFIG["domain"] + "/terms.html", CONFIG["domain"] + "/partners.html"] + [f"{CONFIG['domain']}/exchanges/{v['slug']}.html" for v in ranked(VENUES)] + guide_urls
     (OUT / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
         "".join(f"  <url><loc>{u}</loc><lastmod>{lastmod_for(u)}</lastmod></url>\n" for u in urls) + "</urlset>\n", encoding="utf-8")
     lm_path.write_text(json.dumps(lm, indent=1, sort_keys=True) + "\n", encoding="utf-8")
