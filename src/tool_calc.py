@@ -69,6 +69,7 @@ def build_tool_calc(head, header, footer, esc, common_js, config, fab, venues, r
     <span class="label">Tool · Fee calculator</span>
     <h1>What your futures trading <em>really costs.</em></h1>
     <p class="lede">Type your position size and how often you trade. The bars show the monthly fee on {len(known)} exchanges at standard rates, before and after a {config['brand']} rebate. Rates checked {esc(config['fees_checked'])}; your live account rate applies.</p>
+    <div class="cta" data-place="tool-calc-hero" style="margin-top:24px;display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center"><a class="btn tone" href="{esc(link(by_net[0], "tool-calc-hero"))}" target="_blank" rel="sponsored nofollow noopener">Open {esc(by_net[0]['name'])} · {by_net[0]['rebate']}% back</a><a href="#cheapH" style="font-size:14px;color:var(--ink);text-underline-offset:3px">Cheapest {min(5, len(by_net))} after rebate ↓</a></div>
   </div></section>
 
   <section class="tc-sec" id="fees" aria-label="Fee calculator"><div class="wrap">
