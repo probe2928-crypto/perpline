@@ -4,7 +4,7 @@ no Korea/US targeting, no return promises or price calls. Referral links and reb
 import json
 
 # footer links (slug, anchor text) — keep in sync with _guides()
-LINKS = [("bitget-futures-fees", "Bitget futures fees explained"), ("maker-vs-taker-fees", "Maker vs taker fees in futures"), ("how-funding-fees-work", "How funding fees work"), ("how-fee-rebates-work", "How futures fee rebates work"), ("futures-break-even-price", "Futures break-even price after fees"), ("crypto-scalping-fees", "Crypto scalping fees per trade"), ("bitget-uid", "How to find your Bitget UID"), ("okx-futures-fees", "OKX futures fees explained"), ("okx-vs-bitget-futures-fees", "OKX vs Bitget futures fees")]
+LINKS = [("bitget-futures-fees", "Bitget futures fees explained"), ("maker-vs-taker-fees", "Maker vs taker fees in futures"), ("how-funding-fees-work", "How funding fees work"), ("how-fee-rebates-work", "How futures fee rebates work"), ("futures-break-even-price", "Futures break-even price after fees"), ("crypto-scalping-fees", "Crypto scalping fees per trade"), ("bitget-uid", "How to find your Bitget UID"), ("okx-futures-fees", "OKX futures fees explained"), ("okx-vs-bitget-futures-fees", "OKX vs Bitget futures fees"), ("okx-uid", "How to find your OKX UID")]
 
 CSS = """
 .gd-hero{padding-block:clamp(48px,7vw,96px) clamp(28px,4vw,48px);border-bottom:1px solid var(--hair)}
@@ -892,7 +892,7 @@ def _guides(V, pct, net, link, config, tg_dm):
   <li><div><b>Send "OKX + your UID" on Telegram</b><p>Message <a href="{tg_dm}" target="_blank" rel="noopener">@{config['telegram_dm']}</a>. We confirm within 24 hours. Never send a password, 2FA code or API key.</p></div></li>
   <li><div><b>Get paid every Monday</b><p>Last week's rebate on your trading fees arrives in USDT. The minimum payout is 10 USDT; smaller amounts roll over to the next week.</p></div></li>
 </ol>
-<p class="src">UID steps from <a href="{OKX_UID}" target="_blank" rel="noopener">How do I find my user ID (UID)?</a> (OKX help centre, updated 25 Aug 2026), checked 20 Nov 2026.</p>
+<p class="src">UID steps from <a href="{OKX_UID}" target="_blank" rel="noopener">How do I find my user ID (UID)?</a> (OKX help centre, updated 25 Aug 2026), checked 20 Nov 2026. Step-by-step with what is safe to send: <a href="okx-uid.html">how to find your OKX UID</a>.</p>
 <p style="margin-top:20px">Comparing venues first? The <a href="../index.html#venues">exchange ranking</a> sorts every exchange we list by the taker fee left after the rebate. For the account itself, see our <a href="../exchanges/okx.html">OKX referral page</a>.</p>
 
 <div class="gd-risk">
@@ -1034,6 +1034,108 @@ def _guides(V, pct, net, link, config, tg_dm):
         keyword="okx vs bitget fees",
         body=body9, faqs=faqs9, signup=sign_o9,
         side_big=pct(net(O_TAKER, ro9)), side_label=f"OKX taker you effectively pay after the {ro9}% rebate (Bitget: {pct(net(TAKER, rb9))})",
+    ))
+
+    # ---- OKX UID: find it and use it to claim a rebate (2026-11-24, 서이오) ------------------------------
+    # No new numbers. UID steps and fees reuse only what was verified 2026-11-20 on OKX's own help centre (block above):
+    #  "How do I find my user ID (UID)?" (updated 2026-08-25): web = hover over the profile option, or Profile > Personal info
+    #  + copy button; app = menu > User Center, UID in the Profile section with Copy.
+    #  Lv1 0.02% / 0.05%, liquidation at current taker rate, VIP by assets or 30-day volume, funding 8h, regional entities.
+    #  Re-reading the UID page on 2026-11-24 failed (fetch not approved in the scheduled run), so the text keeps 20 Nov 2026.
+    ou = V["okx"]
+    assert (ou["maker"], ou["taker"]) == (O_MAKER, O_TAKER), "OKX fee in VENUES no longer matches the verified guide numbers"
+    r10 = ou["rebate"]
+    signup10 = link(ou, "guide-okx-uid")
+    def s10(x): return f"${x:,.0f}" if x == int(x) else f"${x:,.2f}"
+    size10, trips10 = 5000, 30
+    habits10 = [("Market in, market out", O_TAKER * 2), ("Limit in, market out", O_MAKER + O_TAKER), ("Limit in, limit out", O_MAKER * 2)]
+    rows10 = "".join(
+        f"<tr><td>{h}</td><td>${size10 * rt / 100:,.2f}</td><td>${size10 * rt / 100 * trips10:,.2f}</td>"
+        f"<td>+${size10 * rt / 100 * trips10 * r10 / 100:,.2f}</td><td>${size10 * rt / 100 * trips10 * (1 - r10 / 100):,.2f}</td></tr>"
+        for h, rt in habits10)
+    mo10_t = size10 * O_TAKER / 100 * 2 * trips10
+    body10 = f"""
+<h2>The short version</h2>
+<p>Your OKX UID is the user ID number attached to your account. On the OKX website, hover over the profile option at the top of the page and the UID is shown there. You can also open <b>Profile &gt; Personal info</b> and use the copy button next to it. In the OKX app, open the menu to reach the <b>User Center</b>; the UID sits in the Profile section with a <b>Copy</b> option.</p>
+<p>If that is all you came for, you are done. The rest of this page is for people who were asked for their UID by a fee-rebate service and want to know three things first: why the number is needed, what is safe to send alongside it, and whether the rebate is worth the two minutes on OKX's actual fees.</p>
+<p class="src">Source: <a href="{OKX_UID}" target="_blank" rel="noopener">How do I find my user ID (UID)?</a> (OKX help centre, updated 25 Aug 2026), checked 20 Nov 2026. OKX runs separate regional entities and updates its menus from time to time, so if a button has moved on your version, that help article is the place to look.</p>
+
+<h2>How to find your OKX UID on the website</h2>
+<ol class="gd-steps">
+  <li><div><b>Log in at okx.com</b><p>Use the account you actually trade on. If you have more than one, check you are in the right one before you copy anything.</p></div></li>
+  <li><div><b>Hover over the profile option</b><p>It is in the top bar. Your user ID appears in the panel that opens.</p></div></li>
+  <li><div><b>Or open Profile &gt; Personal info</b><p>The UID is listed on that page with a copy button beside it. Copying beats retyping a long number by hand.</p></div></li>
+</ol>
+
+<h2>How to find your OKX UID in the app</h2>
+<ol class="gd-steps">
+  <li><div><b>Open the OKX app and log in</b><p>Same rule: be sure you are on the account you want the rebate on.</p></div></li>
+  <li><div><b>Open the menu and go to User Center</b><p>This is where OKX keeps your account details.</p></div></li>
+  <li><div><b>Find the Profile section and tap Copy</b><p>Your UID is shown there. Tap Copy and paste it somewhere to check it.</p></div></li>
+</ol>
+<p style="margin-top:20px">Before sending it anywhere, read the pasted number once against the screen. One wrong digit belongs to a different account, and a rebate cannot be matched to your trades until the number is right.</p>
+
+<h2>Why a rebate service asks for it</h2>
+<p>When an account is opened through a referral link, OKX records it under the referrer and shares part of the trading fees that account pays. A fee-rebate service such as {config['brand']} passes a slice of that share back to the trader. The UID is the link between the two records: it lets us find your account in the referral report and work out how much of your fees to return each week. Our guide to <a href="how-fee-rebates-work.html">how fee rebates work</a> goes through where the money comes from.</p>
+<p>The same mechanism explains the most common disappointment. The referral is fixed when the account is created. An OKX account you opened earlier without our link is not in our referral report, so sending its UID will not start a rebate. The rebate described here is for a <b>new</b> OKX account opened through the sign-up button on this page.</p>
+
+<h2>What to send, and what never to send</h2>
+<p>A UID tells someone which account you mean. It is not a key to that account: logging in, trading and withdrawing need your password, your two-factor codes or an API key. So sending a UID to claim a rebate or to get support is routine. Everything else stays with you.</p>
+<ul>
+  <li><b>Send:</b> the exchange and the number, for example "OKX 1234567890" with your own UID.</li>
+  <li><b>Never send:</b> passwords, 2FA or email verification codes, API keys, seed phrases, or screenshots that show any of them.</li>
+  <li><b>Be suspicious of:</b> anyone who messages you first, or who asks for your UID together with anything else. We reply only to conversations you start, and we never ask for login details.</li>
+</ul>
+
+<h2>What the rebate is worth on OKX</h2>
+<p>At OKX's entry fee level (Lv1), futures cost {pct(O_MAKER)} for maker orders and {pct(O_TAKER)} for taker orders, according to OKX's own explanation of <a href="{OKX_CALC}" target="_blank" rel="noopener">how futures trading fees are calculated</a>. The fee is charged on the full position value, not your margin, once when you open and again when you close. VIP levels pay less, but OKX sets them by asset balance or 30-day trading volume, at levels aimed at large accounts.</p>
+<p>Here is a trader who opens and closes a {s10(size10)} position (margin times leverage) {trips10} times in a month, with three order habits, and what comes back through {config['brand']}'s {r10}% rebate on OKX.</p>
+<div class="gd-scroll"><table class="gd-tbl">
+  <thead><tr><th>Habit</th><th>Per round trip</th><th>Fees for {trips10}</th><th>Rebate {r10}%</th><th>Net cost</th></tr></thead>
+  <tbody>{rows10}</tbody>
+</table></div>
+<p class="src">OKX Lv1 futures rates {pct(O_MAKER)} / {pct(O_TAKER)} from the <a href="{OKX_CALC}" target="_blank" rel="noopener">OKX help centre</a> and <a href="{OKX_RULES}" target="_blank" rel="noopener">Trading Fee Rules FAQ</a>, checked 20 Nov 2026. Funding and VIP discounts not included. The table is arithmetic, not a forecast of anyone's trading. The rate on your logged-in fee page always applies.</p>
+<p>The habit that pays most in fees also gets the most back: on the market-in, market-out row, {s10(mo10_t)} of fees returns {s10(mo10_t * r10 / 100)} in a month. In rate terms, the rebate brings the taker fee you effectively pay from {pct(O_TAKER)} to <b>{pct(net(O_TAKER, r10))}</b>, and the maker fee from {pct(O_MAKER)} to {pct(net(O_MAKER, r10))}. You still pay OKX's normal fee when you trade; the rebate is paid afterwards, in USDT, every Monday.</p>
+<p>Two things the rebate does not touch. Funding moves between long and short holders, every 8 hours by default on OKX, and OKX says it takes no service fee on it, so there is nothing to share back. And if a position is forcibly liquidated, OKX charges that at your taker rate on top of the loss; a rebate on the fee does nothing about the loss. For the full fee picture, read <a href="okx-futures-fees.html">OKX futures fees explained</a>, or put your own numbers in the <a href="../tools/futures-fee-calculator.html">fee calculator</a>.</p>
+
+<h2>How to sign up and claim the {r10}% rebate on OKX</h2>
+<ol class="gd-steps">
+  <li><div><b>Open a new OKX account through our link</b><p>Use the sign-up button on this page. The referral is attached by the link, so there is no code to type. It only works for a new account.</p></div></li>
+  <li><div><b>Secure and verify the account</b><p>Turn on two-factor authentication and complete identity verification if OKX asks for it where you live.</p></div></li>
+  <li><div><b>Copy your UID</b><p>Website: hover over the profile option, or Profile &gt; Personal info and the copy button. App: menu, User Center, Profile section, Copy.</p></div></li>
+  <li><div><b>Send "OKX + your UID" on Telegram</b><p>Message <a href="{tg_dm}" target="_blank" rel="noopener">@{config['telegram_dm']}</a>. We confirm within 24 hours. Never send a password, 2FA code or API key.</p></div></li>
+  <li><div><b>Get paid every Monday</b><p>Last week's rebate on your trading fees arrives in USDT. The minimum payout is 10 USDT; smaller amounts roll over to the next week.</p></div></li>
+</ol>
+<p style="margin-top:20px">Still choosing an exchange? The <a href="../index.html#venues">exchange ranking</a> sorts every venue we list by the taker fee left after the rebate, and <a href="okx-vs-bitget-futures-fees.html">OKX vs Bitget futures fees</a> puts the two side by side. For the account itself, see our <a href="../exchanges/okx.html">OKX referral page</a>.</p>
+
+<div class="gd-risk">
+  <h2>Before you trade</h2>
+  <p>Leveraged futures can lose you more than you expect, quickly, and can wipe out your whole margin. A fee rebate lowers your costs; it does not make a losing strategy profitable. Start with low leverage and only trade money you can afford to lose.</p>
+  <p style="margin-top:12px">OKX decides which countries it serves and runs separate regional entities, so check its terms for where you live. This site is not for residents of the Republic of Korea or the United States, or of any place where the exchange is not allowed to serve you. Nothing here is investment advice, and {config['brand']} earns a referral commission, part of which it shares with you as the rebate.</p>
+</div>
+"""
+    faqs10 = [
+        ("Where do I find my OKX UID?",
+         "On the OKX website, log in and hover over the profile option to see your user ID, or open Profile > Personal info and use the copy button. In the app, open the menu, go to User Center, and copy the UID from the Profile section. These steps are from OKX's help centre, checked 20 November 2026."),
+        ("Is it safe to share my OKX UID?",
+         "A UID identifies your account; on its own it does not let anyone log in, trade or withdraw. Sharing it to claim a rebate or get support is normal. Never share your password, 2FA or email codes, API keys or seed phrase with anyone, including a rebate service."),
+        ("Can I get a rebate on an OKX account I already have?",
+         f"Not through {config['brand']}. The referral is attached when an account is created, so the rebate works only for a new OKX account opened through our link. On that account, {r10}% of the futures fees you pay comes back in USDT every Monday."),
+    ]
+    out.append(dict(
+        slug="okx-uid",
+        venue=ou,
+        title=f"How to Find Your OKX UID (App & Web) and Claim a {r10}% Fee Rebate | {config['brand']}",
+        h1="Your OKX UID: <em>where it is, and what it gets you.</em>",
+        crumb="Find your OKX UID",
+        desc=(f"Find your OKX UID on the website or in the app in a few taps, what is safe to send with it, "
+              f"and how it gets {r10}% of your OKX futures fees back every week."),
+        lede=("Website: hover over the profile option, or Profile > Personal info. App: menu, User Center, Profile. "
+              f"Here is why a rebate service needs it, what never to send with it, and what {r10}% back is worth."),
+        published="2026-11-24", modified="2026-11-24", checked="20 Nov 2026",
+        keyword="okx uid",
+        body=body10, faqs=faqs10, signup=signup10,
+        side_big=pct(net(O_TAKER, r10)), side_label=f"OKX taker you effectively pay after the {r10}% rebate (Lv1 {pct(O_TAKER)})",
     ))
 
     return out
