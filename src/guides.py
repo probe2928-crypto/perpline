@@ -4,7 +4,7 @@ no Korea/US targeting, no return promises or price calls. Referral links and reb
 import json
 
 # footer links (slug, anchor text) — keep in sync with _guides()
-LINKS = [("bitget-futures-fees", "Bitget futures fees explained"), ("maker-vs-taker-fees", "Maker vs taker fees in futures"), ("how-funding-fees-work", "How funding fees work"), ("how-fee-rebates-work", "How futures fee rebates work"), ("futures-break-even-price", "Futures break-even price after fees"), ("crypto-scalping-fees", "Crypto scalping fees per trade"), ("bitget-uid", "How to find your Bitget UID"), ("okx-futures-fees", "OKX futures fees explained"), ("okx-vs-bitget-futures-fees", "OKX vs Bitget futures fees"), ("okx-uid", "How to find your OKX UID")]
+LINKS = [("bitget-futures-fees", "Bitget futures fees explained"), ("maker-vs-taker-fees", "Maker vs taker fees in futures"), ("how-funding-fees-work", "How funding fees work"), ("how-fee-rebates-work", "How futures fee rebates work"), ("futures-break-even-price", "Futures break-even price after fees"), ("crypto-scalping-fees", "Crypto scalping fees per trade"), ("bitget-uid", "How to find your Bitget UID"), ("okx-futures-fees", "OKX futures fees explained"), ("okx-vs-bitget-futures-fees", "OKX vs Bitget futures fees"), ("okx-uid", "How to find your OKX UID"), ("bingx-futures-fees", "BingX futures fees explained")]
 
 CSS = """
 .gd-hero{padding-block:clamp(48px,7vw,96px) clamp(28px,4vw,48px);border-bottom:1px solid var(--hair)}
@@ -1137,6 +1137,103 @@ def _guides(V, pct, net, link, config, tg_dm):
         body=body10, faqs=faqs10, signup=signup10,
         side_big=pct(net(O_TAKER, r10)), side_label=f"OKX taker you effectively pay after the {r10}% rebate (Lv1 {pct(O_TAKER)})",
     ))
+
+    # ---- BingX futures fees (2026-11-25, 서이오) -------------------------------------------------------
+    # Verified 2026-11-25 on BingX's own support centre:
+    #  "Perpetual Futures | Fee Schedule" (bingx.com/en/support/articles/360046487573): Taker 0.05%, Maker 0.02%,
+    #   "VIP users can enjoy trading fee discount" (no VIP table on that page), funding settled 00:00/08:00/16:00 (UTC+8)
+    #   = 16:00/00:00/08:00 UTC, longs pay shorts when positive, rate clamped between -0.3% and 0.3%,
+    #   liquidation when Margin Rate <= Maintenance Margin Rate (0.5%) + Taker Fee Rate.
+    #  "BingX Tutorial | How to Find My UID?" (articles/11257209092367): web = hover the profile icon top right, UID in dropdown,
+    #   copy icon; app = tap 'Profile' icon upper left, UID beside avatar, copy icon.
+    #  bingx.com/support/costs showed no fee table in fetched HTML — not used.
+    B_MAKER, B_TAKER = 0.02, 0.05
+    B_FEE = "https://bingx.com/en/support/articles/360046487573-perpetual-futures-fee-schedule"
+    B_UID = "https://bingx.com/en/support/articles/11257209092367"
+    bg = V["bingx"]
+    assert (bg["maker"], bg["taker"]) == (B_MAKER, B_TAKER), "BingX fee in VENUES no longer matches the verified guide numbers"
+    r11 = bg["rebate"]
+    signup11 = link(bg, "guide-bingx-fees")
+    def s11(x):
+        x = round(x, 2)
+        return f"${x:,.0f}" if x == int(x) else f"${x:,.2f}"
+    pos11, n11 = 10000, 20
+    habits11 = [("Market in, market out", B_TAKER * 2), ("Limit in, market out", B_MAKER + B_TAKER), ("Limit in, limit out", B_MAKER * 2)]
+    rows11 = "".join(
+        f"<tr><td>{h}</td><td>{s11(pos11 * rt / 100)}</td><td>{s11(pos11 * rt / 100 * n11)}</td>"
+        f"<td>+{s11(pos11 * rt / 100 * n11 * r11 / 100)}</td><td>{s11(pos11 * rt / 100 * n11 * (1 - r11 / 100))}</td></tr>"
+        for h, rt in habits11)
+    mo11 = pos11 * B_TAKER / 100 * 2 * n11
+    fund11 = pos11 * 0.01 / 100
+    body11 = f"""
+<h2>The short version</h2>
+<p>BingX's published rate for perpetual futures is <b>{pct(B_MAKER)} for maker orders</b> (orders that rest on the book) and <b>{pct(B_TAKER)} for taker orders</b> (orders that fill straight away). Those are the numbers on BingX's own fee schedule page, which also says VIP users get a discount on top. Everyone else pays the two rates above.</p>
+<p>Percentages that small are easy to wave away, so this page turns them into dollars: what one trade costs, what a normal month costs for three different order habits, how funding is different from a trading fee, and what is left to pay after a {r11}% fee rebate through {config['brand']}. Short version of the last part: the taker rate you effectively pay drops to <b>{pct(net(B_TAKER, r11))}</b>.</p>
+<p class="src">Source: <a href="{B_FEE}" target="_blank" rel="noopener">BingX: Perpetual Futures | Fee Schedule</a>, checked 25 Nov 2026. The rate on your logged-in BingX account always takes precedence over anything written here, including this page.</p>
+
+<h2>How the fee on a BingX futures trade adds up</h2>
+<p>Perpetual futures fees are worked out on the value of the position, not on the margin you put down. A {s11(1000)} margin at 10× leverage controls a {s11(pos11)} position, and the fee is charged on the {s11(pos11)}. Leverage does not change the rate. It changes how big a position the same deposit can open, and the fee grows with the position.</p>
+<p>You pay twice: once when you open and once when you close. So a round trip on a {s11(pos11)} position with market orders both ways costs {s11(pos11 * B_TAKER / 100)} to open and {s11(pos11 * B_TAKER / 100)} to close, {s11(pos11 * B_TAKER / 100 * 2)} in total. If the price barely moves, that {s11(pos11 * B_TAKER / 100 * 2)} is the whole result of the trade, and it comes out of your margin.</p>
+<div class="gd-scroll"><table class="gd-tbl">
+  <thead><tr><th>Order habit</th><th>One round trip ({s11(pos11)})</th><th>{n11} round trips</th><th>{r11}% rebate back</th><th>Net month</th></tr></thead>
+  <tbody>{rows11}</tbody>
+</table></div>
+<p class="src">BingX standard rates {pct(B_MAKER)} maker / {pct(B_TAKER)} taker (checked 25 Nov 2026). Funding and VIP discounts not included. The table is plain arithmetic on those two rates, not a forecast of anyone's trading.</p>
+<p>The habit matters more than anything else on the page. Swapping market orders for resting limit orders on both legs cuts the monthly bill from {s11(mo11)} to {s11(pos11 * B_MAKER / 100 * 2 * n11)} before any rebate. Most traders land somewhere in the middle row: patient on the way in, a market order or a triggered stop on the way out. Our <a href="maker-vs-taker-fees.html">maker vs taker guide</a> goes through when a limit order still counts as a taker fill.</p>
+
+<h2>VIP discounts</h2>
+<p>BingX's fee schedule says VIP users can get a trading fee discount and points to its separate fee page for the levels. We have not reproduced those thresholds here because we could not confirm the current table on BingX's own pages on the day we checked. If you trade a few thousand dollars at a time, the standard {pct(B_MAKER)} / {pct(B_TAKER)} is the rate to plan around. If your volume is large, read the live VIP table on BingX after you log in and compare it with a rebate, since the two are calculated differently.</p>
+
+<h2>Funding is not a trading fee</h2>
+<p>Holding a perpetual futures position through certain times also means paying or receiving funding. BingX settles funding three times a day, at 00:00, 08:00 and 16:00 in UTC+8 (that is 16:00, 00:00 and 08:00 UTC), and only on positions that are open at that moment. When the funding rate is positive, longs pay shorts; when it is negative, shorts pay longs. BingX's formula caps the rate between −0.3% and 0.3% per settlement.</p>
+<p>The payment is the rate times your position value. As a purely illustrative figure, a rate of 0.01% on a {s11(pos11)} position would be {s11(fund11)} for that settlement. The live rate on the contract page is the only one that counts, and it changes. Because funding moves between traders and does not go to BingX as a fee, no rebate applies to it. Our <a href="how-funding-fees-work.html">funding fees guide</a> explains why the rate moves the way it does.</p>
+<p><b>One more cost to know about.</b> BingX's fee page lists liquidation as happening when your margin rate falls to the maintenance margin rate (0.5%) plus the taker fee rate. In plain terms, the fee to close the position is already counted in where liquidation sits, which is one more reason to keep leverage low enough that a single move cannot reach it.</p>
+<p class="src">Funding and liquidation wording from <a href="{B_FEE}" target="_blank" rel="noopener">BingX: Perpetual Futures | Fee Schedule</a>, checked 25 Nov 2026.</p>
+
+<h2>Where BingX sits against other exchanges</h2>
+<p>A {pct(B_TAKER)} taker rate matches OKX's entry level and is a little under the {pct(V['bitget']['taker'])} Bitget charges on its standard tier. Maker orders cost {pct(B_MAKER)} at all three. After the {config['brand']} rebate, BingX's effective taker rate is {pct(net(B_TAKER, r11))}. If you want to compare every venue we list by the fee that is left after the rebate, use the <a href="../index.html#venues">exchange ranking</a> or put your own size and trade count into the <a href="../tools/futures-fee-calculator.html">futures fee calculator</a>.</p>
+<p>A cheaper fee is not a reason to move. If you already trade somewhere and know the platform, a basis point is rarely worth the switch. Moving more of your entries to limit orders saves more on any exchange.</p>
+
+<h2>How to sign up and claim the {r11}% rebate</h2>
+<ol class="gd-steps">
+  <li><div><b>Open a new BingX account through our link</b><p><a href="{signup11}" target="_blank" rel="sponsored nofollow noopener">Sign up to BingX ({r11}% back)</a>. The referral is attached by the link, so there is nothing to type. It only works for a new account, not one you already have.</p></div></li>
+  <li><div><b>Secure and verify the account</b><p>Turn on two-factor authentication, and complete identity verification if BingX asks for it where you live.</p></div></li>
+  <li><div><b>Copy your UID</b><p>Website: hover over the profile icon in the top-right corner; the UID is in the dropdown with a copy icon next to it. App: tap the Profile icon in the upper-left corner; the UID is beside your avatar, with a copy icon on the right.</p></div></li>
+  <li><div><b>Send "BingX + your UID" on Telegram</b><p>Message <a href="{tg_dm}" target="_blank" rel="noopener">@{config['telegram_dm']}</a>. We confirm within 24 hours. Never send a password, 2FA code or API key. We will never ask for them.</p></div></li>
+  <li><div><b>Get paid every Monday</b><p>Last week's rebate on your BingX futures fees arrives in USDT. The minimum payout is 10 USDT; smaller amounts roll over to the next week.</p></div></li>
+</ol>
+<p class="src">UID steps from <a href="{B_UID}" target="_blank" rel="noopener">BingX Tutorial: How to Find My UID?</a>, checked 25 Nov 2026. More on the account: <a href="../exchanges/bingx.html">BingX referral page</a>.</p>
+
+<div class="gd-risk">
+  <h2>Before you trade</h2>
+  <p>Leveraged futures can lose you money quickly and can wipe out your whole margin. A lower fee or a rebate reduces your costs; it does not make a losing strategy profitable, and it is not income. Start with low leverage and only trade money you can afford to lose.</p>
+  <p style="margin-top:12px">BingX decides which countries it serves, so check its terms for where you live. This site is not for residents of the Republic of Korea or the United States, or of any place where the exchange is not allowed to serve you. Nothing here is investment advice. {config['brand']} earns a referral commission from BingX and shares part of it with you as the rebate.</p>
+</div>
+"""
+    faqs11 = [
+        ("What are BingX's futures trading fees?",
+         f"BingX's fee schedule for perpetual futures lists {pct(B_MAKER)} for maker orders and {pct(B_TAKER)} for taker orders, checked 25 November 2026. The fee is charged on the position value when you open and again when you close. VIP users can get a discount, and the rate shown in your logged-in account always applies."),
+        ("How do I get a discount on BingX futures fees?",
+         f"Use limit orders that rest on the book to pay the maker rate instead of the taker rate, reach a VIP level, or open a new account through a fee-rebate partner. Through {config['brand']}, {r11}% of the BingX futures fees you pay comes back in USDT every Monday, which brings the effective taker rate to {pct(net(B_TAKER, r11))}."),
+        ("Is the BingX funding fee covered by the rebate?",
+         "No. Funding is paid between long and short holders, settled at 00:00, 08:00 and 16:00 UTC+8 on open positions, and it does not go to BingX as a trading fee. Only trading fees are rebated."),
+    ]
+    out.append(dict(
+        slug="bingx-futures-fees",
+        venue=bg,
+        title=f"BingX Futures Fees 2026: Maker, Taker, Funding & a {r11}% Rebate | {config['brand']}",
+        h1="BingX futures fees, <em>in plain dollars.</em>",
+        crumb="BingX futures fees",
+        desc=(f"BingX futures fees are {pct(B_MAKER)} maker / {pct(B_TAKER)} taker. What a trade and a month cost, "
+              f"how funding works, and how a {r11}% rebate cuts taker to {pct(net(B_TAKER, r11))}."),
+        lede=(f"{pct(B_MAKER)} maker and {pct(B_TAKER)} taker, charged on the whole position, twice per trade. "
+              f"Here is what that comes to in a normal month, where funding fits, and how to get {r11}% of it back."),
+        published="2026-11-25", modified="2026-11-25", checked="25 Nov 2026",
+        keyword="bingx futures fees",
+        body=body11, faqs=faqs11, signup=signup11,
+        side_big=pct(net(B_TAKER, r11)), side_label=f"BingX taker you effectively pay after the {r11}% rebate (standard {pct(B_TAKER)})",
+    ))
+
 
     return out
 

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://perpline.tech/</loc><lastmod>2026-11-25</lastmod></url>
-  <url><loc>https://perpline.tech/returns.html</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://perpline.tech/projects.html</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://perpline.tech/alphax.html</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://perpline.tech/privacy.html</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://perpline.tech/terms.html</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://perpline.tech/partners.html</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://perpline.tech/returns.html</loc><lastmod>2026-11-25</lastmod></url>
+  <url><loc>https://perpline.tech/projects.html</loc><lastmod>2026-11-25</lastmod></url>
+  <url><loc>https://perpline.tech/alphax.html</loc><lastmod>2026-11-25</lastmod></url>
+  <url><loc>https://perpline.tech/privacy.html</loc><lastmod>2026-11-25</lastmod></url>
+  <url><loc>https://perpline.tech/terms.html</loc><lastmod>2026-11-25</lastmod></url>
+  <url><loc>https://perpline.tech/partners.html</loc><lastmod>2026-11-25</lastmod></url>
   <url><loc>https://perpline.tech/exchanges/btcc.html</loc><lastmod>2026-11-25</lastmod></url>
   <url><loc>https://perpline.tech/exchanges/okx.html</loc><lastmod>2026-11-25</lastmod></url>
   <url><loc>https://perpline.tech/exchanges/gate.html</loc><lastmod>2026-11-25</lastmod></url>
@@ -18,16 +18,17 @@
   <url><loc>https://perpline.tech/exchanges/deepcoin.html</loc><lastmod>2026-11-25</lastmod></url>
   <url><loc>https://perpline.tech/exchanges/biconomy.html</loc><lastmod>2026-11-25</lastmod></url>
   <url><loc>https://perpline.tech/exchanges/crypfine.html</loc><lastmod>2026-11-25</lastmod></url>
-  <url><loc>https://perpline.tech/guides/</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://perpline.tech/guides/bitget-futures-fees.html</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://perpline.tech/guides/maker-vs-taker-fees.html</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://perpline.tech/guides/how-funding-fees-work.html</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://perpline.tech/guides/how-fee-rebates-work.html</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://perpline.tech/guides/futures-break-even-price.html</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://perpline.tech/guides/crypto-scalping-fees.html</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://perpline.tech/guides/bitget-uid.html</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://perpline.tech/guides/okx-futures-fees.html</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://perpline.tech/guides/okx-vs-bitget-futures-fees.html</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://perpline.tech/guides/okx-uid.html</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://perpline.tech/tools/futures-fee-calculator.html</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://perpline.tech/guides/</loc><lastmod>2026-11-25</lastmod></url>
+  <url><loc>https://perpline.tech/guides/bitget-futures-fees.html</loc><lastmod>2026-11-25</lastmod></url>
+  <url><loc>https://perpline.tech/guides/maker-vs-taker-fees.html</loc><lastmod>2026-11-25</lastmod></url>
+  <url><loc>https://perpline.tech/guides/how-funding-fees-work.html</loc><lastmod>2026-11-25</lastmod></url>
+  <url><loc>https://perpline.tech/guides/how-fee-rebates-work.html</loc><lastmod>2026-11-25</lastmod></url>
+  <url><loc>https://perpline.tech/guides/futures-break-even-price.html</loc><lastmod>2026-11-25</lastmod></url>
+  <url><loc>https://perpline.tech/guides/crypto-scalping-fees.html</loc><lastmod>2026-11-25</lastmod></url>
+  <url><loc>https://perpline.tech/guides/bitget-uid.html</loc><lastmod>2026-11-25</lastmod></url>
+  <url><loc>https://perpline.tech/guides/okx-futures-fees.html</loc><lastmod>2026-11-25</lastmod></url>
+  <url><loc>https://perpline.tech/guides/okx-vs-bitget-futures-fees.html</loc><lastmod>2026-11-25</lastmod></url>
+  <url><loc>https://perpline.tech/guides/okx-uid.html</loc><lastmod>2026-11-25</lastmod></url>
+  <url><loc>https://perpline.tech/guides/bingx-futures-fees.html</loc><lastmod>2026-11-25</lastmod></url>
+  <url><loc>https://perpline.tech/tools/futures-fee-calculator.html</loc><lastmod>2026-11-25</lastmod></url>
 </urlset>
