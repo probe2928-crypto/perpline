@@ -4,7 +4,7 @@ no Korea/US targeting, no return promises or price calls. Referral links and reb
 import json
 
 # footer links (slug, anchor text) — keep in sync with _guides()
-LINKS = [("bitget-futures-fees", "Bitget futures fees explained"), ("maker-vs-taker-fees", "Maker vs taker fees in futures"), ("how-funding-fees-work", "How funding fees work"), ("how-fee-rebates-work", "How futures fee rebates work"), ("futures-break-even-price", "Futures break-even price after fees"), ("crypto-scalping-fees", "Crypto scalping fees per trade"), ("bitget-uid", "How to find your Bitget UID"), ("okx-futures-fees", "OKX futures fees explained"), ("okx-vs-bitget-futures-fees", "OKX vs Bitget futures fees"), ("okx-uid", "How to find your OKX UID"), ("bingx-futures-fees", "BingX futures fees explained")]
+LINKS = [("bitget-futures-fees", "Bitget futures fees explained"), ("maker-vs-taker-fees", "Maker vs taker fees in futures"), ("how-funding-fees-work", "How funding fees work"), ("how-fee-rebates-work", "How futures fee rebates work"), ("futures-break-even-price", "Futures break-even price after fees"), ("crypto-scalping-fees", "Crypto scalping fees per trade"), ("bitget-uid", "How to find your Bitget UID"), ("okx-futures-fees", "OKX futures fees explained"), ("okx-vs-bitget-futures-fees", "OKX vs Bitget futures fees"), ("okx-uid", "How to find your OKX UID"), ("bingx-futures-fees", "BingX futures fees explained"), ("bingx-vs-bitget-futures-fees", "BingX vs Bitget futures fees")]
 
 CSS = """
 .gd-hero{padding-block:clamp(48px,7vw,96px) clamp(28px,4vw,48px);border-bottom:1px solid var(--hair)}
@@ -1232,6 +1232,114 @@ def _guides(V, pct, net, link, config, tg_dm):
         keyword="bingx futures fees",
         body=body11, faqs=faqs11, signup=signup11,
         side_big=pct(net(B_TAKER, r11)), side_label=f"BingX taker you effectively pay after the {r11}% rebate (standard {pct(B_TAKER)})",
+    ))
+
+    # ---- BingX vs Bitget futures fees (2026-11-25 오후, 서이오) ------------------------------------------
+    # No new numbers. Reuses only what is verified above on each exchange's own pages:
+    #  BingX 0.02% / 0.05%, funding 00:00/08:00/16:00 UTC+8, rate clamped -0.3%..0.3% (fee schedule, checked 2026-11-25);
+    #  BingX UID steps (tutorial, checked 2026-11-25).
+    #  Bitget standard futures 0.02% / 0.06%, funding every 8 hours (Trading Fees FAQ, checked 2026-11-03);
+    #  Bitget UID steps (support article dated 2026-01-30, checked 2026-11-19).
+    #  blofin.com / gate.com official pages could not be fetched in this run, so those topics stay on hold.
+    xb, xg = V["bingx"], V["bitget"]
+    assert (xb["maker"], xb["taker"]) == (B_MAKER, B_TAKER), "BingX fee in VENUES no longer matches the verified guide numbers"
+    assert (xg["maker"], xg["taker"]) == (MAKER, TAKER), "Bitget fee in VENUES no longer matches the verified guide numbers"
+    rb12, rg12 = xb["rebate"], xg["rebate"]
+    sign_b12, sign_g12 = link(xb, "guide-bingx-vs-bitget"), link(xg, "guide-bingx-vs-bitget")
+    def s12(x):
+        x = round(x, 2)
+        return f"${x:,.0f}" if x == int(x) else f"${x:,.2f}"
+    pos12, n12 = 10000, 20
+    habits12 = [("Market in, market out", B_TAKER * 2, TAKER * 2), ("Limit in, market out", B_MAKER + B_TAKER, MAKER + TAKER), ("Limit in, limit out", B_MAKER * 2, MAKER * 2)]
+    def mo12(rt): return pos12 * rt / 100 * n12
+    rows12 = "".join(
+        f"<tr><td>{h}</td><td>{s12(mo12(b))}</td><td>{s12(mo12(g))}</td><td>{s12(mo12(b) * (1 - rb12 / 100))}</td><td>{s12(mo12(g) * (1 - rg12 / 100))}</td></tr>"
+        for h, b, g in habits12)
+    gap_raw12 = mo12(TAKER * 2) - mo12(B_TAKER * 2)
+    gap_net12 = mo12(TAKER * 2) * (1 - rg12 / 100) - mo12(B_TAKER * 2) * (1 - rb12 / 100)
+    body12 = f"""
+<h2>The short version</h2>
+<p>On a standard account, the two exchanges charge the same for maker orders, <b>{pct(B_MAKER)}</b>, and differ by one basis point on taker orders: <b>{pct(B_TAKER)} on BingX</b> against <b>{pct(TAKER)} on Bitget</b>. Both rates are charged on the full position value, once when you open and once when you close.</p>
+<p>That one basis point only matters if you use market orders a lot. For a trader who opens and closes a {s12(pos12)} position {n12} times a month with market orders both ways, it comes to {s12(gap_raw12)} a month. With limit orders on both legs, there is no difference at all. After a {config['brand']} rebate ({rb12}% on BingX, {rg12}% on Bitget), the effective taker rate is <b>{pct(net(B_TAKER, rb12))}</b> on BingX and <b>{pct(net(TAKER, rg12))}</b> on Bitget.</p>
+<p class="src">Sources: <a href="{B_FEE}" target="_blank" rel="noopener">BingX: Perpetual Futures | Fee Schedule</a>, checked 25 Nov 2026 · <a href="{FAQ_URL}" target="_blank" rel="noopener">Bitget Trading Fees FAQ</a>, checked 3 Nov 2026. Both exchanges offer lower VIP rates for large accounts. The rate on your logged-in fee page always takes precedence over this page.</p>
+
+<h2>The rates side by side</h2>
+<div class="gd-scroll"><table class="gd-tbl">
+  <thead><tr><th>Standard account</th><th>BingX</th><th>Bitget</th></tr></thead>
+  <tbody>
+    <tr><td>Maker (order rests on the book)</td><td>{pct(B_MAKER)}</td><td>{pct(MAKER)}</td></tr>
+    <tr><td>Taker (order fills straight away)</td><td>{pct(B_TAKER)}</td><td>{pct(TAKER)}</td></tr>
+    <tr><td>{config['brand']} rebate</td><td>{rb12}%</td><td>{rg12}%</td></tr>
+    <tr><td>Maker after rebate</td><td>{pct(net(B_MAKER, rb12))}</td><td>{pct(net(MAKER, rg12))}</td></tr>
+    <tr><td><b>Taker after rebate</b></td><td>{pct(net(B_TAKER, rb12))}</td><td>{pct(net(TAKER, rg12))}</td></tr>
+  </tbody>
+</table></div>
+<p class="src">Perpetual futures, standard (non-VIP) rates. BingX checked 25 Nov 2026, Bitget checked 3 Nov 2026, each on the exchange's own help pages. Rebate rates are {config['brand']}'s current shares and are paid weekly in USDT.</p>
+<p>A taker fill is any order that takes liquidity already on the book: a market order, a stop that triggers as a market order, or a limit order priced through the market so it fills on arrival. A maker fill is a limit order that sits on the book until someone else trades against it. Our <a href="maker-vs-taker-fees.html">maker vs taker guide</a> goes through the edge cases.</p>
+
+<h2>What a month costs on each</h2>
+<p>Rates this small only make sense in dollars. Here is one trader, a {s12(pos12)} position (margin times leverage, so {s12(1000)} at 10×), opened and closed {n12} times in a month, under three order habits. The first two columns are the fees you pay when you trade. The last two are what is left after the weekly rebate comes back.</p>
+<div class="gd-scroll"><table class="gd-tbl">
+  <thead><tr><th>Order habit</th><th>BingX fees</th><th>Bitget fees</th><th>BingX net</th><th>Bitget net</th></tr></thead>
+  <tbody>{rows12}</tbody>
+</table></div>
+<p class="src">Arithmetic on the standard rates above ({n12} round trips of {s12(pos12)}). Funding, VIP discounts and slippage not included. This is not a forecast of anyone's trading results.</p>
+<p>Three things stand out. First, the order habit moves the bill far more than the choice of exchange: on either venue, going from market orders on both legs to limit orders on both legs cuts the monthly fees by more than half. Second, the gap between the two exchanges is widest for market-order traders, {s12(gap_raw12)} a month before rebates and {s12(gap_net12)} after. Third, for someone who already works with resting limit orders on both sides, the two are effectively the same price; the rebate share decides it, and that is only a few dollars.</p>
+<p>Your own numbers will differ. Put your position size and trade count into the <a href="../tools/futures-fee-calculator.html">futures fee calculator</a> to see both venues, and the rest of our list, in one view.</p>
+
+<h2>Funding works differently on each</h2>
+<p>Funding is not a trading fee, and it is not where either exchange makes money. It is a payment between traders who hold long and short positions at settlement time, designed to keep the perpetual price close to the spot price. When the rate is positive, longs pay shorts; when it is negative, shorts pay longs. It is charged on position value, so it grows with leverage just as trading fees do.</p>
+<p><b>BingX</b> settles funding three times a day, at 00:00, 08:00 and 16:00 UTC+8 (16:00, 00:00 and 08:00 UTC), and its fee schedule says the rate is clamped between −0.3% and 0.3% per settlement. <b>Bitget</b>'s fees FAQ describes funding as exchanged every 8 hours. On both, only positions open at the settlement moment pay or receive anything, and the live rate on the contract page is the only one that counts.</p>
+<p>No rebate applies to funding on either exchange, because neither keeps it as a fee. If you hold positions for days, funding can add up to more than your trading fees, and it can go in your favour as easily as against you. Our <a href="how-funding-fees-work.html">funding fees guide</a> explains why the rate moves.</p>
+
+<h2>Which one should you pick?</h2>
+<p>On fees alone, BingX is slightly cheaper for anyone who uses market orders, and the two are level for patient limit-order traders. That is the whole fee story, and it is a small one. Things that matter more:</p>
+<ul>
+  <li><b>Where you live.</b> Each exchange decides which countries it serves. Read the terms for your country before you open anything.</li>
+  <li><b>The contracts you trade.</b> Check that the pairs, leverage limits and order types you rely on exist on the platform you choose.</li>
+  <li><b>What you already know.</b> If you trade on one of them already and know the interface, a basis point is rarely a reason to move. Changing how you place orders saves more.</li>
+  <li><b>Account age.</b> A fee rebate through a referral link only works on a <b>new</b> account. An account you opened earlier without our link cannot be added afterwards.</li>
+</ul>
+<p>If you are comparing more widely, the <a href="../index.html#venues">exchange ranking</a> sorts every venue we list by the taker fee left after the rebate. For one exchange in depth, read <a href="bingx-futures-fees.html">BingX futures fees explained</a> or <a href="bitget-futures-fees.html">Bitget futures fees explained</a>, and <a href="okx-vs-bitget-futures-fees.html">OKX vs Bitget</a> if OKX is also on your list.</p>
+
+<h2>How to sign up and claim the rebate</h2>
+<ol class="gd-steps">
+  <li><div><b>Open a new account through our link</b><p><a href="{sign_b12}" target="_blank" rel="sponsored nofollow noopener">BingX ({rb12}% back)</a> or <a href="{sign_g12}" target="_blank" rel="sponsored nofollow noopener">Bitget ({rg12}% back)</a>. The referral is attached by the link, so there is no code to type. It only works for a new account.</p></div></li>
+  <li><div><b>Secure and verify the account</b><p>Turn on two-factor authentication and complete identity verification if the exchange asks for it where you live.</p></div></li>
+  <li><div><b>Copy your UID</b><p>BingX website: hover over the profile icon at the top right; the UID is in the dropdown with a copy icon. BingX app: tap the Profile icon at the upper left; the UID is beside your avatar. Bitget website: hover over the profile icon at the top right and click the UID to copy it. Bitget app: tap the profile icon at the top left of the Home page, then Profile.</p></div></li>
+  <li><div><b>Send "exchange name + your UID" on Telegram</b><p>Message <a href="{tg_dm}" target="_blank" rel="noopener">@{config['telegram_dm']}</a>. We confirm within 24 hours. Never send a password, 2FA code or API key. We will never ask for them.</p></div></li>
+  <li><div><b>Get paid every Monday</b><p>Last week's rebate on your futures trading fees arrives in USDT. The minimum payout is 10 USDT; smaller amounts roll over to the next week.</p></div></li>
+</ol>
+<p class="src">UID steps from <a href="{B_UID}" target="_blank" rel="noopener">BingX Tutorial: How to Find My UID?</a> (checked 25 Nov 2026) and <a href="{UID_URL}" target="_blank" rel="noopener">Bitget: How to Check Your Bitget Account UID</a> (checked 19 Nov 2026). More on each account: <a href="../exchanges/bingx.html">BingX referral page</a> · <a href="../exchanges/bitget.html">Bitget referral page</a>.</p>
+
+<div class="gd-risk">
+  <h2>Before you trade</h2>
+  <p>Leveraged futures can lose you money quickly and can wipe out your whole margin. A lower fee or a rebate reduces your costs; it does not make a losing strategy profitable, and it is not income. Start with low leverage and only trade money you can afford to lose.</p>
+  <p style="margin-top:12px">BingX and Bitget each decide which countries they serve, so check the terms for where you live. This site is not for residents of the Republic of Korea or the United States, or of any place where the exchange is not allowed to serve you. Nothing here is investment advice. {config['brand']} earns a referral commission from both exchanges and shares part of it with you as the rebate.</p>
+</div>
+"""
+    faqs12 = [
+        ("Is BingX or Bitget cheaper for futures?",
+         f"Maker orders cost {pct(B_MAKER)} on both. Taker orders cost {pct(B_TAKER)} on BingX and {pct(TAKER)} on Bitget on a standard account, so BingX is slightly cheaper if you mostly use market orders. Rates checked on each exchange's own help pages (BingX 25 Nov 2026, Bitget 3 Nov 2026); your logged-in fee page always applies."),
+        ("What do BingX and Bitget cost after a rebate?",
+         f"Through {config['brand']}, {rb12}% of BingX futures fees and {rg12}% of Bitget futures fees come back in USDT every Monday. That brings the effective taker rate to {pct(net(B_TAKER, rb12))} on BingX and {pct(net(TAKER, rg12))} on Bitget. You pay the normal fee when you trade; the rebate is paid afterwards, and only on a new account opened through our link."),
+        ("Is funding the same on BingX and Bitget?",
+         "No rebate applies to funding on either, because it is paid between long and short holders, not to the exchange. BingX settles at 00:00, 08:00 and 16:00 UTC+8 with the rate clamped between -0.3% and 0.3%; Bitget exchanges funding every 8 hours. Check the live rate on the contract page before holding a position through settlement."),
+    ]
+    out.append(dict(
+        slug="bingx-vs-bitget-futures-fees",
+        venue=xb,
+        title=f"BingX vs Bitget Futures Fees 2026: Maker, Taker & Rebates Compared | {config['brand']}",
+        h1="BingX vs Bitget futures fees, <em>one basis point apart.</em>",
+        crumb="BingX vs Bitget futures fees",
+        desc=(f"BingX vs Bitget futures fees: both {pct(B_MAKER)} maker, taker {pct(B_TAKER)} vs {pct(TAKER)}. Monthly cost in dollars "
+              f"for three order habits, funding rules, and what each costs after a rebate."),
+        lede=(f"Maker fees are a tie at {pct(B_MAKER)}. Taker fees are {pct(B_TAKER)} on BingX and {pct(TAKER)} on Bitget. "
+              f"Here is what that gap is worth in a month, how funding differs, and what is left after a rebate."),
+        published="2026-11-25", modified="2026-11-25", checked="25 Nov 2026 (BingX) · 3 Nov 2026 (Bitget)",
+        keyword="bingx vs bitget fees",
+        body=body12, faqs=faqs12, signup=sign_b12,
+        side_big=pct(net(B_TAKER, rb12)), side_label=f"BingX taker you effectively pay after the {rb12}% rebate (Bitget: {pct(net(TAKER, rg12))})",
     ))
 
 
