@@ -4,7 +4,7 @@ no Korea/US targeting, no return promises or price calls. Referral links and reb
 import json
 
 # footer links (slug, anchor text) — keep in sync with _guides()
-LINKS = [("bitget-futures-fees", "Bitget futures fees explained"), ("maker-vs-taker-fees", "Maker vs taker fees in futures"), ("how-funding-fees-work", "How funding fees work"), ("how-fee-rebates-work", "How futures fee rebates work"), ("futures-break-even-price", "Futures break-even price after fees"), ("crypto-scalping-fees", "Crypto scalping fees per trade"), ("bitget-uid", "How to find your Bitget UID"), ("okx-futures-fees", "OKX futures fees explained"), ("okx-vs-bitget-futures-fees", "OKX vs Bitget futures fees"), ("okx-uid", "How to find your OKX UID"), ("bingx-futures-fees", "BingX futures fees explained"), ("bingx-vs-bitget-futures-fees", "BingX vs Bitget futures fees")]
+LINKS = [("bitget-futures-fees", "Bitget futures fees explained"), ("maker-vs-taker-fees", "Maker vs taker fees in futures"), ("how-funding-fees-work", "How funding fees work"), ("how-fee-rebates-work", "How futures fee rebates work"), ("futures-break-even-price", "Futures break-even price after fees"), ("crypto-scalping-fees", "Crypto scalping fees per trade"), ("bitget-uid", "How to find your Bitget UID"), ("okx-futures-fees", "OKX futures fees explained"), ("okx-vs-bitget-futures-fees", "OKX vs Bitget futures fees"), ("okx-uid", "How to find your OKX UID"), ("bingx-futures-fees", "BingX futures fees explained"), ("bingx-vs-bitget-futures-fees", "BingX vs Bitget futures fees"), ("bitunix-futures-fees", "Bitunix futures fees explained")]
 
 CSS = """
 .gd-hero{padding-block:clamp(48px,7vw,96px) clamp(28px,4vw,48px);border-bottom:1px solid var(--hair)}
@@ -1340,6 +1340,118 @@ def _guides(V, pct, net, link, config, tg_dm):
         keyword="bingx vs bitget fees",
         body=body12, faqs=faqs12, signup=sign_b12,
         side_big=pct(net(B_TAKER, rb12)), side_label=f"BingX taker you effectively pay after the {rb12}% rebate (Bitget: {pct(net(TAKER, rg12))})",
+    ))
+
+
+    # ---- Bitunix futures fees (2026-11-26, 서이오) ---------------------------------------------------
+    # Verified 2026-11-26 on Bitunix's own pages:
+    #  U_FEE (Bitunix blog "Bitunix Fees 2026", update time 2026/09/07): futures VIP 0 0.02% maker / 0.06% taker,
+    #    VIP 1 0.02/0.05, VIP 2 0.016/0.05, VIP 3 0.014/0.04; spot VIP 0 0.08/0.10; "Trading Fee = Trading Amount x Fee Rate",
+    #    "$10,000 futures position with a 0.06% taker fee ... $6"; opening and closing fees applied on entry and exit;
+    #    VIP from 30-day spot volume, 30-day futures volume or account balance (meet one) - VIP 1: 100,000 / 1,000,000 / 1,000 USDT.
+    #  U_TERMS (Bitunix academy, futures page terms, update time 2026/09/22): funding typically every 8 hours,
+    #    UTC+8 00:00/08:00/16:00, some low-liquidity pairs hourly; positive = longs pay shorts; 10,000 x 0.0074% = 0.74 USDT.
+    #  No official Bitunix UID article found -> generic "open your profile" wording only (same as the referral page).
+    U_FEE = "https://www.bitunix.com/hub/blog/bitunix-features/bitunix-fees-spot-futures-vip-trading-discounts"
+    U_TERMS = "https://www.bitunix.com/hub/academy/trading-guide/futures-independent-trading-quick-start/futures-essential-course-understand-the-nouns-on-bitunix-futures-trading-page-in-one-article-web"
+    U_MAKER, U_TAKER = 0.02, 0.06
+    xu = V["bitunix"]
+    assert (xu["maker"], xu["taker"]) == (U_MAKER, U_TAKER), "Bitunix fee in VENUES no longer matches the verified guide numbers"
+    ru = xu["rebate"]
+    sign_u = link(xu, "guide-bitunix-fees")
+    def s13(x):
+        x = round(x, 2)
+        return f"${x:,.0f}" if x == int(x) else f"${x:,.2f}"
+    pos13, n13 = 10000, 20
+    habits13 = [("Market in, market out", U_TAKER * 2), ("Limit in, market out", U_MAKER + U_TAKER), ("Limit in, limit out", U_MAKER * 2)]
+    rows13 = "".join(
+        f"<tr><td>{h}</td><td>{s13(pos13 * rt / 100)}</td><td>{s13(pos13 * rt / 100 * n13)}</td><td>{s13(pos13 * rt / 100 * n13 * (1 - ru / 100))}</td></tr>"
+        for h, rt in habits13)
+    vip13 = [("VIP 0 (standard)", 0.02, 0.06), ("VIP 1", 0.02, 0.05), ("VIP 2", 0.016, 0.05), ("VIP 3", 0.014, 0.04)]
+    viprows13 = "".join(f"<tr><td>{t}</td><td>{pct(m)}</td><td>{pct(k)}</td></tr>" for t, m, k in vip13)
+    one_taker13 = pos13 * U_TAKER / 100
+    body13 = f"""
+<h2>The short version</h2>
+<p>A standard (VIP 0) Bitunix account pays <b>{pct(U_MAKER)} maker</b> and <b>{pct(U_TAKER)} taker</b> on perpetual futures. The fee is worked out on the full position value, not on your margin, and it is charged each time an order fills: once when you open, once when you close.</p>
+<p>In dollars, a {s13(pos13)} position opened with a market order costs {s13(one_taker13)} in fees on the way in, and the same again on the way out. Through {config['brand']}, {ru}% of the futures fees you pay comes back in USDT every Monday, which brings the effective taker rate down to <b>{pct(net(U_TAKER, ru))}</b> and the maker rate to {pct(net(U_MAKER, ru))}.</p>
+<p class="src">Source: <a href="{U_FEE}" target="_blank" rel="noopener">Bitunix: Bitunix Fees 2026, Spot, Futures and VIP Rates</a> (page dated 7 Sep 2026), checked 26 Nov 2026. The rate shown in your own order panel always takes precedence over this page.</p>
+
+<h2>How Bitunix works out the fee</h2>
+<p>Bitunix publishes the formula plainly: <b>trading fee = trading amount × fee rate</b>. The trading amount is the notional value of the order, meaning margin times leverage. That is why leverage matters so much for costs. If you post {s13(1000)} of margin at 10×, you are trading a {s13(pos13)} position, and the fee is charged on the {s13(pos13)}.</p>
+<p>Whether you pay the maker or the taker rate depends on how the order fills, not on whether you are buying or selling:</p>
+<ul>
+  <li><b>Taker ({pct(U_TAKER)})</b>: market orders, stop orders that trigger as market orders, and limit orders priced through the market so they fill on arrival.</li>
+  <li><b>Maker ({pct(U_MAKER)})</b>: a limit order that rests on the order book until someone else trades against it.</li>
+</ul>
+<p>The maker rate is a third of the taker rate here, which is a wider gap than on some other venues. If you can be patient with entries and take-profits, limit orders do most of the saving. Our <a href="maker-vs-taker-fees.html">maker vs taker guide</a> covers the edge cases, such as post-only orders and partial fills.</p>
+
+<h2>What a month of trading costs</h2>
+<p>Here is one trader with a {s13(pos13)} position, opened and closed {n13} times in a month, under three order habits. The last column is what remains after the weekly {ru}% rebate is paid back.</p>
+<div class="gd-scroll"><table class="gd-tbl">
+  <thead><tr><th>Order habit</th><th>Per round trip</th><th>Month ({n13} trips)</th><th>After {ru}% rebate</th></tr></thead>
+  <tbody>{rows13}</tbody>
+</table></div>
+<p class="src">Arithmetic on the VIP 0 rates above. Funding, slippage and VIP discounts not included. This illustrates costs only and is not a forecast of anyone's trading results.</p>
+<p>The habit matters more than anything else on this page. Going from market orders on both legs to limit orders on both legs cuts the bill by two thirds, before any rebate. The rebate then takes a further {ru}% off whatever you did pay. Try your own size and trade count in the <a href="../tools/futures-fee-calculator.html">futures fee calculator</a>.</p>
+
+<h2>VIP tiers, and the one most people miss</h2>
+<p>Bitunix runs a VIP programme with lower futures rates as you move up. The first four tiers, from the same Bitunix fee page:</p>
+<div class="gd-scroll"><table class="gd-tbl">
+  <thead><tr><th>Tier</th><th>Futures maker</th><th>Futures taker</th></tr></thead>
+  <tbody>{viprows13}</tbody>
+</table></div>
+<p class="src">From <a href="{U_FEE}" target="_blank" rel="noopener">Bitunix's fee page</a> (dated 7 Sep 2026), checked 26 Nov 2026. Higher tiers go lower still; see the page for the full table.</p>
+<p>According to that page, a tier is reached by meeting <b>any one</b> of three conditions: 30-day spot volume, 30-day futures volume, or account balance. For VIP 1, those are 100,000 USDT of spot volume, 1,000,000 USDT of futures volume, or a 1,000 USDT balance. The balance route is the one smaller traders tend to overlook, because it does not depend on trading more. Check the current requirements on Bitunix's VIP page before relying on it, as programmes change.</p>
+<p>A note on how this interacts with a rebate: our rebate is a share of the fees you actually pay. If your VIP rate drops, you pay less, and the rebate in dollars is smaller too, but your total cost is still lower. The two do not cancel each other out.</p>
+
+<h2>Funding is separate from trading fees</h2>
+<p>Funding is the payment between long and short holders that keeps a perpetual contract's price close to spot. Bitunix's guide to its futures page says it is typically settled every 8 hours, at 00:00, 08:00 and 16:00 UTC+8 (16:00, 00:00 and 08:00 UTC), and that some low-liquidity pairs may settle every hour. When the rate is positive, longs pay shorts; when it is negative, shorts pay longs.</p>
+<p>It is calculated on position value, the same way as trading fees. Bitunix's own example: a 10,000 USDT position at a 0.0074% rate pays or receives 0.74 USDT at settlement. Only positions open at the settlement moment are affected.</p>
+<p>Funding does not go to Bitunix as a fee, so no rebate applies to it, ours or anyone else's. If you hold positions for days, it can add up to more than your trading fees, in either direction. Our <a href="how-funding-fees-work.html">funding fees guide</a> explains why the rate moves.</p>
+<p class="src">Source: <a href="{U_TERMS}" target="_blank" rel="noopener">Bitunix Academy: the terms on Bitunix's futures trading page</a> (page dated 22 Sep 2026), checked 26 Nov 2026.</p>
+
+<h2>How Bitunix compares</h2>
+<p>At VIP 0, Bitunix's {pct(U_MAKER)} / {pct(U_TAKER)} is the same headline rate as a standard Bitget account and one basis point above BingX on the taker side. Headline rates are close across most large venues, so the rebate share often decides the cost you are left with. At {ru}%, Bitunix's effective taker rate of {pct(net(U_TAKER, ru))} is among the lowest on our list. The <a href="../index.html#venues">exchange ranking</a> sorts every venue by the fee left after the rebate, and our guides to <a href="bitget-futures-fees.html">Bitget</a> and <a href="bingx-futures-fees.html">BingX</a> fees go into each in detail.</p>
+<p>Fees are one factor. Whether the exchange serves your country, the pairs and order types you need, and how comfortable you are with the platform matter more.</p>
+
+<h2>How to sign up and claim the rebate</h2>
+<ol class="gd-steps">
+  <li><div><b>Open a new account through our link</b><p><a href="{sign_u}" target="_blank" rel="sponsored nofollow noopener">Sign up to Bitunix ({ru}% back)</a>. The referral is attached by the link, so there is no code to type. It only works for a new account; an existing account cannot be added later.</p></div></li>
+  <li><div><b>Secure and verify the account</b><p>Turn on two-factor authentication and complete identity verification if Bitunix asks for it where you live.</p></div></li>
+  <li><div><b>Copy your UID</b><p>In Bitunix, open your profile. Your UID is the account number shown there.</p></div></li>
+  <li><div><b>Send "Bitunix + your UID" on Telegram</b><p>Message <a href="{tg_dm}" target="_blank" rel="noopener">@{config['telegram_dm']}</a>. We confirm within 24 hours. Never send a password, 2FA code or API key. We will never ask for them.</p></div></li>
+  <li><div><b>Get paid every Monday</b><p>Last week's rebate on your futures trading fees arrives in USDT. The minimum payout is 10 USDT; smaller amounts roll over to the next week.</p></div></li>
+</ol>
+<p class="src">More on the account and rebate: <a href="../exchanges/bitunix.html">Bitunix referral page</a> · <a href="how-fee-rebates-work.html">How futures fee rebates work</a>.</p>
+
+<div class="gd-risk">
+  <h2>Before you trade</h2>
+  <p>Leveraged futures can lose you money quickly and can wipe out your whole margin. A lower fee or a rebate reduces your costs; it does not make a losing strategy profitable, and it is not income. Start with low leverage and only trade money you can afford to lose.</p>
+  <p style="margin-top:12px">Bitunix decides which countries it serves, so check its terms for where you live. This site is not for residents of the Republic of Korea or the United States, or of any place where the exchange is not allowed to serve you. Nothing here is investment advice. {config['brand']} earns a referral commission from Bitunix and shares part of it with you as the rebate.</p>
+</div>
+"""
+    faqs13 = [
+        ("What are Bitunix futures fees?",
+         f"A standard (VIP 0) account pays {pct(U_MAKER)} maker and {pct(U_TAKER)} taker on perpetual futures, charged on the full position value when an order fills, so once to open and once to close. A {s13(pos13)} market order costs {s13(one_taker13)}. Rates from Bitunix's own fee page, checked 26 November 2026; your order panel always shows the rate that applies to you."),
+        ("What does Bitunix cost after a rebate?",
+         f"Through {config['brand']}, {ru}% of your Bitunix futures fees comes back in USDT every Monday, which makes the effective taker rate {pct(net(U_TAKER, ru))} and maker {pct(net(U_MAKER, ru))}. You pay the normal fee when you trade and the rebate is paid afterwards. It only works on a new account opened through our link."),
+        ("How often is Bitunix funding charged?",
+         "Typically every 8 hours, at 00:00, 08:00 and 16:00 UTC+8, according to Bitunix's guide to its futures page; some low-liquidity pairs may settle hourly. Funding is paid between long and short holders, not to Bitunix, so no rebate applies to it. Check the live rate on the contract page before holding through settlement."),
+    ]
+    out.append(dict(
+        slug="bitunix-futures-fees",
+        venue=xu,
+        title=f"Bitunix Futures Fees 2026: Maker, Taker, VIP & a {ru}% Rebate | {config['brand']}",
+        h1="Bitunix futures fees, <em>worked out in dollars.</em>",
+        crumb="Bitunix futures fees",
+        desc=(f"Bitunix futures fees are {pct(U_MAKER)} maker / {pct(U_TAKER)} taker at VIP 0. What a trade and a month cost, "
+              f"the VIP tiers, funding, and how a {ru}% rebate cuts taker to {pct(net(U_TAKER, ru))}."),
+        lede=(f"{pct(U_MAKER)} maker and {pct(U_TAKER)} taker on a standard account, charged on the whole position, twice per trade. "
+              f"Here is what that means in a month, the VIP tier most people miss, and how to get {ru}% of it back."),
+        published="2026-11-26", modified="2026-11-26", checked="26 Nov 2026",
+        keyword="bitunix fees",
+        body=body13, faqs=faqs13, signup=sign_u,
+        side_big=pct(net(U_TAKER, ru)), side_label=f"Bitunix taker you effectively pay after the {ru}% rebate (standard {pct(U_TAKER)})",
     ))
 
 
