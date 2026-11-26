@@ -1,122 +1,126 @@
 {
  "alphax.html": [
-  "781392a80b13564e",
+  "fd142ee96a85da0a",
   "2026-11-26"
  ],
  "exchanges/biconomy.html": [
-  "fd4559ae3e74f195",
+  "1f00b44400134677",
   "2026-11-26"
  ],
  "exchanges/bingx.html": [
-  "23f67c9b907f40ff",
+  "19699e5f9d1ce83a",
   "2026-11-26"
  ],
  "exchanges/bitget.html": [
-  "e41eaa3b8a40be95",
+  "c9c80ffd2b88cce1",
   "2026-11-26"
  ],
  "exchanges/bitunix.html": [
-  "6b244c6f79feda94",
+  "db37d1b6ff378942",
   "2026-11-26"
  ],
  "exchanges/blofin.html": [
-  "26374ac3fac0f5e9",
+  "fa02a96dc0b7e63d",
   "2026-11-26"
  ],
  "exchanges/btcc.html": [
-  "bdf089a6542fe51a",
+  "e35a29ea2d96649a",
   "2026-11-26"
  ],
  "exchanges/crypfine.html": [
-  "0e43cf26d0b4aa7f",
+  "158a1325c8b46461",
   "2026-11-26"
  ],
  "exchanges/deepcoin.html": [
-  "23563d026f1fd04f",
+  "52e9bb811bb2997e",
   "2026-11-26"
  ],
  "exchanges/gate.html": [
-  "2ed28fed0c5f62a6",
+  "1d30766a7ca31e8d",
   "2026-11-26"
  ],
  "exchanges/okx.html": [
-  "357f95e9fb4fc9c5",
+  "c9908de4e91c8066",
   "2026-11-26"
  ],
  "exchanges/orangex.html": [
-  "dd063a44f9131707",
+  "7bc222eaa9ac6ba9",
   "2026-11-26"
  ],
  "guides/bingx-futures-fees.html": [
-  "f7994a334c33c7c4",
+  "03add69588f6e9c0",
   "2026-11-26"
  ],
  "guides/bingx-vs-bitget-futures-fees.html": [
-  "a59f4505470bba53",
+  "09954ab857f7c64b",
   "2026-11-26"
  ],
  "guides/bitget-futures-fees.html": [
-  "b8806ff91cd7fc59",
+  "8f9c0eee03ecf884",
   "2026-11-26"
  ],
  "guides/bitget-uid.html": [
-  "5ae3c7c753bca1a9",
+  "2c656813e14e06ff",
   "2026-11-26"
  ],
  "guides/bitunix-futures-fees.html": [
-  "989b0f581f5505dc",
+  "b0648d39c36ec183",
   "2026-11-26"
  ],
  "guides/crypto-scalping-fees.html": [
-  "f5803baa78b6d827",
+  "101d2434c8645762",
   "2026-11-26"
  ],
  "guides/futures-break-even-price.html": [
-  "17ed306b16013fc3",
+  "ba281f1705148fe5",
+  "2026-11-26"
+ ],
+ "guides/gate-futures-fees.html": [
+  "cdbf1d84b015e460",
   "2026-11-26"
  ],
  "guides/how-fee-rebates-work.html": [
-  "5b09d6000e81c2d3",
+  "108f0cdf274dc157",
   "2026-11-26"
  ],
  "guides/how-funding-fees-work.html": [
-  "866e68fde946072d",
+  "c45e4f0ff312d6f8",
   "2026-11-26"
  ],
  "guides/index.html": [
-  "8bbefef71a802953",
+  "2152622c0b1f1275",
   "2026-11-26"
  ],
  "guides/maker-vs-taker-fees.html": [
-  "56cb06aef61d5450",
+  "a00ef9ec5f6a9359",
   "2026-11-26"
  ],
  "guides/okx-futures-fees.html": [
-  "d075f8594751601b",
+  "7b4c4f8f2230f18b",
   "2026-11-26"
  ],
  "guides/okx-uid.html": [
-  "b79956135322995d",
+  "a2363cc146fe6123",
   "2026-11-26"
  ],
  "guides/okx-vs-bitget-futures-fees.html": [
-  "6dc1575a7fd5ee7f",
+  "b465415c60cf3d78",
   "2026-11-26"
  ],
  "index.html": [
-  "8395da2d43d5f4b4",
+  "480e058cf1a52e57",
   "2026-11-26"
  ],
  "partners.html": [
-  "0878b2573b6b2b88",
+  "1ff9296f1aeb3a00",
   "2026-11-26"
  ],
  "privacy.html": [
-  "f07aa10a5159503c",
+  "52c2001f8bc66ed1",
   "2026-11-26"
  ],
  "projects.html": [
-  "2a56482ecf26c442",
+  "1cb250cdc19c53cb",
   "2026-11-26"
  ],
  "promos/alphax.html": [
@@ -124,15 +128,15 @@
   "2026-11-16"
  ],
  "returns.html": [
-  "cba5f24f363c0af4",
+  "e149a76d651c6c33",
   "2026-11-26"
  ],
  "terms.html": [
-  "0cb11b2b8e7b18ba",
+  "30f3465646112301",
   "2026-11-26"
  ],
  "tools/futures-fee-calculator.html": [
-  "9be18f02a32f9698",
+  "6e5fe4767e213402",
   "2026-11-26"
  ]
 }

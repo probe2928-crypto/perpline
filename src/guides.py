@@ -4,7 +4,7 @@ no Korea/US targeting, no return promises or price calls. Referral links and reb
 import json
 
 # footer links (slug, anchor text) — keep in sync with _guides()
-LINKS = [("bitget-futures-fees", "Bitget futures fees explained"), ("maker-vs-taker-fees", "Maker vs taker fees in futures"), ("how-funding-fees-work", "How funding fees work"), ("how-fee-rebates-work", "How futures fee rebates work"), ("futures-break-even-price", "Futures break-even price after fees"), ("crypto-scalping-fees", "Crypto scalping fees per trade"), ("bitget-uid", "How to find your Bitget UID"), ("okx-futures-fees", "OKX futures fees explained"), ("okx-vs-bitget-futures-fees", "OKX vs Bitget futures fees"), ("okx-uid", "How to find your OKX UID"), ("bingx-futures-fees", "BingX futures fees explained"), ("bingx-vs-bitget-futures-fees", "BingX vs Bitget futures fees"), ("bitunix-futures-fees", "Bitunix futures fees explained")]
+LINKS = [("bitget-futures-fees", "Bitget futures fees explained"), ("maker-vs-taker-fees", "Maker vs taker fees in futures"), ("how-funding-fees-work", "How funding fees work"), ("how-fee-rebates-work", "How futures fee rebates work"), ("futures-break-even-price", "Futures break-even price after fees"), ("crypto-scalping-fees", "Crypto scalping fees per trade"), ("bitget-uid", "How to find your Bitget UID"), ("okx-futures-fees", "OKX futures fees explained"), ("okx-vs-bitget-futures-fees", "OKX vs Bitget futures fees"), ("okx-uid", "How to find your OKX UID"), ("bingx-futures-fees", "BingX futures fees explained"), ("bingx-vs-bitget-futures-fees", "BingX vs Bitget futures fees"), ("bitunix-futures-fees", "Bitunix futures fees explained"), ("gate-futures-fees", "Gate futures fees explained")]
 
 CSS = """
 .gd-hero{padding-block:clamp(48px,7vw,96px) clamp(28px,4vw,48px);border-bottom:1px solid var(--hair)}
@@ -1452,6 +1452,123 @@ def _guides(V, pct, net, link, config, tg_dm):
         keyword="bitunix fees",
         body=body13, faqs=faqs13, signup=sign_u,
         side_big=pct(net(U_TAKER, ru)), side_label=f"Bitunix taker you effectively pay after the {ru}% rebate (standard {pct(U_TAKER)})",
+    ))
+
+    # ---- Gate futures fees (2026-11-26 오후, 서이오) ----------------------------------------------------
+    # Verified 2026-11-26 on Gate's own pages:
+    #  G_FEES (Gate Learn "Gate.com Fees Explained", last updated 2026-11-04): "At VIP0, the Perpetual Futures maker fee is 0.020%
+    #    and the taker fee is 0.050%"; fees charged when positions are opened, closed or reduced, cancelled/unfilled orders no fee;
+    #    funding settled every 8 hours; example 0.5 BTC x $120,000 = $60,000 -> taker $30 / maker $12; fees can be paid in GT.
+    #  G_CALC (Gate Help Center "Futures Trading Fee Calculation", dated 2022-04-11): Trading Fee = Position Value x rate,
+    #    "regardless of leverage", deducted from the position margin.
+    #  G_VIP (Gate Learn "Gate VIP Trading Fees Discounts Explained", last updated 2026-11-04): tiers set by assets,
+    #    14-day average GT holding and 30-day volume; VIP 1 thresholds 2,000 USD / 50 GT / 60,000 USD. (Whether one or all is
+    #    needed is not stated -> text does not say "any one".) Futures VIP table is an image -> no VIP futures rates used.
+    #  G_TRADFI (Gate announcement 101365, 2026-08-26): from 1 Sep 2026 USDT-M TradFi perps (stocks, metals, indices, forex,
+    #    commodities) get a separate fee schedule; VIP 0 there is also 0.0200% / 0.0500%.
+    #  G_FUND (Gate Help Center "Futures Funding Rate and Funding Fee Overview"): 8-hour contracts settle 00:00/08:00/16:00 UTC,
+    #    4-hour contracts every 4 hours; positive = longs pay shorts; exchange charges no fee; fee = position value x rate;
+    #    example 95,000 USDT x 0.02% = 19 USDT; interval can switch to 1 hour when the rate hits its limit.
+    #  G_UID (Gate Help Center "How to Find my Gate UID", dated 2025-03-13): web = avatar top right, UID in first row of
+    #    'Personal Information Overview'; app = avatar top left -> tap the top -> 'User Center'.
+    G_FEES = "https://www.gate.com/learn/articles/gatecom-fees-explained"
+    G_CALC = "https://www.gate.com/help/futures/futures_logic/22079"
+    G_VIP = "https://www.gate.com/learn/articles/gate-vip-trading-fees-discounts-explained"
+    G_TRADFI = "https://www.gate.com/announcements/article/101365"
+    G_FUND = "https://www.gate.com/help/futures/futures-logic/27569/funding-rate-and-funding"
+    G_UID = "https://www.gate.com/help/guide/functional_guidelines/43847"
+    G_MAKER, G_TAKER = 0.02, 0.05
+    xg = V["gate"]
+    assert (xg["maker"], xg["taker"]) == (G_MAKER, G_TAKER), "Gate fee in VENUES no longer matches the verified guide numbers"
+    rg = xg["rebate"]
+    sign_g = link(xg, "guide-gate-fees")
+    def s14(x):
+        x = round(x, 2)
+        return f"${x:,.0f}" if x == int(x) else f"${x:,.2f}"
+    pos14, n14 = 10000, 20
+    habits14 = [("Market in, market out", G_TAKER * 2), ("Limit in, market out", G_MAKER + G_TAKER), ("Limit in, limit out", G_MAKER * 2)]
+    rows14 = "".join(
+        f"<tr><td>{h}</td><td>{s14(pos14 * rt / 100)}</td><td>{s14(pos14 * rt / 100 * n14)}</td><td>{s14(pos14 * rt / 100 * n14 * (1 - rg / 100))}</td></tr>"
+        for h, rt in habits14)
+    one_taker14 = pos14 * G_TAKER / 100
+    body14 = f"""
+<h2>The short version</h2>
+<p>At VIP 0, the level every new account starts on, Gate charges <b>{pct(G_MAKER)} maker</b> and <b>{pct(G_TAKER)} taker</b> on USDT-margined perpetual futures. The fee is taken on the full position value each time you open, reduce or close a position. An order you cancel, or one that never fills, costs nothing.</p>
+<p>Put into dollars, a {s14(pos14)} position opened with a market order costs {s14(one_taker14)} going in and the same coming out. Through {config['brand']}, {rg}% of the futures fees you pay is returned in USDT every Monday, so the taker rate you end up paying is <b>{pct(net(G_TAKER, rg))}</b> and the maker rate {pct(net(G_MAKER, rg))}.</p>
+<p class="src">Source: <a href="{G_FEES}" target="_blank" rel="noopener">Gate Learn: Gate.com Fees Explained</a> (last updated 4 Nov 2026), checked 26 Nov 2026. The rate in your own order panel is the one that applies to you.</p>
+
+<h2>How Gate calculates a futures fee</h2>
+<p>Gate's help centre gives the formula as <b>trading fee = position value × fee rate</b>, and adds that it applies regardless of leverage. The fee comes out of your position margin. So if you put up {s14(1000)} and trade at 10×, the fee is worked out on a {s14(pos14)} position, not on the {s14(1000)} you deposited. Higher leverage does not change the rate, but it does make every percentage point of fee bite harder against the margin you actually have at risk.</p>
+<p>Gate's own worked example uses a 0.5 BTC position at $120,000, a position value of $60,000. At the VIP 0 taker rate that is $30 in fees; as a maker, $12. Which rate you pay depends only on how the order fills:</p>
+<ul>
+  <li><b>Taker ({pct(G_TAKER)})</b>: market orders, and limit orders priced so they match immediately against resting orders.</li>
+  <li><b>Maker ({pct(G_MAKER)})</b>: limit orders that sit on the book and are filled later by someone else.</li>
+</ul>
+<p class="src">Sources: <a href="{G_CALC}" target="_blank" rel="noopener">Gate Help Center: Futures Trading Fee Calculation</a> and the fees article above, checked 26 Nov 2026. Our <a href="maker-vs-taker-fees.html">maker vs taker guide</a> covers post-only orders and partial fills.</p>
+
+<h2>What a month of trading costs</h2>
+<p>Take one trader running a {s14(pos14)} position, opened and closed {n14} times in a month. Here is the bill under three order habits, and what is left after the weekly {rg}% rebate:</p>
+<div class="gd-scroll"><table class="gd-tbl">
+  <thead><tr><th>Order habit</th><th>Per round trip</th><th>Month ({n14} trips)</th><th>After {rg}% rebate</th></tr></thead>
+  <tbody>{rows14}</tbody>
+</table></div>
+<p class="src">Arithmetic on the VIP 0 rates above. Funding, slippage, GT and VIP discounts not included. It shows costs only and says nothing about whether those trades would make or lose money.</p>
+<p>The gap between the top and bottom rows is bigger than the rebate itself. Switching both legs from market to limit orders cuts the monthly bill from {s14(pos14 * G_TAKER * 2 / 100 * n14)} to {s14(pos14 * G_MAKER * 2 / 100 * n14)}, before anything is paid back. Limit orders are not always practical, especially for stop-losses, but for entries and planned take-profits they are the cheapest habit to build. Run your own numbers in the <a href="../tools/futures-fee-calculator.html">futures fee calculator</a>.</p>
+
+<h2>VIP tiers and paying fees in GT</h2>
+<p>Gate's VIP programme lowers fees as an account grows. Its VIP explainer measures each tier against three yardsticks: total assets, the 14-day average of GT (Gate's own token) held, and 30-day trading volume. For VIP 1 it lists 2,000 USD of assets, 50 GT, or 60,000 USD of 30-day volume. We have not reproduced the futures rates for each tier because Gate publishes that table as an image; check the live table on Gate's fee page before you plan around a tier.</p>
+<p>The same fees article notes that fees can be paid in GT and that GT rates are often lower than the standard rate at the same tier. Whether that is worth it depends on whether you want to hold GT at all, since its price moves like any other token.</p>
+<p>Two smaller points worth knowing. Since 1 September 2026, Gate's TradFi perpetuals (contracts on stocks, metals, indices, forex and commodities) have their own fee schedule; at VIP 0 it is the same {pct(G_MAKER)} / {pct(G_TAKER)}. And a rebate interacts with VIP in a simple way: our {rg}% is a share of the fee you actually pay, so a lower VIP rate means a smaller rebate in dollars but a lower total cost.</p>
+<p class="src">Sources: <a href="{G_VIP}" target="_blank" rel="noopener">Gate Learn: Gate VIP Trading Fees Discounts Explained</a> (last updated 4 Nov 2026) and <a href="{G_TRADFI}" target="_blank" rel="noopener">Gate: USDT-M Perpetual Futures Fee Updates</a> (26 Aug 2026), checked 26 Nov 2026.</p>
+
+<h2>Funding is a separate cost</h2>
+<p>Funding is the payment between long and short holders that keeps a perpetual contract near the spot price. On Gate, most contracts settle every 8 hours, at 00:00, 08:00 and 16:00 UTC; some settle every 4 hours, and the contract information page shows which. When the rate is positive, longs pay shorts; when it is negative, shorts pay longs. Gate's help centre is explicit that the exchange takes no cut.</p>
+<p>The calculation mirrors the trading fee: <b>funding fee = position value × funding rate</b>. Gate's example is a 95,000 USDT long at a 0.02% rate, which pays 19 USDT for that interval. If a rate hits its upper or lower limit at settlement, Gate can switch that market to hourly settlement, so funding can run faster in a crowded trade.</p>
+<p>Because funding is not a fee to Gate, no rebate covers it. For trades held over several days it can outweigh the trading fee in either direction. Our <a href="how-funding-fees-work.html">funding fees guide</a> explains why the rate moves.</p>
+<p class="src">Source: <a href="{G_FUND}" target="_blank" rel="noopener">Gate Help Center: Futures Funding Rate and Funding Fee Overview</a>, checked 26 Nov 2026.</p>
+
+<h2>How Gate compares</h2>
+<p>Gate's VIP 0 rate of {pct(G_MAKER)} / {pct(G_TAKER)} matches OKX's Lv1 and BingX's standard rate, and is one basis point cheaper on the taker side than a standard Bitget or Bitunix account. With headline rates this close, the share of fees you get back usually decides the real cost. At {rg}%, Gate's effective taker rate of {pct(net(G_TAKER, rg))} sits among the lower rates on our list. The <a href="../index.html#venues">exchange ranking</a> sorts every venue by the fee left after the rebate, and our guides to <a href="okx-futures-fees.html">OKX</a> and <a href="bingx-futures-fees.html">BingX</a> fees cover the two with the same headline rate.</p>
+<p>Fees are only one input. Whether Gate serves your country, whether it lists the pairs you trade, and how you feel about the platform should come first.</p>
+
+<h2>How to sign up and claim the rebate</h2>
+<ol class="gd-steps">
+  <li><div><b>Open a new account through our link</b><p><a href="{sign_g}" target="_blank" rel="sponsored nofollow noopener">Sign up to Gate ({rg}% back)</a>. The referral rides on the link, so there is nothing to type. It only works for a new account; an existing one cannot be linked afterwards.</p></div></li>
+  <li><div><b>Secure and verify the account</b><p>Turn on two-factor authentication and complete identity verification if Gate requires it where you live.</p></div></li>
+  <li><div><b>Find your UID</b><p>On the website, click the avatar in the top right; the UID is the first line under Personal Information Overview. In the app, tap the avatar in the top left, then the top of your profile, and the UID is on the User Center page (<a href="{G_UID}" target="_blank" rel="noopener">Gate's guide</a>).</p></div></li>
+  <li><div><b>Send "Gate + your UID" on Telegram</b><p>Message <a href="{tg_dm}" target="_blank" rel="noopener">@{config['telegram_dm']}</a>. We confirm within 24 hours. Never send a password, 2FA code or API key; we will never ask for them.</p></div></li>
+  <li><div><b>Get paid every Monday</b><p>Last week's rebate on your futures trading fees arrives in USDT. The minimum payout is 10 USDT; smaller amounts roll over to the following week.</p></div></li>
+</ol>
+<p class="src">More on the account and rebate: <a href="../exchanges/gate.html">Gate referral page</a> · <a href="how-fee-rebates-work.html">How futures fee rebates work</a>.</p>
+
+<div class="gd-risk">
+  <h2>Before you trade</h2>
+  <p>Leveraged futures can lose money fast and can wipe out your whole margin. A lower fee or a rebate reduces costs; it does not turn a losing strategy into a winning one, and it is not income. Start with low leverage and only trade money you can afford to lose.</p>
+  <p style="margin-top:12px">Gate decides which countries it serves, so check its terms for where you live. This site is not for residents of the Republic of Korea or the United States, or of any place where the exchange is not allowed to serve you. Nothing here is investment advice. {config['brand']} earns a referral commission from Gate and shares part of it with you as the rebate.</p>
+</div>
+"""
+    faqs14 = [
+        ("What are Gate futures fees?",
+         f"At VIP 0, Gate charges {pct(G_MAKER)} maker and {pct(G_TAKER)} taker on USDT-margined perpetual futures, on the full position value each time you open, reduce or close. Cancelled or unfilled orders cost nothing. A {s14(pos14)} market order costs {s14(one_taker14)}. Rates from Gate's own fees article, checked 26 November 2026."),
+        ("What does Gate cost after a rebate?",
+         f"Through {config['brand']}, {rg}% of your Gate futures trading fees is paid back in USDT every Monday, which brings the effective taker rate to {pct(net(G_TAKER, rg))} and maker to {pct(net(G_MAKER, rg))}. You pay the normal fee when you trade and the rebate follows. It only applies to a new account opened through our link."),
+        ("When is Gate funding charged?",
+         "Most Gate perpetuals settle funding every 8 hours, at 00:00, 08:00 and 16:00 UTC; some settle every 4 hours, and a market can move to hourly settlement if its rate hits the limit. Funding passes between longs and shorts and Gate takes no fee on it, so no rebate applies."),
+    ]
+    out.append(dict(
+        slug="gate-futures-fees",
+        venue=xg,
+        title=f"Gate Futures Fees 2026: Maker, Taker, VIP, Funding & a {rg}% Rebate | {config['brand']}",
+        h1="Gate futures fees, <em>in plain dollars.</em>",
+        crumb="Gate futures fees",
+        desc=(f"Gate futures fees are {pct(G_MAKER)} maker / {pct(G_TAKER)} taker at VIP 0. What a trade and a month cost, "
+              f"VIP and GT discounts, funding times, and how a {rg}% rebate cuts taker to {pct(net(G_TAKER, rg))}."),
+        lede=(f"{pct(G_MAKER)} maker and {pct(G_TAKER)} taker for a new account, charged on the whole position when you open and close. "
+              f"Here is what that adds up to over a month, where VIP and GT fit in, and how to get {rg}% back."),
+        published="2026-11-26", modified="2026-11-26", checked="26 Nov 2026",
+        keyword="gate futures fees",
+        body=body14, faqs=faqs14, signup=sign_g,
+        side_big=pct(net(G_TAKER, rg)), side_label=f"Gate taker you effectively pay after the {rg}% rebate (VIP 0 {pct(G_TAKER)})",
     ))
 
 
