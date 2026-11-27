@@ -4,7 +4,7 @@ no Korea/US targeting, no return promises or price calls. Referral links and reb
 import json
 
 # footer links (slug, anchor text) — keep in sync with _guides()
-LINKS = [("bitget-futures-fees", "Bitget futures fees explained"), ("maker-vs-taker-fees", "Maker vs taker fees in futures"), ("how-funding-fees-work", "How funding fees work"), ("how-fee-rebates-work", "How futures fee rebates work"), ("futures-break-even-price", "Futures break-even price after fees"), ("crypto-scalping-fees", "Crypto scalping fees per trade"), ("bitget-uid", "How to find your Bitget UID"), ("okx-futures-fees", "OKX futures fees explained"), ("okx-vs-bitget-futures-fees", "OKX vs Bitget futures fees"), ("okx-uid", "How to find your OKX UID"), ("bingx-futures-fees", "BingX futures fees explained"), ("bingx-vs-bitget-futures-fees", "BingX vs Bitget futures fees"), ("bitunix-futures-fees", "Bitunix futures fees explained"), ("gate-futures-fees", "Gate futures fees explained")]
+LINKS = [("bitget-futures-fees", "Bitget futures fees explained"), ("maker-vs-taker-fees", "Maker vs taker fees in futures"), ("how-funding-fees-work", "How funding fees work"), ("how-fee-rebates-work", "How futures fee rebates work"), ("futures-break-even-price", "Futures break-even price after fees"), ("crypto-scalping-fees", "Crypto scalping fees per trade"), ("bitget-uid", "How to find your Bitget UID"), ("okx-futures-fees", "OKX futures fees explained"), ("okx-vs-bitget-futures-fees", "OKX vs Bitget futures fees"), ("okx-uid", "How to find your OKX UID"), ("bingx-futures-fees", "BingX futures fees explained"), ("bingx-vs-bitget-futures-fees", "BingX vs Bitget futures fees"), ("bitunix-futures-fees", "Bitunix futures fees explained"), ("gate-futures-fees", "Gate futures fees explained"), ("bingx-uid", "How to find your BingX UID")]
 
 CSS = """
 .gd-hero{padding-block:clamp(48px,7vw,96px) clamp(28px,4vw,48px);border-bottom:1px solid var(--hair)}
@@ -1569,6 +1569,109 @@ def _guides(V, pct, net, link, config, tg_dm):
         keyword="gate futures fees",
         body=body14, faqs=faqs14, signup=sign_g,
         side_big=pct(net(G_TAKER, rg)), side_label=f"Gate taker you effectively pay after the {rg}% rebate (VIP 0 {pct(G_TAKER)})",
+    ))
+
+    # ---- BingX UID (2026-11-27, 서이오) ------------------------------------------------------------------
+    # Target query: "bingx uid". No new fee numbers — reuses the BingX block above (fee schedule checked 2026-11-25).
+    # UID steps re-read 2026-11-27 on BingX's own tutorial (articles/11257209092367, dated 2023-08-29):
+    #  web = log in, hover the profile icon top right, UID in the dropdown, copy icon on the right;
+    #  app = log in, tap the 'Profile' icon upper left, UID beside the avatar, copy icon on the right.
+    xu = V["bingx"]
+    assert (xu["maker"], xu["taker"]) == (B_MAKER, B_TAKER), "BingX fee in VENUES no longer matches the verified guide numbers"
+    r15 = xu["rebate"]
+    sign15 = link(xu, "guide-bingx-uid")
+    def s15(x):
+        x = round(x, 2)
+        return f"${x:,.0f}" if x == int(x) else f"${x:,.2f}"
+    size15, trips15 = 8000, 25
+    habits15 = [("Market in, market out", B_TAKER * 2), ("Limit in, market out", B_MAKER + B_TAKER), ("Limit in, limit out", B_MAKER * 2)]
+    rows15 = "".join(
+        f"<tr><td>{h}</td><td>{s15(size15 * rt / 100)}</td><td>{s15(size15 * rt / 100 * trips15)}</td>"
+        f"<td>+{s15(size15 * rt / 100 * trips15 * r15 / 100)}</td><td>{s15(size15 * rt / 100 * trips15 * (1 - r15 / 100))}</td></tr>"
+        for h, rt in habits15)
+    mid15 = size15 * (B_MAKER + B_TAKER) / 100 * trips15
+    body15 = f"""
+<h2>The short version</h2>
+<p>Your BingX UID is the user ID number that identifies your account. On the BingX website, log in and move your cursor over the <b>profile icon in the top-right corner</b>; the UID is shown in the dropdown, with a copy icon to its right. In the BingX app, tap the <b>Profile icon in the upper-left corner</b>; the UID sits right beside your avatar, again with a copy icon on the right.</p>
+<p>That is the whole lookup, and it takes under a minute. The rest of this page covers the questions people usually have when a fee-rebate service asks for that number: why it is needed, what is safe to send with it, why an older account does not qualify, and what the rebate is actually worth at BingX's published futures rates.</p>
+<p class="src">Source: <a href="{B_UID}" target="_blank" rel="noopener">BingX Tutorial: How to Find My UID?</a> (BingX support centre), checked 27 Nov 2026. BingX updates its interface from time to time, so if an icon has moved on your version, that article is the reference.</p>
+
+<h2>How to find your BingX UID on the website</h2>
+<ol class="gd-steps">
+  <li><div><b>Log in on the BingX website</b><p>Use the account you actually trade futures on. If you have more than one, check which one you are in before copying anything.</p></div></li>
+  <li><div><b>Hover over the profile icon at the top right</b><p>A dropdown menu opens. Your UID is listed there.</p></div></li>
+  <li><div><b>Click the copy icon next to it</b><p>It sits to the right of the number. Copying is safer than retyping a long ID by hand.</p></div></li>
+</ol>
+
+<h2>How to find your BingX UID in the app</h2>
+<ol class="gd-steps">
+  <li><div><b>Open the BingX app and log in</b><p>Same rule as on the web: make sure it is the account you want the rebate on.</p></div></li>
+  <li><div><b>Tap the Profile icon in the upper-left corner</b><p>This opens your account page.</p></div></li>
+  <li><div><b>Copy the number beside your avatar</b><p>Tap the copy icon on the right of the UID, then paste it into a note to check it.</p></div></li>
+</ol>
+<p style="margin-top:20px">Read the pasted number once against the screen before you send it. A single wrong digit points to someone else's account, and a rebate cannot be matched to your trades until the number is right.</p>
+
+<h2>Why a rebate service needs your UID</h2>
+<p>When someone opens a BingX account through a referral link, BingX records the new account under the referrer and shares part of the trading fees that account goes on to pay. A rebate service such as {config['brand']} hands a slice of that share back to the trader. The UID is what connects the two sides: it lets us find your account in the referral report and work out how much of last week's fees to send back. Our guide to <a href="how-fee-rebates-work.html">how fee rebates work</a> explains where the money comes from in more detail.</p>
+<p>This is also why the most common question has a disappointing answer. The referral is fixed at the moment the account is created. A BingX account you opened earlier, without our link, is not in our referral report, so sending its UID will not start a rebate. The rebate on this page is for a <b>new</b> BingX account opened through the sign-up button here.</p>
+
+<h2>What is safe to send, and what never is</h2>
+<p>A UID tells someone which account you mean. It does not let them into it. Logging in, placing trades and withdrawing all need your password, your two-factor codes or an API key. Sharing a UID to claim a rebate or to get help from support is routine; everything else stays with you.</p>
+<ul>
+  <li><b>Send:</b> the exchange name and the number, for example "BingX 1234567890" with your own UID in place of the example.</li>
+  <li><b>Never send:</b> passwords, 2FA or email verification codes, API keys, seed phrases, or screenshots that show any of them.</li>
+  <li><b>Be wary of:</b> anyone who contacts you first, or who asks for your UID together with anything else. We only reply to conversations you start, and we never ask for login details.</li>
+</ul>
+
+<h2>What the rebate is worth on BingX</h2>
+<p>BingX's fee schedule lists <b>{pct(B_MAKER)} for maker orders</b> and <b>{pct(B_TAKER)} for taker orders</b> on perpetual futures for standard accounts, with a discount for VIP users. The fee is charged on the full position value, not on your margin, once when you open and again when you close. A {s15(1600)} margin at 5× leverage is an {s15(size15)} position, and the fee is worked out on the {s15(size15)}.</p>
+<p>Here is one trader who opens and closes that {s15(size15)} position {trips15} times in a month, under three order habits, and what comes back through {config['brand']}'s {r15}% rebate on BingX.</p>
+<div class="gd-scroll"><table class="gd-tbl">
+  <thead><tr><th>Order habit</th><th>Per round trip</th><th>Fees for {trips15}</th><th>Rebate {r15}%</th><th>Net cost</th></tr></thead>
+  <tbody>{rows15}</tbody>
+</table></div>
+<p class="src">BingX standard perpetual futures rates {pct(B_MAKER)} / {pct(B_TAKER)} from <a href="{B_FEE}" target="_blank" rel="noopener">BingX: Perpetual Futures | Fee Schedule</a>, checked 25 Nov 2026. Funding and VIP discounts not included. The table is arithmetic on those two rates, not a forecast of anyone's trading. The rate on your logged-in account always applies.</p>
+<p>Most people trade like the middle row: patient on the way in, a market order or a triggered stop on the way out. On that habit, {s15(mid15)} of monthly fees returns {s15(mid15 * r15 / 100)}. In rate terms the rebate brings the taker fee you effectively pay from {pct(B_TAKER)} to <b>{pct(net(B_TAKER, r15))}</b>, and the maker fee from {pct(B_MAKER)} to {pct(net(B_MAKER, r15))}. You still pay BingX's normal fee when you trade; the rebate arrives afterwards, in USDT, every Monday.</p>
+<p>One cost the rebate does not touch is funding. BingX settles it at 00:00, 08:00 and 16:00 UTC+8 on positions open at that moment, and it passes between long and short holders rather than going to BingX as a fee, so there is nothing to share back. For the full fee picture, read <a href="bingx-futures-fees.html">BingX futures fees explained</a>; to weigh BingX against another venue, see <a href="bingx-vs-bitget-futures-fees.html">BingX vs Bitget futures fees</a> or try your own numbers in the <a href="../tools/futures-fee-calculator.html">futures fee calculator</a>.</p>
+
+<h2>How to sign up and claim the {r15}% rebate on BingX</h2>
+<ol class="gd-steps">
+  <li><div><b>Open a new BingX account through our link</b><p><a href="{sign15}" target="_blank" rel="sponsored nofollow noopener">Sign up to BingX ({r15}% back)</a>. The referral is attached by the link, so there is no code to type. It only works for a new account.</p></div></li>
+  <li><div><b>Secure and verify the account</b><p>Turn on two-factor authentication, and complete identity verification if BingX asks for it where you live.</p></div></li>
+  <li><div><b>Copy your UID</b><p>Website: hover over the profile icon at the top right and use the copy icon in the dropdown. App: tap the Profile icon at the upper left and copy the number beside your avatar.</p></div></li>
+  <li><div><b>Send "BingX + your UID" on Telegram</b><p>Message <a href="{tg_dm}" target="_blank" rel="noopener">@{config['telegram_dm']}</a>. We confirm within 24 hours. Never send a password, 2FA code or API key.</p></div></li>
+  <li><div><b>Get paid every Monday</b><p>Last week's rebate on your BingX futures fees arrives in USDT. The minimum payout is 10 USDT; smaller amounts roll over to the next week.</p></div></li>
+</ol>
+<p style="margin-top:20px">Still choosing an exchange? The <a href="../index.html#venues">exchange ranking</a> sorts every venue we list by the taker fee left after the rebate. If you use OKX or Bitget instead, the same lookup is covered in <a href="okx-uid.html">how to find your OKX UID</a> and <a href="bitget-uid.html">how to find your Bitget UID</a>. For the account itself, see our <a href="../exchanges/bingx.html">BingX referral page</a>.</p>
+
+<div class="gd-risk">
+  <h2>Before you trade</h2>
+  <p>Leveraged futures can lose you money quickly and can wipe out your whole margin. A fee rebate lowers your costs; it does not make a losing strategy profitable, and it is not income. Start with low leverage and only trade money you can afford to lose.</p>
+  <p style="margin-top:12px">BingX decides which countries it serves, so check its terms for where you live. This site is not for residents of the Republic of Korea or the United States, or of any place where the exchange is not allowed to serve you. Nothing here is investment advice. {config['brand']} earns a referral commission from BingX and shares part of it with you as the rebate.</p>
+</div>
+"""
+    faqs15 = [
+        ("Where do I find my BingX UID?",
+         "On the BingX website, log in and hover over the profile icon in the top-right corner; the UID is in the dropdown with a copy icon beside it. In the app, tap the Profile icon in the upper-left corner; the UID is next to your avatar. These steps are from BingX's own tutorial, checked 27 November 2026."),
+        ("Is it safe to share my BingX UID?",
+         "A UID only identifies your account; on its own it does not let anyone log in, trade or withdraw. Sharing it to claim a rebate or get support is normal. Never share your password, 2FA or email codes, API keys or seed phrase with anyone, including a rebate service."),
+        ("Can I get a rebate on a BingX account I already have?",
+         f"Not through {config['brand']}. The referral is attached when an account is created, so the rebate only works for a new BingX account opened through our link. On that account, {r15}% of the futures fees you pay comes back in USDT every Monday."),
+    ]
+    out.append(dict(
+        slug="bingx-uid",
+        venue=xu,
+        title=f"How to Find Your BingX UID (App & Web) and Claim a {r15}% Fee Rebate | {config['brand']}",
+        h1="Your BingX UID: <em>where it is, and what it gets you.</em>",
+        crumb="Find your BingX UID",
+        desc=(f"Find your BingX UID on the website or in the app in under a minute, what is safe to send with it, "
+              f"and how it gets {r15}% of your BingX futures fees back every week."),
+        lede=("Website: hover over the profile icon at the top right. App: tap Profile at the upper left, next to your avatar. "
+              f"Here is why a rebate service needs the number, what never to send with it, and what {r15}% back is worth."),
+        published="2026-11-27", modified="2026-11-27", checked="25 Nov 2026",
+        keyword="bingx uid",
+        body=body15, faqs=faqs15, signup=sign15,
+        side_big=pct(net(B_TAKER, r15)), side_label=f"BingX taker you effectively pay after the {r15}% rebate (standard {pct(B_TAKER)})",
     ))
 
 
