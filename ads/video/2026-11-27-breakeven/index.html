@@ -1,0 +1,231 @@
+<!doctype html>
+<!-- Perpline "Break-even, after fees." — 9:16, 15.0 s. Everything visible is a pure function of time: renderAt(t). -->
+<html lang="en" data-resolution="1080x1920">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<script src="assets/gsap.min.js"></script>
+<style>
+@font-face{font-family:"Didone";src:url("assets/fonts/dm-serif-display-latin-400-normal.woff2") format("woff2");font-style:normal}
+@font-face{font-family:"Didone";src:url("assets/fonts/dm-serif-display-latin-400-italic.woff2") format("woff2");font-style:italic}
+@font-face{font-family:"JostL";src:url("assets/fonts/jost-latin-300-normal.woff2") format("woff2");font-weight:300}
+@font-face{font-family:"JostL";src:url("assets/fonts/jost-latin-400-normal.woff2") format("woff2");font-weight:400}
+@font-face{font-family:"JostL";src:url("assets/fonts/jost-latin-500-normal.woff2") format("woff2");font-weight:500}
+@font-face{font-family:"JostL";src:url("assets/fonts/jost-latin-600-normal.woff2") format("woff2");font-weight:600}
+:root{--paper:#FBF4EC;--ink:#111111;--muted:#655D55;--hair:#E4D5C4;--klein:#1F2FA0;--down:#9B2335;
+  --f-body:"JostL",sans-serif;--f-disp:"Didone",serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:var(--paper)}
+#root{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--paper);color:var(--ink);font-family:var(--f-body);-webkit-font-smoothing:antialiased}
+.full{position:absolute;left:0;top:0;width:1080px;height:1920px}
+.mask{display:block;overflow:hidden;padding:.04em .04em .16em}
+.mask>span{display:inline-block}
+.caps{font-family:var(--f-body);font-weight:500;letter-spacing:.16em;text-transform:uppercase}
+#grain{z-index:50;opacity:.05;mix-blend-mode:multiply;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* ---- S1 chart ---- */
+#s1{z-index:10}
+#s1in{position:absolute;left:0;top:0;width:1080px;height:1920px}
+#cam{position:absolute;left:0;top:0;width:1080px;height:1920px}
+#chart{position:absolute;left:0;top:0;width:1080px;height:1920px}
+#kick{position:absolute;left:60px;top:170px;font-size:30px;color:var(--ink)}
+#kick i{font-style:normal;color:var(--muted)}
+.head{position:absolute;left:60px;top:228px;width:980px;font:400 108px/1.0 var(--f-disp);letter-spacing:-.015em}
+.head em{font-style:italic}
+#hA2 em{color:var(--down)} #hB2 em{color:var(--klein)}
+#offer1{position:absolute;left:60px;top:532px;width:960px;display:flex;align-items:center;gap:28px}
+#sw{position:relative;flex:none;width:124px;height:68px;border-radius:34px;background:#CFC4B8}
+#knob{position:absolute;left:7px;top:7px;width:54px;height:54px;border-radius:50%;background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.22)}
+#offT{font:500 46px/1.12 var(--f-body)}
+#offT small{display:block;font:400 36px/1.3 var(--f-body);color:var(--muted);margin-top:6px}
+#pct{position:absolute;left:60px;width:900px;height:110px}
+#pct .w{position:absolute;left:0;bottom:0;height:110px;width:700px;overflow:hidden}
+#pct .n{position:absolute;left:0;bottom:4px;font:400 84px/1 var(--f-disp);color:var(--klein);white-space:nowrap}
+#pct .n small{font:500 30px var(--f-body);letter-spacing:.14em;text-transform:uppercase;margin-left:14px}
+#pct .l{position:absolute;left:0;top:126px;font-size:30px;color:var(--klein);white-space:nowrap}
+#entryL{position:absolute;right:60px;font-size:30px;color:var(--muted);white-space:nowrap}
+#bandL{position:absolute;left:60px;white-space:nowrap;color:var(--down)}
+#bandL .v{position:relative;height:56px;width:600px;overflow:hidden}
+#bandL .v span{position:absolute;left:0;top:0;font:600 46px/1.15 var(--f-body)}
+#bandL .s{font-size:30px;margin-top:6px}
+#ptag{position:absolute;left:752px;height:78px;padding:0 20px;display:flex;align-items:center;font:600 50px var(--f-body);color:#fff;background:var(--down);border-radius:6px;white-space:nowrap}
+#ptag:before{content:"";position:absolute;left:-14px;top:25px;border-top:14px solid transparent;border-bottom:14px solid transparent;border-right:14px solid;border-right-color:inherit}
+#fine1{position:absolute;left:60px;top:1800px;font-size:24px;color:var(--muted);letter-spacing:.08em}
+
+/* ---- S2 the real guide page, presented as a sheet ---- */
+#s2{z-index:20}
+#cap2{position:absolute;left:0;width:1080px;top:250px;text-align:center;font-size:30px;color:var(--ink)}
+#cap2 i{font-style:normal;color:var(--muted)}
+#card{position:absolute;left:108px;top:340px;width:864px;height:1064px;transform-origin:540px 900px;overflow:hidden;border:2px solid var(--hair);background:var(--paper);box-shadow:0 50px 90px rgba(70,45,20,.16),0 8px 20px rgba(70,45,20,.08)}
+#card img{position:absolute;left:0;top:0;width:864px;height:1064px}
+#mkU{position:absolute;left:582px;top:924px;width:234px;height:6px;background:var(--klein);transform-origin:0 50%}
+
+/* ---- S3 end ---- */
+#s3{z-index:30;background:var(--paper)}
+.ctr{position:absolute;left:0;width:1080px;text-align:center}
+#wm{top:176px;font:500 60px var(--f-body);letter-spacing:.42em;padding-left:.42em;text-transform:uppercase}
+#big{top:262px;font:400 250px/1 var(--f-disp);color:var(--klein);letter-spacing:-.02em}
+#desc{top:552px;font:400 36px/1.35 var(--f-body);color:var(--muted)}
+#desc s{text-decoration-thickness:3px}
+#cta{position:absolute;left:100px;top:700px;width:880px;height:120px;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;gap:18px;font:500 40px var(--f-body)}
+#sub3{top:846px;font:400 32px var(--f-body);color:var(--ink)}
+#url{top:906px;font:500 34px var(--f-body);letter-spacing:.24em;padding-left:.24em}
+#legal{top:1196px;font:400 26px/1.45 var(--f-body);color:#4A433D;padding:0 64px}
+#endc{position:absolute;left:0;top:0}
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="15" data-width="1080" data-height="1920" data-motion-blur="off">
+
+  <div id="s1" class="clip full" data-start="0" data-duration="6.35" data-track-index="1" data-track-kind="graphics">
+    <div id="s1in">
+    <div id="cam">
+      <canvas id="chart" width="1080" height="1920"></canvas>
+      <div id="entryL" class="caps">Entry · 70,000.00</div>
+      <div id="bandL"><div class="v"><span id="bv1">≈ $12 in fees</span><span id="bv2">≈ $7.20 in fees</span></div>
+        <div class="s caps"><span id="bs1">In + out · $10,000 long</span></div></div>
+      <div id="pct"><span class="w"><span class="n" id="pA">0.12%<small>to break even</small></span><span class="n" id="pB">0.072%<small>effective</small></span></span>
+        <span class="l caps" id="lA">Break-even · 70,084.05</span><span class="l caps" id="lB">After rebate · 70,050.42</span></div>
+      <div id="ptag">70,060.00</div>
+    </div>
+    <div id="kick" class="caps">Perpline <i>· Futures fees</i></div>
+    <div id="hA1" class="head"><span class="mask"><span id="hA1s">Above your entry.</span></span></div>
+    <div id="hA2" class="head" style="top:342px"><span class="mask"><span id="hA2s"><em>Still in the red.</em></span></span></div>
+    <div id="hB1" class="head"><span class="mask"><span id="hB1s">Same trade.</span></span></div>
+    <div id="hB2" class="head" style="top:342px"><span class="mask"><span id="hB2s"><em>Closer to zero.</em></span></span></div>
+    <div id="offer1"><div id="sw"><div id="knob"></div></div><div id="offT">Perpline rebate<small>40% of your Bitget futures fees back, weekly in USDT</small></div></div>
+    <div id="fine1" class="caps">Illustrative · Bitget standard 0.02% / 0.06% · Not financial advice</div>
+    </div>
+  </div>
+
+  <div id="s2" class="clip full" data-start="6.28" data-duration="2.96" data-track-index="2" data-track-kind="graphics">
+    <div id="cap2" class="caps">The free guide <i>· perpline.tech</i></div>
+    <div id="card"><img src="assets/img/page-card.png" alt=""><div id="mkU"></div></div>
+  </div>
+
+  <div id="s3" class="clip full" data-start="9.2" data-duration="5.75" data-track-index="3" data-track-kind="graphics">
+    <canvas id="endc" width="1080" height="1920"></canvas>
+    <div id="wm" class="ctr"><span class="mask"><span id="wms">Perpline</span></span></div>
+    <div id="big" class="ctr"><span class="mask"><span id="bigs">0.072%</span></span></div>
+    <div id="desc" class="ctr"><span class="mask"><span id="descs">Bitget break-even move, market in and out,<br>after the 40% rebate · standard <s>0.12%</s></span></span></div>
+    <div id="cta"><span>Get 40% of your futures fees back</span><span id="arr">→</span></div>
+    <div id="sub3" class="ctr">Bitget via Perpline · paid weekly in USDT</div>
+    <div id="url" class="ctr">perpline.tech</div>
+    <div id="legal" class="ctr">Illustrative $10,000 BTC long at $70,000. Bitget standard fees 0.02% / 0.06%, checked 3 Nov 2026. The rebate is paid afterwards by Perpline, so the lower break-even is an effective figure. Futures trading is high risk. Not financial advice. Not for KR / US residents.</div>
+  </div>
+
+  <div id="grain" class="clip full" data-start="0" data-duration="15" data-track-index="4"></div>
+  <audio id="mix" class="clip" src="assets/audio/breakeven-mix.wav" data-start="0" data-duration="15" data-track-index="5" data-volume="1"></audio>
+
+<script>
+(function(){
+const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
+const lerp=(a,b,u)=>a+(b-a)*u;
+const seg=(t,a,b)=>clamp((t-a)/(b-a));
+const eOut3=u=>1-Math.pow(1-u,3), eOut5=u=>1-Math.pow(1-u,5), eIn3=u=>u*u*u;
+const eIO2=u=>u<.5?2*u*u:1-Math.pow(-2*u+2,2)/2, eIO3=u=>u<.5?4*u*u*u:1-Math.pow(-2*u+2,3)/2;
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const $=id=>document.getElementById(id);
+const tl=gsap.timeline({paused:true}); tl.to({},{duration:15});
+
+/* price scale: entry 70,000 -> y 1330, break-even 70,084.05 -> y 1000 */
+const PX=330/84.05, Y=p=>1220-(p-70000)*PX;
+const BE0=70084.05, BE1=70050.42, DROP0=2.8, DROP1=3.8;
+const R=mulberry32(271127), DX=5, HEADX=720, K0=150, TICK=0.4, RISE=20;
+const V=[]; let w=69962; for(let i=0;i<K0;i++){ if(i<K0-RISE){ w+=(R()-.5)*14+(69962-w)*0.12; V.push(w);} else { const u=(i-(K0-RISE)+1)/RISE; V.push(lerp(w,70056,1-Math.pow(1-u,1.6))+(R()-.5)*6);} }
+const LIVE=[70060.00,70061.40,70058.70,70062.20,70059.80,70063.10,70060.60,70057.90,70061.80,70059.30,70062.70,70060.10,70058.40,70061.20,70063.40,70060.80,70059.10,70061.90,70060.30];
+for(const v of LIVE) V.push(v);
+const fmt=v=>v.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
+const cv=$("chart"), g=cv.getContext("2d");
+const beAt=t=>lerp(BE0,BE1,eIO2(seg(t,DROP0,DROP1)));
+const up=(el,u,from=110)=>{el.style.transform="translateY("+((1-u)*from)+"%)";};
+const upOut=(el,u)=>{el.style.transform="translateY("+(-u*120)+"%)"; el.style.opacity=u>=1?0:1;};
+const fade=(el,u,dy=24)=>{el.style.opacity=u; el.style.transform="translateY("+((1-u)*dy)+"px)";};
+
+function drawChart(t){
+  g.clearRect(0,0,1080,1920);
+  g.strokeStyle="#EADFD2"; g.lineWidth=2;
+  for(let p=69925;p<=70125;p+=25){const y=Y(p); if(y<770||y>1650)continue; g.beginPath(); g.moveTo(40,y); g.lineTo(1040,y); g.stroke();}
+  const beY=Y(beAt(t)), enY=Y(70000);
+  g.save(); g.beginPath(); g.rect(40,beY,1000,enY-beY); g.clip();
+  g.fillStyle="rgba(155,35,53,.085)"; g.fillRect(40,beY,1000,enY-beY);
+  g.strokeStyle="rgba(155,35,53,.16)"; g.lineWidth=2;
+  for(let x=-400;x<1100;x+=22){g.beginPath(); g.moveTo(x,enY); g.lineTo(x+(enY-beY),beY); g.stroke();}
+  g.restore();
+  g.setLineDash([16,12]); g.strokeStyle="#8A8178"; g.lineWidth=3; g.beginPath(); g.moveTo(40,enY); g.lineTo(1040,enY); g.stroke(); g.setLineDash([]);
+  const s=t/TICK, k=Math.floor(s), f=s-k, head=K0+Math.min(k,LIVE.length-2), cur=V[head];
+  const pts=[[HEADX,Y(cur)]]; for(let j=head-1;j>=0;j--){const x=HEADX-(head-j+f)*DX; if(x<40){const x2=pts[pts.length-1][0], y2=pts[pts.length-1][1], y1=Y(V[j]); const u=(x2-40)/(x2-x); pts.push([40,lerp(y2,y1,u)]); break;} pts.push([x,Y(V[j])]);}
+  g.beginPath(); g.moveTo(pts[0][0],pts[0][1]); for(const p of pts)g.lineTo(p[0],p[1]); g.strokeStyle="#111"; g.lineWidth=4; g.lineJoin="round"; g.stroke();
+  g.strokeStyle="#1F2FA0"; g.lineWidth=5; g.beginPath(); g.moveTo(40,beY); g.lineTo(1040,beY); g.stroke();
+  // price dot: red while inside the fee band, klein once the effective break-even sits below it (neutral, not "profit")
+  const dy=Y(cur), past=beY>dy+1, col=past?"#1F2FA0":"#9B2335";
+  const ring=s%1; g.beginPath(); g.arc(HEADX,dy,14+ring*22,0,7); g.strokeStyle=(past?"rgba(31,47,160,":"rgba(155,35,53,")+(0.4*(1-ring))+")"; g.lineWidth=3; g.stroke();
+  g.beginPath(); g.arc(HEADX,dy,14,0,7); g.fillStyle=col; g.fill(); g.beginPath(); g.arc(HEADX,dy,6,0,7); g.fillStyle="#fff"; g.fill();
+  const pt=$("ptag"); pt.style.top=(dy-39)+"px"; pt.style.background=col; pt.style.borderRightColor=col; pt.textContent=fmt(cur);
+  $("pct").style.top=(beY-114)+"px";
+  // value swaps: two values only, mask out then in, landing off whole seconds
+  const so=eIn3(seg(t,3.12,3.24)), si=eOut5(seg(t,3.24,3.5));
+  upOut($("pA"),so); up($("pB"),si,130); $("lA").style.opacity=t<3.24?1:0; $("lB").style.opacity=0;
+  $("entryL").style.top=(enY+16)+"px";
+  const b=$("bandL"); b.style.top=(enY-134)+"px"; fade(b,eOut3(seg(t,0.9,1.3)));
+  const vo=eIn3(seg(t,3.62,3.74)), vi=eOut5(seg(t,3.74,4.0)); upOut($("bv1"),vo); up($("bv2"),vi,120);
+  $("bs1").textContent=t<3.74?"In + out · $10,000 long":"After rebate";
+}
+
+function drawS1Text(t){
+  $("hA1s").style.transform="none"; $("hA2s").style.transform="none";
+  upOut($("hA1s"),eIn3(seg(t,3.5,3.7))); upOut($("hA2s"),eIn3(seg(t,3.55,3.75)));
+  up($("hB1s"),eOut5(seg(t,3.68,4.1))); up($("hB2s"),eOut5(seg(t,3.76,4.18)));
+  const o=eOut5(seg(t,1.75,2.2)); fade($("offer1"),o,40);
+  const on=eOut3(seg(t,2.5,2.7)); $("knob").style.transform="translateX("+on*56+"px)"; $("sw").style.background=on>0.5?"#1F2FA0":"#CFC4B8";
+  // exit: whole chart page lifts away 6.2-6.55
+  const ex=eIn3(seg(t,6.0,6.3)); $("s1in").style.transform="translateY("+(-ex*420)+"px)"; $("s1in").style.opacity=1-ex;
+  $("cam").style.transform="scale("+(1+0.025*eIO2(seg(t,0,6.2)))+")"; $("cam").style.transformOrigin="720px 1100px";
+}
+
+function drawS2(t){
+  const i=eOut5(seg(t,6.3,6.95)), x=eIn3(seg(t,8.95,9.2));
+  const push=1+0.05*eIO2(seg(t,7.2,8.95));
+  $("card").style.transform="translateY("+((1-i)*520 - x*80)+"px) scale("+(push*lerp(.94,1,i))+")";
+  $("card").style.opacity=Math.min(1,i*1.6)*(1-x);
+  fade($("cap2"),eOut3(seg(t,6.45,6.85))*(1-x),20);
+  $("mkU").style.transform="scaleX("+eOut3(seg(t,7.05,7.4))+")";
+}
+
+const ec=$("endc").getContext("2d");
+const ER=mulberry32(99); const EP=[]; for(let i=0;i<=60;i++){const v=i/60; EP.push(v<.68? 1146+(ER()-.5)*20-v*16 : lerp(1135,1016,eOut3((v-.68)/.32))+(ER()-.5)*6);}
+function drawEnd(t){
+  ec.clearRect(0,0,1080,1920);
+  const u=eOut3(seg(t,9.8,10.9)); if(u<=0)return;
+  const en=1118, be=1040, x0=96, x1=984, xe=lerp(x0,x1,u);
+  ec.save(); ec.beginPath(); ec.rect(x0,be,xe-x0,en-be); ec.clip(); ec.fillStyle="rgba(155,35,53,.07)"; ec.fillRect(x0,be,x1-x0,en-be);
+  ec.strokeStyle="rgba(155,35,53,.13)"; ec.lineWidth=2; for(let x=x0-200;x<x1;x+=22){ec.beginPath();ec.moveTo(x,en);ec.lineTo(x+(en-be),be);ec.stroke();} ec.restore();
+  ec.setLineDash([16,12]); ec.strokeStyle="#8A8178"; ec.lineWidth=3; ec.beginPath(); ec.moveTo(x0,en); ec.lineTo(xe,en); ec.stroke(); ec.setLineDash([]);
+  ec.strokeStyle="#1F2FA0"; ec.lineWidth=5; ec.beginPath(); ec.moveTo(x0,be); ec.lineTo(xe,be); ec.stroke();
+  ec.beginPath(); let st=false; for(let i=0;i<=60;i++){const x=lerp(x0,880,i/60); if(x>xe)break; if(!st){ec.moveTo(x,EP[i]);st=true;} else ec.lineTo(x,EP[i]);}
+  ec.strokeStyle="#111"; ec.lineWidth=4; ec.lineJoin="round"; ec.stroke();
+  if(u>=.999){ const ring=((t-10.9)/0.8)%1; const y=EP[60];
+    ec.beginPath(); ec.arc(880,y,12+ring*20,0,7); ec.strokeStyle="rgba(31,47,160,"+(0.4*(1-ring))+")"; ec.lineWidth=3; ec.stroke();
+    ec.beginPath(); ec.arc(880,y,12,0,7); ec.fillStyle="#1F2FA0"; ec.fill(); ec.beginPath(); ec.arc(880,y,5,0,7); ec.fillStyle="#fff"; ec.fill(); }
+}
+function drawS3(t){
+  $("s3").style.opacity=t>=9.22?1:0;
+  const st=i=>eOut5(seg(t,9.3+i*0.09,9.3+i*0.09+0.5));
+  up($("wms"),st(0)); up($("bigs"),st(1)); up($("descs"),st(2));
+  fade($("cta"),st(3),40); $("arr").style.transform="translateX("+(t>11?Math.max(0,Math.sin((t-11)*Math.PI/0.9))*10:0)+"px)"; $("arr").style.display="inline-block"; fade($("sub3"),st(4),16); fade($("url"),st(5),16); fade($("legal"),st(6),16);
+  drawEnd(t);
+}
+
+function renderAt(t){ drawChart(t); drawS1Text(t); drawS2(t); drawS3(t); }
+window.addEventListener("hf-seek",e=>renderAt(e.detail.time));
+window.__hf=window.__hf||{}; window.__hf.buildReady=window.__hf.buildReady||{};
+window.__hf.buildReady.fonts=Promise.all([document.fonts.load('400 30px Didone','0'),document.fonts.load('italic 400 30px Didone','r'),document.fonts.load('500 30px JostL','A'),document.fonts.load('600 30px JostL','7'),document.fonts.load('400 30px JostL','A')]).then(()=>renderAt(0));
+renderAt(0);
+window.__timelines=window.__timelines||{};
+window.__timelines["main"]=tl;
+tl.seek(0);
+})();
+</script>
+</div>
+</body>
+</html>

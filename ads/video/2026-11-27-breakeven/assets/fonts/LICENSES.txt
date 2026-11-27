@@ -1,0 +1,2 @@
+DM Serif Display, Jost, Tenor Sans: SIL OFL 1.1 (via @fontsource npm 5.3.0)
+IBM Plex Mono: SIL OFL 1.1 (@fontsource)
